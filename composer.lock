@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "5d032a2a09756bef0c57d0f716eec4d7",
+    "content-hash": "eeed26a2cc1a5d4e9bc1ddbe7f982dd6",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -1389,10 +1389,10 @@
         },
         {
             "name": "laravel/nova",
-            "version": "3.10.0",
-            "source": {
-                "type": "git",
-                "url": "https://gitee.com/infoport/laravel-nova.git",
+            "version": "dev-master",
+            "dist": {
+                "type": "path",
+                "url": "./nova",
                 "reference": "4dc7d2eb4940d22a102fefa5de01afe9ffd473ef"
             },
             "require": {
@@ -1453,8 +1453,7 @@
             "keywords": [
                 "admin",
                 "laravel"
-            ],
-            "time": "2020-09-28T15:41:34+00:00"
+            ]
         },
         {
             "name": "laravel/tinker",

@@ -14,7 +14,7 @@
         "guzzlehttp/guzzle": "^7.0.1",
         "laravel/framework": "^8.0",
         "laravel/tinker": "^2.0",
-	"laravel/nova": "~3.10.0"
+        "laravel/nova": "*"
     },
     "require-dev": {
         "facade/ignition": "^2.3.6",
@@ -61,8 +61,8 @@
     },
     "repositories": [
         {
-            "type": "vcs",
-            "url": "https://gitee.com/infoport/laravel-nova.git"
+            "type": "path",
+            "url": "./nova"
         }
     ]
 }

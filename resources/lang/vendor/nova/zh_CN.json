@@ -370,5 +370,13 @@
     "Nova User": "Nova 用户",
     "no file selected": "未选择文件",
     "Sorry, your session has expired.": "抱歉，当前会话已过期。",
-    "Reload": "刷新"
+    "Reload": "刷新",
+    "Attach :resource": "附加 :resource",
+    "Create :resource": "创建 :resource",
+    "Choose :resource": "选择 :resource",
+    "New :resource": "新建 :resource",
+    "Edit :resource": "编辑 :resource",
+    "Update :resource": "更新 :resource",
+    "Choose :field": "选择 :field",
+    ":resource Details": ":resource 详情"
 }

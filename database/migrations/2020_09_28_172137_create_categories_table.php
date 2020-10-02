@@ -17,8 +17,6 @@ class CreateCategoriesTable extends Migration
             $table->mediumIncrements('id');
 
             $table->string('name')->nullable(false);
-            $table->unsignedMediumInteger('sort')->nullable(false)->default(0);
-            $table->string('mark')->nullable();
 
             $table->nestedSet();
             $table->timestamps();

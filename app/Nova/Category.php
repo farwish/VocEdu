@@ -2,26 +2,30 @@
 
 namespace App\Nova;
 
+use App\Models\Category as CategoryModel;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\ID;
+use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
 class Category extends Resource
 {
+    public static $group = '题库管理';
+
     /**
      * The model the resource corresponds to.
      *
      * @var string
      */
-    public static $model = \App\Models\Category::class;
+    public static $model = CategoryModel::class;
 
     /**
      * The single value that should be used to represent the resource when being displayed.
      *
      * @var string
      */
-    public static $title = 'id';
+    public static $title = 'name';
 
     /**
      * The columns that should be searched.
@@ -29,7 +33,7 @@ class Category extends Resource
      * @var array
      */
     public static $search = [
-        'id',
+        'name',
     ];
 
     /**
@@ -41,10 +45,25 @@ class Category extends Resource
     public function fields(Request $request)
     {
         return [
-            ID::make(__('ID'), 'id')->sortable(),
+            ID::make(__('ID'), 'id')
+                ->sortable()
+                ->onlyOnDetail()
+            ,
 
-            Text::make('名称', 'name'),
+            Select::make('从属', 'parent_id')
+                ->help('不选的时候代表创建根分类。')
+                ->searchable()
+                ->options($this->categoryTree())
+                ->onlyOnForms()
+            ,
 
+            Text::make('名称', 'name')
+                ->rules('required', 'max:255')
+                ->displayUsing(function($name, $resource){
+                    return str_repeat('|— ', $resource->depth) . $name;
+                })
+                ->asHtml()
+            ,
         ];
     }
 
@@ -95,5 +114,10 @@ class Category extends Resource
     public static function label()
     {
         return '分类';
+    }
+
+    public static function indexQuery(NovaRequest $request, $query)
+    {
+        return $query->withDepth()->defaultOrder();
     }
 }

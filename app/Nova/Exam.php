@@ -8,6 +8,8 @@ use Laravel\Nova\Http\Requests\NovaRequest;
 
 class Exam extends Resource
 {
+    public static $group = '题库管理';
+
     /**
      * The model the resource corresponds to.
      *

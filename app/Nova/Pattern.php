@@ -9,6 +9,8 @@ use Laravel\Nova\Http\Requests\NovaRequest;
 
 class Pattern extends Resource
 {
+    public static $group = '题库管理';
+
     /**
      * The model the resource corresponds to.
      *
@@ -21,7 +23,7 @@ class Pattern extends Resource
      *
      * @var string
      */
-    public static $title = 'id';
+    public static $title = 'name';
 
     /**
      * The columns that should be searched.
@@ -29,7 +31,7 @@ class Pattern extends Resource
      * @var array
      */
     public static $search = [
-        'id',
+        'name',
     ];
 
     /**

@@ -29,3 +29,12 @@ $ php artisan make:migration create_exam_member_table
 
 https://github.com/franzdumfart/laravel-nova-localizations
 
+## Seed
+
+``` 
+$ php artisan migrate:fresh --seed
+
+OR
+
+$ php artisan db:seed --class=CategorySeeder
+```

@@ -25,4 +25,49 @@ class CategoryFactory extends Factory
             //
         ];
     }
+
+    public function cateTestTreeData()
+    {
+        return [
+            [
+                'name' => '医学',
+                'children' => [
+                    [
+                        'name' => '执业药师',
+                        'children' => [
+                            [
+                                'name' => '执业药师（西药）'
+                            ],
+                            [
+                                'name' => '执业药师（中药）'
+                            ],
+                        ],
+                    ],
+                    [
+                        'name' => '执业医师/执业兽医',
+                        'children' => [
+                            [
+                                'name' => '护士执业资格考试',
+                                'children' => [
+                                    [
+                                        'name' => '章节1, 什么是执业资格',
+                                    ],
+                                    [
+                                        'name' => '章节2, 什么是执业资格考试',
+                                    ]
+                                ]
+                            ],
+                        ],
+                    ]
+                ]
+            ],
+            [
+                'name' => '金融',
+            ],
+            [
+                'name' => '建筑',
+            ],
+        ];
+    }
+
 }

@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Category;
 use Illuminate\Database\Seeder;
 
 class CategorySeeder extends Seeder
@@ -13,6 +14,10 @@ class CategorySeeder extends Seeder
      */
     public function run()
     {
-        //
+        $treeData = Category::factory()->cateTestTreeData();
+
+        foreach ($treeData as $treeItem) {
+            Category::create($treeItem);
+        }
     }
 }

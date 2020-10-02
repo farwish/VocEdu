@@ -10,6 +10,9 @@ use Laravel\Nova\Fields\Text;
 
 class User extends Resource
 {
+    public static $group = '账户管理';
+    // public static $displayInNavigation = false;
+
     /**
      * The model the resource corresponds to.
      *
@@ -107,12 +110,8 @@ class User extends Resource
         return [];
     }
 
-    // public static $group = 'Admin';
-
-    public static $displayInNavigation = false;
-
     public static function label()
     {
-        return '管理员';
+        return '后台';
     }
 }

@@ -25,4 +25,11 @@ class QuestionFactory extends Factory
             //
         ];
     }
+
+    public function questionTestData()
+    {
+        return $this->state([
+
+        ]);
+    }
 }

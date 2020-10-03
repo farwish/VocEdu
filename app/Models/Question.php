@@ -14,8 +14,13 @@ class Question extends Model
         return $this->belongsTo(Category::class);
     }
 
-    public function pattern()
+    public function setOptionAnswerAttribute($option)
     {
-        return $this->belongsTo(Pattern::class);
+        $this->attributes['option_answer'] = json_encode($option, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+    }
+
+    public function getOptionAnswerAttribute($value)
+    {
+         return json_decode($value, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
     }
 }

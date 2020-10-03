@@ -2,12 +2,18 @@
 
 namespace App\Nova;
 
+use App\Enums\QuestionEnum;
+use App\Models\Question as QuestionModel;
+use DigitalCreative\ConditionalContainer\ConditionalContainer;
+use Epartment\NovaDependencyContainer\NovaDependencyContainer;
 use Illuminate\Http\Request;
-use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\ID;
+use Laravel\Nova\Fields\KeyValue;
+use Laravel\Nova\Fields\Number;
 use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\Textarea;
+use Laravel\Nova\Fields\Trix;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
 class Question extends Resource
@@ -19,14 +25,14 @@ class Question extends Resource
      *
      * @var string
      */
-    public static $model = \App\Models\Question::class;
+    public static $model = QuestionModel::class;
 
     /**
      * The single value that should be used to represent the resource when being displayed.
      *
      * @var string
      */
-    public static $title = 'id';
+    public static $title = 'title';
 
     /**
      * The columns that should be searched.
@@ -34,7 +40,7 @@ class Question extends Resource
      * @var array
      */
     public static $search = [
-        'id', 'title',
+        'title',
     ];
 
     /**
@@ -45,36 +51,118 @@ class Question extends Resource
      */
     public function fields(Request $request)
     {
+        $difficulty = QuestionEnum::$difficulty;
+        $patterns = QuestionEnum::$pattern;
+
         return [
-            ID::make(__('ID'), 'id')->sortable(),
+            // ID::make(__('ID'), 'id')
+            //     ->sortable()
+            //     ->onlyOnDetail()
+            // ,
 
             Select::make('分类', 'category_id')
                 ->searchable()
                 ->options($this->categoryTree())
                 ->rules('required')
+                ->displayUsingLabels()
             ,
 
-            Text::make('标题', 'title')
-                ->rules('required', 'max:255')
-            ,
+            Text::make('题目标题', 'title')->rules('required'),
 
-            BelongsTo::make( 'Pattern')
+            Trix::make('题干描述', 'description')->placeholder('没有可不填'),
+
+            Select::make('难度', 'difficulty')->options($difficulty)
+                ->sortable()
                 ->rules('required')
+                ->default(function () {
+                    return QuestionEnum::DIFFICULTY_EASY;
+                })
+                ->displayUsingLabels()
             ,
 
-            Select::make('难度', 'difficulty')->options([
-                0 => '低',
-                1 => '中',
-                2 => '高',
+            Select::make( '题型', 'pattern')
+                ->options($patterns)
+                ->rules('required')
+                ->default(function () {
+                    return QuestionEnum::PATTERN_RADIO_CHOICE;
+                })
+                ->displayUsingLabels()
+            ,
+
+            // 单选
+            NovaDependencyContainer::make([
+                KeyValue::make('选择项', 'option_answer')
+                    ->rules('json')
+                    ->keyLabel('选项') // Customize the key heading
+                    ->valueLabel('内容') // Customize the value heading
+                    ->actionText('添加选项')
+                    ->withMeta([
+                        'value' => $this->option_answer ?? [
+                                'A' => '',
+                                'B' => '',
+                                'C' => '',
+                                'D' => '',
+                            ]
+                    ])->rules('required')
+                ,
+
+                Text::make('答案', 'right_answer')
+                    ->placeholder('比如填：A')
+                    ->rules('required')
+                ,
             ])
-                ->rules('required')
+                ->dependsOn('pattern', QuestionEnum::PATTERN_RADIO_CHOICE)
             ,
 
-            Text::make('选项', 'option_answer'),
+            // 多选
+            NovaDependencyContainer::make([
+                KeyValue::make('选择项', 'option_answer')
+                    ->rules('json')
+                    ->keyLabel('选项') // Customize the key heading
+                    ->valueLabel('内容') // Customize the value heading
+                    ->actionText('添加选项')
+                    ->withMeta([
+                        'value' => $this->option_answer ?? [
+                                'A' => '',
+                                'B' => '',
+                                'C' => '',
+                                'D' => '',
+                                'E' => '',
+                                'F' => '',
+                                'G' => '',
+                            ]
+                    ])->rules('required')
+                ,
 
-            Text::make('正确答案', 'right_answer'),
+                Text::make('答案', 'right_answer')
+                    ->placeholder('比如填：ABC')
+                    ->rules('required')
+                ,
+            ])
+                ->dependsOn('pattern', QuestionEnum::PATTERN_MULTI_CHOICE)
+            ,
+
+            // 判断
+            NovaDependencyContainer::make([
+                Select::make('答案', 'right_answer')->options([
+                    1 => '正确',
+                    0 => '错误',
+                ])->rules('required'),
+            ])
+                ->dependsOn('pattern', QuestionEnum::PATTERN_JUDGE_CHOICE)
+            ,
+
+            // 填空，简答
+            NovaDependencyContainer::make([
+                Text::make('答案', 'right_answer')->rules('required'),
+            ])
+                ->dependsOn('pattern', QuestionEnum::PATTERN_GAP_FILLING)
+                ->dependsOn('pattern', QuestionEnum::PATTERN_SHORT_ANSWER)
+            ,
 
             Textarea::make('解析', 'analysis'),
+
+            Number::make('分值', 'score')->sortable(),
         ];
     }
 

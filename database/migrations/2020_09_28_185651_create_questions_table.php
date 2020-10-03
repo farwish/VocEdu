@@ -16,15 +16,17 @@ class CreateQuestionsTable extends Migration
         Schema::create('questions', function (Blueprint $table) {
             $table->id();
 
-            $table->string('title')->nullable(false);
+            $table->text('title')->nullable(false);
+            $table->text('description')->nullable();
             $table->unsignedTinyInteger('difficulty')->nullable(false)->default(0);
-
-            $table->unsignedMediumInteger('category_id')->nullable(false);
-            $table->unsignedSmallInteger('pattern_id')->nullable(false);
+            $table->unsignedSmallInteger('pattern')->nullable(false);
 
             $table->string('option_answer')->nullable();
-            $table->unsignedBigInteger('right_answer')->nullable(false);
+            $table->string('right_answer')->nullable();
             $table->string('analysis')->nullable();
+            $table->unsignedInteger('score')->nullable();
+
+            $table->unsignedMediumInteger('category_id')->nullable(false)->index();
 
             $table->timestamps();
         });

@@ -50,13 +50,14 @@ class Exam extends Resource
         return [
             // ID::make(__('ID'), 'id')->sortable(),
 
-            Text::make('考场名', 'name'),
+            Text::make('考场名', 'name')->rules('required'),
 
             // Badge::make( '状态', 'status', function () {
             //     return ExamEnum::$status[$this->status];
             // })->exceptOnForms(),
 
             Select::make('状态', 'status')
+                ->rules('required')
                 ->options(ExamEnum::$status)
                 ->default(function () {
                     return ExamEnum::STATUS_IS_NOT_OPEN;
@@ -64,13 +65,21 @@ class Exam extends Resource
                 ->displayUsingLabels()
             ,
 
-            BelongsTo::make('Paper')->help('选择试卷'),
+            BelongsTo::make('Paper')
+                ->rules('required')
+                ->help('选择试卷'),
 
-            Text::make('考试地区', 'area'),
+            Text::make('考试地区', 'area')
+                ->rules('required')
+            ,
 
-            BelongsTo::make('Guide', 'guide', Article::class)->help('考试指南（文章模块）'),
+            BelongsTo::make('Guide', 'guide', Article::class)
+                ->rules('required')
+                ->help('考试指南（文章模块）'),
 
-            BelongsTo::make('Outline', 'outline', Article::class)->help('考试大纲（文章模块）'),
+            BelongsTo::make('Outline', 'outline', Article::class)
+                ->rules('required')
+                ->help('考试大纲（文章模块）'),
         ];
     }
 

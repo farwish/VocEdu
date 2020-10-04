@@ -1,0 +1,44 @@
+version: '3'
+
+services:
+  nginx:
+    image: nginx:${IMG_NGINX_VERSION}
+    container_name: nginx-con-galaxy
+    volumes:
+      - ./:${CONTAINER_WEB_AP}
+      - ${NGINX_DATA_DIR}:/var/log/nginx/
+      - ./docker/nginx/etc/nginx.conf:/etc/nginx/nginx.conf
+      - ./docker/nginx/etc/conf.d/default.conf:/etc/nginx/conf.d/default.conf
+      - ./docker/nginx/etc/conf.d/blockips.conf:/etc/nginx/conf.d/blockips.conf
+      - ./docker/nginx/etc/conf.d/cookieips.conf:/etc/nginx/conf.d/cookieips.conf
+    ports:
+      - 443:443
+    depends_on:
+      - php
+    restart: on-failure
+    networks:
+      - default_net
+
+  php:
+    image: phvia/php:${IMG_PHP_VERSION}
+#    build:
+#      context: ./
+#      dockerfile: ./docker/php/Dockerfile-php
+#      args:
+#        IMG_PHP_VERSION: ${IMG_PHP_VERSION}
+    container_name: php-con-galaxy
+    volumes:
+      - ./:${CONTAINER_WEB_AP}
+      - ./docker/php/php.ini:/usr/local/etc/php/php.ini
+      - ./docker/php/php-fpm.d/www.conf:/usr/local/etc/php-fpm.d/www.conf
+    ports:
+      - ${HOST_PHP_PORT}:9000
+#    depends_on:
+#      - mysql
+    restart: on-failure
+    networks:
+      - default_net
+
+networks:
+  default_net:
+    driver: bridge

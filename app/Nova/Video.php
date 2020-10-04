@@ -2,30 +2,30 @@
 
 namespace App\Nova;
 
-use App\Models\Article as ArticleModel;
+use App\Models\Video as VideoModel;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\ID;
+use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Text;
-use Laravel\Nova\Fields\Trix;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
-class Article extends Resource
+class Video extends Resource
 {
-    public static $group = '题库管理';
+    public static $group = '资源管理';
 
     /**
      * The model the resource corresponds to.
      *
      * @var string
      */
-    public static $model = ArticleModel::class;
+    public static $model = VideoModel::class;
 
     /**
      * The single value that should be used to represent the resource when being displayed.
      *
      * @var string
      */
-    public static $title = 'title';
+    public static $title = 'name';
 
     /**
      * The columns that should be searched.
@@ -33,7 +33,7 @@ class Article extends Resource
      * @var array
      */
     public static $search = [
-        'title',
+        'name',
     ];
 
     /**
@@ -47,14 +47,16 @@ class Article extends Resource
         return [
             // ID::make(__('ID'), 'id')->sortable(),
 
-            Text::make('标题', 'title')
+            Select::make('分类', 'category_id')
+                ->searchable()
+                ->options($this->categoryTree())
                 ->rules('required')
+                ->displayUsingLabels()
             ,
 
-            Trix::make('内容', 'body')
-                ->rules('required')
-                ->alwaysShow()
-            ,
+            Text::make('视频名', 'name')->rules('required'),
+
+            Text::make('链接', 'url')->rules('required'),
         ];
     }
 
@@ -104,6 +106,6 @@ class Article extends Resource
 
     public static function label()
     {
-        return '文章';
+        return '视频';
     }
 }

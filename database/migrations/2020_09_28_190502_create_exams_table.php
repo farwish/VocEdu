@@ -16,7 +16,7 @@ class CreateExamsTable extends Migration
         Schema::create('exams', function (Blueprint $table) {
             $table->id();
 
-            $table->string('name');
+            $table->string('name')->nullable(false);
             $table->unsignedTinyInteger('status')->nullable(false)->default(0);
             $table->unsignedBigInteger('paper_id')->index();
 

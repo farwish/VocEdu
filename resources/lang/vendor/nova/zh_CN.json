@@ -378,5 +378,9 @@
     "Edit :resource": "编辑 :resource",
     "Update :resource": "更新 :resource",
     "Choose :field": "选择 :field",
-    ":resource Details": ":resource 详情"
+    ":resource Details": ":resource 详情",
+
+    "There are no available options for this resource.": "当前资源没有可用选项.",
+    "There was a problem submitting the form.": "表单提交遇到问题.",
+    "There was a problem executing the action.": "执行操作遇到问题."
 }

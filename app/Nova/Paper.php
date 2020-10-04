@@ -55,9 +55,10 @@ class Paper extends Resource
 
             Number::make('及格分', 'pass_score'),
 
-            Number::make('时间（分钟）', 'minutes'),
+            Number::make('时间(分钟)', 'minutes'),
 
             Multiselect::make('题目', 'questions')
+                ->rules('required')
                 ->belongsToMany(Question::class),
         ];
     }

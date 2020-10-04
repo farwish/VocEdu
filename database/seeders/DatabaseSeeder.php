@@ -22,6 +22,8 @@ class DatabaseSeeder extends Seeder
             PaperSeeder::class,
             ExamSeeder::class,
             ArticleSeeder::class,
+            PackageSeeder::class,
+            VideoSeeder::class,
         ]);
     }
 }

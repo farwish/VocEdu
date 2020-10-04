@@ -16,7 +16,7 @@ class CreatePapersTable extends Migration
         Schema::create('papers', function (Blueprint $table) {
             $table->id();
 
-            $table->string('name');
+            $table->string('name')->nullable(false);
             $table->unsignedInteger('total_score')->nullable();
             $table->unsignedInteger('pass_score')->nullable();
             $table->unsignedInteger('minutes')->nullable();

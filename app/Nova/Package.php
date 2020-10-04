@@ -2,30 +2,32 @@
 
 namespace App\Nova;
 
-use App\Models\Article as ArticleModel;
+use App\Models\Package as PackageModel;
 use Illuminate\Http\Request;
+use Laravel\Nova\Fields\BelongsToMany;
 use Laravel\Nova\Fields\ID;
+use Laravel\Nova\Fields\Number;
 use Laravel\Nova\Fields\Text;
-use Laravel\Nova\Fields\Trix;
 use Laravel\Nova\Http\Requests\NovaRequest;
+use OptimistDigital\MultiselectField\Multiselect;
 
-class Article extends Resource
+class Package extends Resource
 {
-    public static $group = '题库管理';
+    public static $group = '资源管理';
 
     /**
      * The model the resource corresponds to.
      *
      * @var string
      */
-    public static $model = ArticleModel::class;
+    public static $model = PackageModel::class;
 
     /**
      * The single value that should be used to represent the resource when being displayed.
      *
      * @var string
      */
-    public static $title = 'title';
+    public static $title = 'name';
 
     /**
      * The columns that should be searched.
@@ -33,7 +35,7 @@ class Article extends Resource
      * @var array
      */
     public static $search = [
-        'title',
+        'name',
     ];
 
     /**
@@ -47,13 +49,24 @@ class Article extends Resource
         return [
             // ID::make(__('ID'), 'id')->sortable(),
 
-            Text::make('标题', 'title')
+            Text::make('套餐名', 'name')
                 ->rules('required')
             ,
 
-            Trix::make('内容', 'body')
+            Number::make('价格(元)', 'price')
                 ->rules('required')
-                ->alwaysShow()
+                ->default(function () {
+                    return 0;
+                })
+            ,
+
+            Multiselect::make('试卷', 'papers')
+                ->rules('required')
+                ->belongsToMany(Paper::class)
+            ,
+
+            Multiselect::make('视频', 'videos')
+                ->belongsToMany(Video::class)
             ,
         ];
     }
@@ -104,6 +117,6 @@ class Article extends Resource
 
     public static function label()
     {
-        return '文章';
+        return '套餐';
     }
 }

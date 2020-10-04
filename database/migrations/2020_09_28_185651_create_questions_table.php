@@ -24,7 +24,6 @@ class CreateQuestionsTable extends Migration
             $table->string('option_answer')->nullable();
             $table->string('right_answer')->nullable();
             $table->string('analysis')->nullable();
-            $table->unsignedInteger('score')->nullable();
 
             $table->unsignedMediumInteger('category_id')->nullable(false)->index();
 

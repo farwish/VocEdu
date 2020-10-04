@@ -18,7 +18,8 @@
         "kalnoy/nestedset": "^5.0.2",
         "laravel/framework": "^8.0",
         "laravel/nova": "*",
-        "laravel/tinker": "^2.0"
+        "laravel/tinker": "^2.0",
+        "optimistdigital/nova-multiselect-field": "^1.10"
     },
     "require-dev": {
         "facade/ignition": "^2.3.6",

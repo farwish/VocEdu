@@ -2,17 +2,14 @@
 
 namespace App\Nova;
 
-use App\Enums\ExamEnum;
+use App\Models\Article as ArticleModel;
 use Illuminate\Http\Request;
-use Laravel\Nova\Fields\Badge;
-use Laravel\Nova\Fields\BelongsTo;
-use Laravel\Nova\Fields\HasOne;
 use Laravel\Nova\Fields\ID;
-use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Text;
+use Laravel\Nova\Fields\Trix;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
-class Exam extends Resource
+class Article extends Resource
 {
     public static $group = '题库管理';
 
@@ -21,14 +18,14 @@ class Exam extends Resource
      *
      * @var string
      */
-    public static $model = \App\Models\Exam::class;
+    public static $model = ArticleModel::class;
 
     /**
      * The single value that should be used to represent the resource when being displayed.
      *
      * @var string
      */
-    public static $title = 'id';
+    public static $title = 'title';
 
     /**
      * The columns that should be searched.
@@ -36,7 +33,7 @@ class Exam extends Resource
      * @var array
      */
     public static $search = [
-        'id',
+        'title',
     ];
 
     /**
@@ -50,27 +47,9 @@ class Exam extends Resource
         return [
             // ID::make(__('ID'), 'id')->sortable(),
 
-            Text::make('考场名', 'name'),
+            Text::make('标题', 'title'),
 
-            // Badge::make( '状态', 'status', function () {
-            //     return ExamEnum::$status[$this->status];
-            // })->exceptOnForms(),
-
-            Select::make('状态', 'status')
-                ->options(ExamEnum::$status)
-                ->default(function () {
-                    return ExamEnum::STATUS_IS_NOT_OPEN;
-                })
-                ->displayUsingLabels()
-            ,
-
-            BelongsTo::make('Paper')->help('选择试卷'),
-
-            Text::make('考试地区', 'area'),
-
-            BelongsTo::make('Guide', 'guide', Article::class)->help('考试指南（文章模块）'),
-
-            BelongsTo::make('Outline', 'outline', Article::class)->help('考试大纲（文章模块）'),
+            Trix::make('内容', 'body')->alwaysShow(),
         ];
     }
 
@@ -120,6 +99,6 @@ class Exam extends Resource
 
     public static function label()
     {
-        return '考场';
+        return '文章';
     }
 }

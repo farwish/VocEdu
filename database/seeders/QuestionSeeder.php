@@ -27,7 +27,6 @@ class QuestionSeeder extends Seeder
             ],
             'right_answer' => 'B',
             'category_id' => 7,
-            'score' => 5,
         ];
 
         $q_multi_choice = [
@@ -43,7 +42,6 @@ class QuestionSeeder extends Seeder
             ],
             'right_answer' => 'BC',
             'category_id' => 7,
-            'score' => 5,
         ];
 
         $q_short_answer = [
@@ -52,7 +50,6 @@ class QuestionSeeder extends Seeder
             'pattern' => QuestionEnum::PATTERN_SHORT_ANSWER,
             'right_answer' => '没有标准答案',
             'category_id' => 7,
-            'score' => 15,
         ];
 
         foreach ([$q_radio_choice, $q_multi_choice, $q_short_answer] as $data) {

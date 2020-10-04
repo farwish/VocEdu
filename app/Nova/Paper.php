@@ -2,9 +2,14 @@
 
 namespace App\Nova;
 
+use App\Models\Paper as PaperModel;
 use Illuminate\Http\Request;
+use Laravel\Nova\Fields\BelongsToMany;
 use Laravel\Nova\Fields\ID;
+use Laravel\Nova\Fields\Number;
+use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
+use OptimistDigital\MultiselectField\Multiselect;
 
 class Paper extends Resource
 {
@@ -15,14 +20,14 @@ class Paper extends Resource
      *
      * @var string
      */
-    public static $model = \App\Models\Paper::class;
+    public static $model = PaperModel::class;
 
     /**
      * The single value that should be used to represent the resource when being displayed.
      *
      * @var string
      */
-    public static $title = 'id';
+    public static $title = 'name';
 
     /**
      * The columns that should be searched.
@@ -30,7 +35,7 @@ class Paper extends Resource
      * @var array
      */
     public static $search = [
-        'id',
+        'name',
     ];
 
     /**
@@ -42,7 +47,18 @@ class Paper extends Resource
     public function fields(Request $request)
     {
         return [
-            ID::make(__('ID'), 'id')->sortable(),
+            // ID::make(__('ID'), 'id')->sortable(),
+
+            Text::make('试卷名', 'name')->rules('required'),
+
+            Number::make('总分', 'total_score'),
+
+            Number::make('及格分', 'pass_score'),
+
+            Number::make('时间（分钟）', 'minutes'),
+
+            Multiselect::make('题目', 'questions')
+                ->belongsToMany(Question::class),
         ];
     }
 

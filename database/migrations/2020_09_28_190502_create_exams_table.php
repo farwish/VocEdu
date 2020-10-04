@@ -18,7 +18,12 @@ class CreateExamsTable extends Migration
 
             $table->string('name');
             $table->unsignedTinyInteger('status')->nullable(false)->default(0);
-            $table->unsignedBigInteger('paper_id');
+            $table->unsignedBigInteger('paper_id')->index();
+
+            $table->string('area')->nullable();
+
+            $table->unsignedBigInteger('guide_id')->nullable();
+            $table->unsignedBigInteger('outline_id')->nullable();
 
             $table->timestamps();
         });

@@ -11,7 +11,17 @@ class Exam extends Model
 
     public function paper()
     {
-        return $this->hasOne(Paper::class);
+        return $this->belongsTo(Paper::class);
+    }
+
+    public function guide()
+    {
+        return $this->belongsTo(Article::class, 'guide_id', 'id');
+    }
+
+    public function outline()
+    {
+        return $this->belongsTo(Article::class, 'outline_id', 'id');
     }
 
     public function members()

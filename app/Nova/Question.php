@@ -161,8 +161,6 @@ class Question extends Resource
             ,
 
             Textarea::make('解析', 'analysis'),
-
-            Number::make('分值', 'score')->sortable(),
         ];
     }
 

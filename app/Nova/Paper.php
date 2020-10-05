@@ -57,7 +57,7 @@ class Paper extends Resource
                 ->displayUsingLabels()
             ,
 
-            Text::make('试卷名', 'name')->rules('required'),
+            Text::make('试卷名称', 'name')->rules('required'),
 
             Number::make('总分', 'total_score'),
 

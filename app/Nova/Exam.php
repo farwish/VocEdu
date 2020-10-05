@@ -57,7 +57,7 @@ class Exam extends Resource
                 ->displayUsingLabels()
             ,
 
-            Text::make('考场名', 'name')->rules('required'),
+            Text::make('考场名称', 'name')->rules('required'),
 
             // Badge::make( '状态', 'status', function () {
             //     return ExamEnum::$status[$this->status];

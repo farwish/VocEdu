@@ -57,7 +57,7 @@ class Package extends Resource
                 ->displayUsingLabels()
             ,
 
-            Text::make('套餐名', 'name')
+            Text::make('套餐名称', 'name')
                 ->rules('required')
             ,
 

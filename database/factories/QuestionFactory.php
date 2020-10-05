@@ -52,12 +52,13 @@ class QuestionFactory extends Factory
             'pattern' => QuestionEnum::PATTERN_MULTI_CHOICE,
             'option_answer' => [
                 'A' => '毛泽东',
-                'B' => '刘少奇',
+                'B' => '刘伯承',
                 'C' => '朱德',
                 'D' => '周恩来',
                 'E' => '林彪',
+                'F' => '粟裕',
             ],
-            'right_answer' => 'BC',
+            'right_answer' => 'BF',
             'category_id' => 4,
         ];
     }

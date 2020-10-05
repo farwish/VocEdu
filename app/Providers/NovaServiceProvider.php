@@ -109,14 +109,6 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
                         'linkTo' => null, // accepts an instance of `NovaResource` or a Nova `Resource::class`
                         'resources' => [
                             Group::make([
-                                'label' => '账户管理',
-                                'expanded' => false,
-                                'resources' => [
-                                    User::class,
-                                    Member::class,
-                                ]
-                            ]),
-                            Group::make([
                                 'label' => '内容管理',
                                 'expanded' => true,
                                 'resources' => [
@@ -137,7 +129,15 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
                                     Suite::class,
                                     Question::class,
                                 ]
-                            ])
+                            ]),
+                            Group::make([
+                                'label' => '账户管理',
+                                'expanded' => false,
+                                'resources' => [
+                                    User::class,
+                                    Member::class,
+                                ]
+                            ]),
                         ],
                     ]),
                 ]

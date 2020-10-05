@@ -136,7 +136,7 @@ class Chapter extends Resource
 
     public static function label()
     {
-        return '章节知识';
+        return '章节';
     }
 
     public static function indexQuery(NovaRequest $request, $query)

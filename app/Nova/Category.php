@@ -70,7 +70,7 @@ class Category extends Resource
             ,
 
             // 列表页
-            RelationshipCount::make('章节知识数量', 'chapters')
+            RelationshipCount::make('章节总数', 'chapters')
                 ->onlyOnIndex()
             ,
             // 详情页
@@ -120,6 +120,7 @@ class Category extends Resource
     public function actions(Request $request)
     {
         return [
+            (new Actions\CategoryPackageList())->showOnTableRow()->exceptOnDetail(),
             (new Actions\CategoryExamList())->showOnTableRow()->exceptOnDetail(),
             (new Actions\CategoryPaperList())->showOnTableRow()->exceptOnDetail(),
             (new Actions\CategorySuiteList())->showOnTableRow()->exceptOnDetail(),
@@ -129,7 +130,7 @@ class Category extends Resource
 
     public static function label()
     {
-        return '科目分类';
+        return '分类';
     }
 
     public static function indexQuery(NovaRequest $request, $query)

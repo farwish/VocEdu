@@ -41,6 +41,10 @@ class Package extends Resource
         'name',
     ];
 
+    public static $searchRelations = [
+        'category' => ['id', 'name'],
+    ];
+
     /**
      * Get the fields displayed by the resource.
      *

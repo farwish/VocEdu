@@ -13,6 +13,7 @@ use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use OptimistDigital\MultiselectField\Multiselect;
+use Saumini\Count\RelationshipCount;
 
 class Paper extends Resource
 {
@@ -70,14 +71,12 @@ class Paper extends Resource
 
             Number::make('时间(分钟)', 'minutes'),
 
-            // Index show
-            Select::make('题目', 'questions')
-                ->displayUsing(function ($name, $resource) {
-                    return $resource->questions()->get()->count() . ' 道题';
-                })
-                ->onlyOnIndex(),
+            // Only Index
+            RelationshipCount::make('题量', 'questions')
+                ->onlyOnIndex()
+            ,
 
-            // Form show
+            // Form and Detail
             Multiselect::make('题目', 'questions')
                 ->rules('required')
                 ->belongsToMany(Question::class)

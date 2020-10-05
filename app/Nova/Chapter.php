@@ -2,10 +2,12 @@
 
 namespace App\Nova;
 
+use Saumini\Count\RelationshipCount;
 use Hubertnnn\LaravelNova\Fields\DynamicSelect\DynamicSelect;
 use App\Models\Chapter as ChapterModel;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\BelongsTo;
+use Laravel\Nova\Fields\HasMany;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Text;
@@ -74,6 +76,12 @@ class Chapter extends Resource
                 })
                 ->asHtml()
             ,
+
+            RelationshipCount::make('题量', 'questions')
+                ->onlyOnIndex()
+            ,
+
+            HasMany::make('题目', 'questions', Question::class),
         ];
     }
 

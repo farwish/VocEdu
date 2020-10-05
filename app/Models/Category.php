@@ -11,6 +11,11 @@ class Category extends Model
     use HasFactory;
     use NodeTrait;
 
+    public function chapters()
+    {
+        return $this->hasMany(Chapter::class);
+    }
+
     public function exams()
     {
         return $this->hasMany(Exam::class);

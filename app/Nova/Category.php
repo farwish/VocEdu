@@ -6,9 +6,11 @@ use App\Models\Category as CategoryModel;
 use Hubertnnn\LaravelNova\Fields\DynamicSelect\DynamicSelect;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\ID;
+use Laravel\Nova\Fields\HasMany;
 use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
+use Saumini\Count\RelationshipCount;
 
 class Category extends Resource
 {
@@ -64,6 +66,12 @@ class Category extends Resource
                 })
                 ->asHtml()
             ,
+
+            RelationshipCount::make('章节数', 'chapters')
+                ->onlyOnIndex()
+            ,
+
+            HasMany::make('章节', 'chapters', Chapter::class),
         ];
     }
 

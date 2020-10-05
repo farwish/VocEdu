@@ -14,6 +14,11 @@ class Question extends Model
         return $this->belongsTo(Category::class);
     }
 
+    public function chapter()
+    {
+        return $this->belongsTo(Chapter::class);
+    }
+
     public function papers()
     {
         return $this->belongsToMany(Paper::class);

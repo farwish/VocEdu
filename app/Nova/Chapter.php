@@ -2,14 +2,16 @@
 
 namespace App\Nova;
 
-use App\Models\Category as CategoryModel;
+use Hubertnnn\LaravelNova\Fields\DynamicSelect\DynamicSelect;
+use App\Models\Chapter as ChapterModel;
 use Illuminate\Http\Request;
+use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
-class Category extends Resource
+class Chapter extends Resource
 {
     public static $group = '题库管理';
 
@@ -18,7 +20,7 @@ class Category extends Resource
      *
      * @var string
      */
-    public static $model = CategoryModel::class;
+    public static $model = ChapterModel::class;
 
     /**
      * The single value that should be used to represent the resource when being displayed.
@@ -50,11 +52,22 @@ class Category extends Resource
                 ->onlyOnDetail()
             ,
 
-            Select::make('上级分类', 'parent_id')
-                ->help('不选的时候代表根分类。')
-                ->searchable()
+            DynamicSelect::make('科目分类', 'category_id')
                 ->options($this->categoryTree())
+                ->rules('required')
                 ->onlyOnForms()
+            ,
+            BelongsTo::make('科目分类', 'category', Category::class)                ->exceptOnForms()
+                ->exceptOnForms()
+            ,
+
+            DynamicSelect::make('上级章节', 'parent_id')
+                ->help('不选的时候代表根章节。')
+                ->onlyOnForms()
+                ->dependsOn(['category_id'])
+                ->options(function ($values) {
+                    return $this->chapterTree($values['category_id']);
+                })
             ,
 
             Text::make('名称', 'name')
@@ -113,7 +126,7 @@ class Category extends Resource
 
     public static function label()
     {
-        return '科目分类';
+        return '章节知识';
     }
 
     public static function indexQuery(NovaRequest $request, $query)

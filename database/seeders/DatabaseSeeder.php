@@ -19,6 +19,7 @@ class DatabaseSeeder extends Seeder
             UserSeeder::class,
 
             CategorySeeder::class,
+            ChapterSeeder::class,
 
             PackageSeeder::class,
             SuiteSeeder::class,

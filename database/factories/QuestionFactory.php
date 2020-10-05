@@ -41,6 +41,7 @@ class QuestionFactory extends Factory
             ],
             'right_answer' => 'B',
             'category_id' => 4,
+            'chapter_id' => 4,
         ];
     }
 
@@ -60,6 +61,7 @@ class QuestionFactory extends Factory
             ],
             'right_answer' => 'BF',
             'category_id' => 4,
+            'chapter_id' => 4,
         ];
     }
 
@@ -71,6 +73,7 @@ class QuestionFactory extends Factory
             'pattern' => QuestionEnum::PATTERN_GAP_FILLING,
             'right_answer' => '地',
             'category_id' => 4,
+            'chapter_id' => 4,
         ];
     }
 
@@ -82,6 +85,7 @@ class QuestionFactory extends Factory
             'pattern' => QuestionEnum::PATTERN_SHORT_ANSWER,
             'right_answer' => '没有标准答案',
             'category_id' => 4,
+            'chapter_id' => 4,
         ];
     }
 }

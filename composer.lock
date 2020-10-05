@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "ad3319a243233f252d043d869ab3a56f",
+    "content-hash": "9cd9b569a6dfdea998690d4dec83c2ec",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -3259,6 +3259,53 @@
                 "uuid"
             ],
             "time": "2020-08-18T17:17:46+00:00"
+        },
+        {
+            "name": "royduin/laravel-nova-field-dynamic-select",
+            "version": "1.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/royduin/laravel-nova-field-dynamic-select.git",
+                "reference": "86649b6176ca46aa77d99e7be8652ef63b6d4cbd"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/royduin/laravel-nova-field-dynamic-select/zipball/86649b6176ca46aa77d99e7be8652ef63b6d4cbd",
+                "reference": "86649b6176ca46aa77d99e7be8652ef63b6d4cbd",
+                "shasum": "",
+                "mirrors": [
+                    {
+                        "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
+                        "preferred": true
+                    }
+                ]
+            },
+            "require": {
+                "php": ">=7.1.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Hubertnnn\\LaravelNova\\Fields\\DynamicSelect\\FieldServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Hubertnnn\\LaravelNova\\Fields\\DynamicSelect\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "A Laravel Nova field.",
+            "keywords": [
+                "laravel",
+                "nova"
+            ],
+            "time": "2020-08-18T07:36:39+00:00"
         },
         {
             "name": "spatie/once",

@@ -2,9 +2,9 @@
 
 namespace App\Nova;
 
+use Hubertnnn\LaravelNova\Fields\DynamicSelect\DynamicSelect;
 use App\Enums\QuestionEnum;
 use App\Models\Question as QuestionModel;
-use DigitalCreative\ConditionalContainer\ConditionalContainer;
 use Epartment\NovaDependencyContainer\NovaDependencyContainer;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\BelongsTo;
@@ -61,15 +61,24 @@ class Question extends Resource
             //     ->onlyOnDetail()
             // ,
 
-            Select::make('分类', 'category_id')
-                ->searchable()
+            DynamicSelect::make('科目分类', 'category_id')
                 ->options($this->categoryTree())
                 ->rules('required')
-                ->displayUsingLabels()
                 ->onlyOnForms()
             ,
+            BelongsTo::make('科目分类', 'category', Category::class)                ->exceptOnForms()
+                ->exceptOnForms()
+            ,
 
-            BelongsTo::make('分类', 'category', Category::class)                ->exceptOnForms()
+            DynamicSelect::make('章节知识', 'chapter_id')
+                ->rules('required')
+                ->onlyOnForms()
+                ->dependsOn(['category_id'])
+                ->options(function ($values) {
+                    return $this->chapterTree($values['category_id']);
+                })
+            ,
+            BelongsTo::make('章节知识', 'chapter', Chapter::class)                ->exceptOnForms()
                 ->exceptOnForms()
             ,
 

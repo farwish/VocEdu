@@ -19,7 +19,8 @@
         "laravel/framework": "^8.0",
         "laravel/nova": "~3.0",
         "laravel/tinker": "^2.0",
-        "optimistdigital/nova-multiselect-field": "^1.10"
+        "optimistdigital/nova-multiselect-field": "^1.10",
+        "royduin/laravel-nova-field-dynamic-select": "^1.1"
     },
     "require-dev": {
         "facade/ignition": "^2.3.6",

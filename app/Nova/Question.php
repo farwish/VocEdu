@@ -44,6 +44,11 @@ class Question extends Resource
         'title',
     ];
 
+    public static $searchRelations = [
+        'chapter' => ['name'],
+        'chapter.category' => ['id', 'name'],
+    ];
+
     /**
      * Get the fields displayed by the resource.
      *

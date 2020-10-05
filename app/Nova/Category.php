@@ -67,10 +67,11 @@ class Category extends Resource
                 ->asHtml()
             ,
 
+            // 列表页
             RelationshipCount::make('章节知识数量', 'chapters')
                 ->onlyOnIndex()
             ,
-
+            // 详情页
             HasMany::make('章节', 'chapters', Chapter::class),
         ];
     }
@@ -116,7 +117,12 @@ class Category extends Resource
      */
     public function actions(Request $request)
     {
-        return [];
+        return [
+            (new Actions\CategoryExamList())->showOnTableRow(),
+            (new Actions\CategoryPaperList())->showOnTableRow(),
+            (new Actions\CategorySuiteList())->showOnTableRow(),
+            (new Actions\CategoryQuestionList())->showOnTableRow(),
+        ];
     }
 
     public static function label()

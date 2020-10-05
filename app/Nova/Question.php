@@ -45,7 +45,7 @@ class Question extends Resource
     ];
 
     public static $searchRelations = [
-        'chapter' => ['name'],
+        'chapter' => ['id', 'name'],
         'chapter.category' => ['id', 'name'],
     ];
 

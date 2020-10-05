@@ -130,7 +130,8 @@ class Chapter extends Resource
      */
     public function actions(Request $request)
     {
-        return [];
+        return [
+        ];
     }
 
     public static function label()

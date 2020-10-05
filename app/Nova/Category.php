@@ -118,10 +118,10 @@ class Category extends Resource
     public function actions(Request $request)
     {
         return [
-            (new Actions\CategoryExamList())->showOnTableRow(),
-            (new Actions\CategoryPaperList())->showOnTableRow(),
-            (new Actions\CategorySuiteList())->showOnTableRow(),
-            (new Actions\CategoryQuestionList())->showOnTableRow(),
+            (new Actions\CategoryExamList())->showOnTableRow()->exceptOnDetail(),
+            (new Actions\CategoryPaperList())->showOnTableRow()->exceptOnDetail(),
+            (new Actions\CategorySuiteList())->showOnTableRow()->exceptOnDetail(),
+            (new Actions\CategoryQuestionList())->showOnTableRow()->exceptOnDetail(),
         ];
     }
 

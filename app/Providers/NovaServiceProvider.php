@@ -102,7 +102,7 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
                 'remember_menu_state' => false, // default
                 'navigation' => [
                     TopLevelResource::make([
-                        'label' => '全局',
+                        'label' => '总览',
                         'expanded' => null,
                         'badge' => null,
                         'icon' => null,

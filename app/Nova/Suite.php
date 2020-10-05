@@ -4,6 +4,7 @@ namespace App\Nova;
 
 use App\Models\Suite as SuiteModel;
 use Illuminate\Http\Request;
+use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Text;
@@ -53,6 +54,11 @@ class Suite extends Resource
                 ->options($this->categoryTree())
                 ->rules('required')
                 ->displayUsingLabels()
+                ->onlyOnForms()
+            ,
+
+            BelongsTo::make('分类', 'category', Category::class)
+                ->exceptOnForms()
             ,
 
             Text::make('试卷组名称', 'name')

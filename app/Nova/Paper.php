@@ -4,6 +4,7 @@ namespace App\Nova;
 
 use App\Models\Paper as PaperModel;
 use Illuminate\Http\Request;
+use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\BelongsToMany;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Number;
@@ -55,6 +56,11 @@ class Paper extends Resource
                 ->options($this->categoryTree())
                 ->rules('required')
                 ->displayUsingLabels()
+                ->onlyOnForms()
+            ,
+
+            BelongsTo::make('分类', 'category', Category::class)
+                ->exceptOnForms()
             ,
 
             Text::make('试卷名称', 'name')->rules('required'),

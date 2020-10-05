@@ -7,6 +7,7 @@ use App\Models\Question as QuestionModel;
 use DigitalCreative\ConditionalContainer\ConditionalContainer;
 use Epartment\NovaDependencyContainer\NovaDependencyContainer;
 use Illuminate\Http\Request;
+use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\KeyValue;
 use Laravel\Nova\Fields\Number;
@@ -65,6 +66,11 @@ class Question extends Resource
                 ->options($this->categoryTree())
                 ->rules('required')
                 ->displayUsingLabels()
+                ->onlyOnForms()
+            ,
+
+            BelongsTo::make('分类', 'category', Category::class)                ->exceptOnForms()
+                ->exceptOnForms()
             ,
 
             Text::make('题目标题', 'title')->rules('required'),

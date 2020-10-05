@@ -55,6 +55,11 @@ class Exam extends Resource
                 ->options($this->categoryTree())
                 ->rules('required')
                 ->displayUsingLabels()
+                ->onlyOnForms()
+            ,
+
+            BelongsTo::make('分类', 'category', Category::class)
+                ->exceptOnForms()
             ,
 
             Text::make('考场名称', 'name')->rules('required'),
@@ -72,21 +77,21 @@ class Exam extends Resource
                 ->displayUsingLabels()
             ,
 
-            BelongsTo::make('Paper')
+            BelongsTo::make('试卷', 'paper', Paper::class)
                 ->rules('required')
-                ->help('选择试卷'),
+            ,
 
             Text::make('考试地区', 'area')
                 ->rules('required')
             ,
 
-            BelongsTo::make('Guide', 'guide', Article::class)
+            BelongsTo::make('考试指南', 'guide', Article::class)
                 ->rules('required')
-                ->help('考试指南（文章模块）'),
+                ->help('文章模块内容'),
 
-            BelongsTo::make('Outline', 'outline', Article::class)
+            BelongsTo::make('考试大纲', 'outline', Article::class)
                 ->rules('required')
-                ->help('考试大纲（文章模块）'),
+                ->help('文章模块内容'),
         ];
     }
 

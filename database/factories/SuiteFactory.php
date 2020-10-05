@@ -2,17 +2,17 @@
 
 namespace Database\Factories;
 
-use App\Models\Package;
+use App\Models\Suite;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-class PackageFactory extends Factory
+class SuiteFactory extends Factory
 {
     /**
      * The name of the factory's corresponding model.
      *
      * @var string
      */
-    protected $model = Package::class;
+    protected $model = Suite::class;
 
     /**
      * Define the model's default state.
@@ -26,12 +26,10 @@ class PackageFactory extends Factory
         ];
     }
 
-    public function package()
+    public function suite()
     {
         return [
-            'name' => '套餐' . mt_rand(1, 100),
-            'price' => 100,
-
+            'name' => '试卷组' . mt_rand(1, 100),
             'category_id' => 4,
         ];
     }

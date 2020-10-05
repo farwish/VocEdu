@@ -14,7 +14,7 @@ use OptimistDigital\MultiselectField\Multiselect;
 
 class Package extends Resource
 {
-    public static $group = '资源管理';
+    public static $group = '题库管理';
 
     /**
      * The model the resource corresponds to.
@@ -68,9 +68,9 @@ class Package extends Resource
                 })
             ,
 
-            Multiselect::make('试卷', 'papers')
+            Multiselect::make('试卷组', 'suites')
                 ->rules('required')
-                ->belongsToMany(Paper::class)
+                ->belongsToMany(Suite::class)
             ,
 
             Multiselect::make('视频', 'videos')

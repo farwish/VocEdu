@@ -17,13 +17,16 @@ class DatabaseSeeder extends Seeder
 
         $this->call([
             UserSeeder::class,
+
             CategorySeeder::class,
-            QuestionSeeder::class,
-            PaperSeeder::class,
-            ExamSeeder::class,
-            ArticleSeeder::class,
+
             PackageSeeder::class,
+            SuiteSeeder::class,
+            PaperSeeder::class,
+
             VideoSeeder::class,
+            ArticleSeeder::class,
+            ExamSeeder::class,
         ]);
     }
 }

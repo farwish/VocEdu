@@ -65,9 +65,19 @@ class Paper extends Resource
 
             Number::make('时间(分钟)', 'minutes'),
 
+            // Index show
+            Select::make('题目', 'questions')
+                ->displayUsing(function ($name, $resource) {
+                    return $resource->questions()->get()->count() . ' 道题';
+                })
+                ->onlyOnIndex(),
+
+            // Form show
             Multiselect::make('题目', 'questions')
                 ->rules('required')
-                ->belongsToMany(Question::class),
+                ->belongsToMany(Question::class)
+                ->hideFromIndex()
+            ,
         ];
     }
 

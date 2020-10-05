@@ -9,8 +9,6 @@ use Laravel\Nova\Http\Requests\NovaRequest;
 
 class Member extends Resource
 {
-    public static $group = '账户管理';
-
     /**
      * The model the resource corresponds to.
      *

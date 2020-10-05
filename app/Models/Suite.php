@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Package extends Model
+class Suite extends Model
 {
     use HasFactory;
 
@@ -14,13 +14,13 @@ class Package extends Model
         return $this->belongsTo(Category::class);
     }
 
-    public function videos()
+    public function packages()
     {
-        return $this->belongsToMany(Video::class);
+        return $this->belongsToMany(Package::class);
     }
 
-    public function suites()
+    public function papers()
     {
-        return $this->belongsToMany(Suite::class);
+        return $this->belongsToMany(Paper::class, 'suite_paper', 'suite_id', 'paper_id');
     }
 }

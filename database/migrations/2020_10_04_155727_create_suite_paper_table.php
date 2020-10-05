@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreatePackagePaperTable extends Migration
+class CreateSuitePaperTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,10 @@ class CreatePackagePaperTable extends Migration
      */
     public function up()
     {
-        Schema::create('package_paper', function (Blueprint $table) {
+        Schema::create('suite_paper', function (Blueprint $table) {
             $table->id();
 
-            $table->unsignedBigInteger('package_id');
+            $table->unsignedBigInteger('suite_id');
             $table->unsignedBigInteger('paper_id');
 
             $table->timestamps();
@@ -30,6 +30,6 @@ class CreatePackagePaperTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('package_paper');
+        Schema::dropIfExists('suite_paper');
     }
 }

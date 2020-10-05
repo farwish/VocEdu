@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Enums\ExamEnum;
+use App\Models\Article;
 use App\Models\Exam;
 use Illuminate\Database\Seeder;
 
@@ -15,15 +16,6 @@ class ExamSeeder extends Seeder
      */
     public function run()
     {
-        Exam::factory()->create([
-            'name' => '考1',
-            'status' => ExamEnum::STATUS_IS_NOT_OPEN,
-            'paper_id' => 1,
-            'category_id' => 4,
-
-            'area' => '北京',
-            'guide_id' => 1,
-            'outline_id' => 1,
-        ]);
+        Exam::factory()->create(Exam::factory()->exam());
     }
 }

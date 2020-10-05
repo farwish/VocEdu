@@ -25,4 +25,16 @@ class PaperFactory extends Factory
             //
         ];
     }
+
+    public function paper()
+    {
+        return [
+            'name' => '模拟卷' . mt_rand(1, 100),
+            'total_score' => 100,
+            'pass_score' => 60,
+            'minutes' => 60,
+
+            'category_id' => 4,
+        ];
+    }
 }

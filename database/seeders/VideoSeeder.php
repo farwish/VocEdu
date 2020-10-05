@@ -14,10 +14,7 @@ class VideoSeeder extends Seeder
      */
     public function run()
     {
-        Video::factory()->create([
-            'name' => '视频1',
-            'url' => 'http://baidu.com',
-            'category_id' => 7,
-        ]);
+        Video::factory()->create(Video::factory()->video());
+        Video::factory()->create(Video::factory()->video());
     }
 }

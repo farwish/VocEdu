@@ -11,7 +11,7 @@ use Laravel\Nova\Http\Requests\NovaRequest;
 
 class Video extends Resource
 {
-    public static $group = '资源管理';
+    public static $group = '内容管理';
 
     /**
      * The model the resource corresponds to.
@@ -54,9 +54,13 @@ class Video extends Resource
                 ->displayUsingLabels()
             ,
 
-            Text::make('视频名', 'name')->rules('required'),
+            Text::make('视频名', 'name')
+                ->rules('required')
+            ,
 
-            Text::make('链接', 'url')->rules('required'),
+            Text::make('链接', 'url')
+                ->rules('required', 'url')
+            ,
         ];
     }
 

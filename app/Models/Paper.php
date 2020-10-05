@@ -24,8 +24,8 @@ class Paper extends Model
         return $this->hasMany(Exam::class);
     }
 
-    public function packages()
+    public function suites()
     {
-        return $this->belongsToMany(Package::class);
+        return $this->belongsToMany(Suite::class, 'suite_paper', 'paper_id', 'suite_id');
     }
 }

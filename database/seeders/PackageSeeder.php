@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Package;
+use App\Models\Suite;
 use Illuminate\Database\Seeder;
 
 class PackageSeeder extends Seeder
@@ -14,11 +15,14 @@ class PackageSeeder extends Seeder
      */
     public function run()
     {
-        Package::factory()->create([
-            'name' => '套餐1',
-            'price' => 100,
+        Package::factory()
+            ->hasSuites(1, Suite::factory()->suite())
+            ->hasSuites(1, Suite::factory()->suite())
+            ->create(Package::factory()->package());
 
-            'category_id' => 4,
-        ]);
+        Package::factory()
+            ->hasSuites(1, Suite::factory()->suite())
+            ->hasSuites(1, Suite::factory()->suite())
+            ->create(Package::factory()->package());
     }
 }

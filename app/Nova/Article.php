@@ -12,7 +12,7 @@ use Laravel\Nova\Http\Requests\NovaRequest;
 
 class Article extends Resource
 {
-    public static $group = '题库管理';
+    public static $group = '内容管理';
 
     /**
      * The model the resource corresponds to.

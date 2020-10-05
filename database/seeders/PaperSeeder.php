@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Paper;
+use App\Models\Question;
 use Illuminate\Database\Seeder;
 
 class PaperSeeder extends Seeder
@@ -14,13 +15,14 @@ class PaperSeeder extends Seeder
      */
     public function run()
     {
-        Paper::factory()->create([
-            'name' => '模拟卷1',
-            'total_score' => 100,
-            'pass_score' => 60,
-            'minutes' => 60,
+        Paper::factory()
+            ->hasQuestions(1, Question::factory()->questionRadioChoice())
+            ->hasQuestions(1, Question::factory()->questionMultiChoice())
+            ->create(Paper::factory()->paper());
 
-            'category_id' => 4,
-        ]);
+        Paper::factory()
+            ->hasQuestions(1, Question::factory()->questionGapFilling())
+            ->hasQuestions(1, Question::factory()->questionShortAnswer())
+            ->create(Paper::factory()->paper());
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Nova;
 
+use Titasgailius\SearchRelations\SearchesRelations;
 use App\Models\Chapter as ChapterModel;
 use App\Models\Category as CategoryModel;
 use Laravel\Nova\Http\Requests\NovaRequest;
@@ -9,6 +10,8 @@ use Laravel\Nova\Resource as NovaResource;
 
 abstract class Resource extends NovaResource
 {
+    use SearchesRelations;
+
     /**
      * Build an "index" query for the given resource.
      *

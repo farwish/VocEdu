@@ -40,6 +40,10 @@ class Chapter extends Resource
         'name',
     ];
 
+    public static $searchRelations = [
+        'category' => ['name'],
+    ];
+
     /**
      * Get the fields displayed by the resource.
      *

@@ -21,7 +21,8 @@
         "laravel/tinker": "^2.0",
         "optimistdigital/nova-multiselect-field": "^1.10",
         "royduin/laravel-nova-field-dynamic-select": "^1.1",
-        "saumini/count": "^1.0"
+        "saumini/count": "^1.0",
+        "titasgailius/search-relations": "^1.0"
     },
     "require-dev": {
         "facade/ignition": "^2.3.6",

@@ -56,10 +56,7 @@ class Question extends Resource
         $patterns = QuestionEnum::$pattern;
 
         return [
-            // ID::make(__('ID'), 'id')
-            //     ->sortable()
-            //     ->onlyOnDetail()
-            // ,
+            ID::make(__('ID'), 'id')->sortable(),
 
             DynamicSelect::make('科目分类', 'category_id')
                 ->options($this->categoryTree())

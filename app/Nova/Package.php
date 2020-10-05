@@ -50,7 +50,7 @@ class Package extends Resource
     public function fields(Request $request)
     {
         return [
-            // ID::make(__('ID'), 'id')->sortable(),
+            ID::make(__('ID'), 'id')->sortable(),
 
             DynamicSelect::make('科目分类', 'category_id')
                 ->options($this->categoryTree())

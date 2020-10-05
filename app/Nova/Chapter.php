@@ -49,7 +49,6 @@ class Chapter extends Resource
         return [
             ID::make(__('ID'), 'id')
                 ->sortable()
-                ->onlyOnDetail()
             ,
 
             DynamicSelect::make('科目分类', 'category_id')

@@ -67,7 +67,7 @@ class Category extends Resource
                 ->asHtml()
             ,
 
-            RelationshipCount::make('章节数', 'chapters')
+            RelationshipCount::make('章节知识数量', 'chapters')
                 ->onlyOnIndex()
             ,
 

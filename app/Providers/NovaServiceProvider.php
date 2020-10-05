@@ -15,7 +15,7 @@ use App\Nova\Suite;
 use App\Nova\User;
 use App\Nova\Video;
 use DigitalCreative\CollapsibleResourceManager\CollapsibleResourceManager;
-use DigitalCreative\CollapsibleResourceManager\Resources\Group;
+use DigitalCreative\CollapsibleResourceManager\Resources\NovaResource;
 use DigitalCreative\CollapsibleResourceManager\Resources\TopLevelResource;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Gate;
@@ -102,43 +102,43 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
                 'remember_menu_state' => false, // default
                 'navigation' => [
                     TopLevelResource::make([
-                        'label' => '总览',
+                        'label' => '内容管理',
                         'expanded' => null,
                         'badge' => null,
                         'icon' => null,
                         'linkTo' => null, // accepts an instance of `NovaResource` or a Nova `Resource::class`
                         'resources' => [
-                            Group::make([
-                                'label' => '内容管理',
-                                'expanded' => true,
-                                'resources' => [
-                                    Article::class,
-                                    Video::class,
-                                    Category::class,
-                                    Chapter::class,
-                                    Pattern::class,
-                                ]
-                            ]),
-                            Group::make([
-                                'label' => '考试管理',
-                                'expanded' => true,
-                                'resources' => [
-                                    Package::class,
-                                    Exam::class,
-                                    Paper::class,
-                                    Suite::class,
-                                    Question::class,
-                                ]
-                            ]),
-                            Group::make([
-                                'label' => '账户管理',
-                                'expanded' => false,
-                                'resources' => [
-                                    User::class,
-                                    Member::class,
-                                ]
-                            ]),
+                            NovaResource::make(Article::class),
+                            NovaResource::make(Video::class),
+                            NovaResource::make(Category::class),
+                            NovaResource::make(Chapter::class),
+                            NovaResource::make(Pattern::class),
                         ],
+                    ]),
+                    TopLevelResource::make([
+                        'label' => '考试管理',
+                        'expanded' => null,
+                        'badge' => null,
+                        'icon' => null,
+                        'linkTo' => null, // accepts an instance of `NovaResource` or a Nova `Resource::class`
+                        'resources' => [
+                            NovaResource::make(Package::class),
+                            NovaResource::make(Exam::class),
+                            NovaResource::make(Paper::class),
+                            NovaResource::make(Suite::class),
+                            NovaResource::make(Question::class),
+                        ]
+                    ]),
+                    TopLevelResource::make([
+                        'label' => '账户管理',
+                        'expanded' => false,
+                        'badge' => null,
+                        'icon' => null,
+                        'linkTo' => null, // accepts an instance of `NovaResource` or a Nova `Resource::class`
+                        'resources' => [
+                            NovaResource::make(User::class),
+                            NovaResource::make(Member::class),
+                        ]
                     ]),
                 ]
             ])

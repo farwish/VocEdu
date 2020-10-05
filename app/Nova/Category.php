@@ -3,6 +3,7 @@
 namespace App\Nova;
 
 use App\Models\Category as CategoryModel;
+use Hubertnnn\LaravelNova\Fields\DynamicSelect\DynamicSelect;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Select;
@@ -50,9 +51,8 @@ class Category extends Resource
                 ->onlyOnDetail()
             ,
 
-            Select::make('上级分类', 'parent_id')
+            DynamicSelect::make('上级分类', 'parent_id')
                 ->help('不选的时候代表根分类。')
-                ->searchable()
                 ->options($this->categoryTree())
                 ->onlyOnForms()
             ,

@@ -3,6 +3,7 @@
 namespace App\Nova;
 
 use App\Models\Video as VideoModel;
+use Hubertnnn\LaravelNova\Fields\DynamicSelect\DynamicSelect;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\ID;
@@ -48,11 +49,9 @@ class Video extends Resource
         return [
             // ID::make(__('ID'), 'id')->sortable(),
 
-            Select::make('科目分类', 'category_id')
-                ->searchable()
+            DynamicSelect::make('科目分类', 'category_id')
                 ->options($this->categoryTree())
                 ->rules('required')
-                ->displayUsingLabels()
                 ->onlyOnForms()
             ,
 

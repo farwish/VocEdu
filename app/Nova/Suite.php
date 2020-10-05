@@ -3,6 +3,7 @@
 namespace App\Nova;
 
 use App\Models\Suite as SuiteModel;
+use Hubertnnn\LaravelNova\Fields\DynamicSelect\DynamicSelect;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\ID;
@@ -49,11 +50,9 @@ class Suite extends Resource
         return [
             // ID::make(__('ID'), 'id')->sortable(),
 
-            Select::make('科目分类', 'category_id')
-                ->searchable()
+            DynamicSelect::make('科目分类', 'category_id')
                 ->options($this->categoryTree())
                 ->rules('required')
-                ->displayUsingLabels()
                 ->onlyOnForms()
             ,
 

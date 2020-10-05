@@ -48,10 +48,7 @@ class Category extends Resource
     public function fields(Request $request)
     {
         return [
-            ID::make(__('ID'), 'id')
-                ->sortable()
-                ->onlyOnDetail()
-            ,
+            ID::make(__('ID'), 'id'),
 
             DynamicSelect::make('上级分类', 'parent_id')
                 ->help('不选的时候代表根分类。')

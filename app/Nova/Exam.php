@@ -50,7 +50,7 @@ class Exam extends Resource
         return [
             // ID::make(__('ID'), 'id')->sortable(),
 
-            Select::make('分类', 'category_id')
+            Select::make('科目分类', 'category_id')
                 ->searchable()
                 ->options($this->categoryTree())
                 ->rules('required')
@@ -58,7 +58,7 @@ class Exam extends Resource
                 ->onlyOnForms()
             ,
 
-            BelongsTo::make('分类', 'category', Category::class)
+            BelongsTo::make('科目分类', 'category', Category::class)
                 ->exceptOnForms()
             ,
 

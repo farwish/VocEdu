@@ -21,6 +21,8 @@ class CreatePapersTable extends Migration
             $table->unsignedInteger('pass_score')->nullable();
             $table->unsignedInteger('minutes')->nullable();
 
+            $table->unsignedBigInteger('category_id')->nullable(false)->index();
+
             $table->timestamps();
         });
     }

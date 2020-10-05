@@ -18,7 +18,8 @@ class CreateVideosTable extends Migration
 
             $table->string('name')->nullable(false);
             $table->string('url');
-            $table->unsignedMediumInteger('category_id')->index();
+
+            $table->unsignedMediumInteger('category_id')->nullable(false)->index();
 
             $table->timestamps();
         });

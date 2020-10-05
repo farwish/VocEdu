@@ -48,14 +48,6 @@ class CategoryFactory extends Factory
                         'children' => [
                             [
                                 'name' => '护士执业资格考试',
-                                'children' => [
-                                    [
-                                        'name' => '章节1, 什么是执业资格',
-                                    ],
-                                    [
-                                        'name' => '章节2, 什么是执业资格考试',
-                                    ]
-                                ]
                             ],
                         ],
                     ]

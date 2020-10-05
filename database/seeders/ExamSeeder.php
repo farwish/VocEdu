@@ -19,8 +19,9 @@ class ExamSeeder extends Seeder
             'name' => '考1',
             'status' => ExamEnum::STATUS_IS_NOT_OPEN,
             'paper_id' => 1,
-            'area' => '北京',
+            'category_id' => 4,
 
+            'area' => '北京',
             'guide_id' => 1,
             'outline_id' => 1,
         ]);

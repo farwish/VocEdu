@@ -5,6 +5,7 @@ namespace App\Nova;
 use App\Models\Article as ArticleModel;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\ID;
+use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\Trix;
 use Laravel\Nova\Http\Requests\NovaRequest;
@@ -46,6 +47,13 @@ class Article extends Resource
     {
         return [
             // ID::make(__('ID'), 'id')->sortable(),
+
+            Select::make('分类', 'category_id')
+                ->searchable()
+                ->options($this->categoryTree())
+                ->rules('required')
+                ->displayUsingLabels()
+            ,
 
             Text::make('标题', 'title')
                 ->rules('required')

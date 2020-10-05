@@ -9,6 +9,11 @@ class Article extends Model
 {
     use HasFactory;
 
+    public function category()
+    {
+        return $this->belongsTo(Category::class);
+    }
+
     public function guides()
     {
         return $this->hasMany(Exam::class, 'guide_id', 'id');

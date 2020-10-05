@@ -19,6 +19,8 @@ class CreateArticlesTable extends Migration
             $table->string('title')->nullable(false);
             $table->text('body')->nullable(false);
 
+            $table->unsignedBigInteger('category_id')->nullable(false)->index();
+
             $table->timestamps();
         });
     }

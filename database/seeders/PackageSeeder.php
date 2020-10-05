@@ -17,6 +17,8 @@ class PackageSeeder extends Seeder
         Package::factory()->create([
             'name' => '套餐1',
             'price' => 100,
+
+            'category_id' => 4,
         ]);
     }
 }

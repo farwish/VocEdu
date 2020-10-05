@@ -19,6 +19,8 @@ class PaperSeeder extends Seeder
             'total_score' => 100,
             'pass_score' => 60,
             'minutes' => 60,
+
+            'category_id' => 4,
         ]);
     }
 }

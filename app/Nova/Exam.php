@@ -50,6 +50,13 @@ class Exam extends Resource
         return [
             // ID::make(__('ID'), 'id')->sortable(),
 
+            Select::make('分类', 'category_id')
+                ->searchable()
+                ->options($this->categoryTree())
+                ->rules('required')
+                ->displayUsingLabels()
+            ,
+
             Text::make('考场名', 'name')->rules('required'),
 
             // Badge::make( '状态', 'status', function () {

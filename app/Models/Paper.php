@@ -9,6 +9,11 @@ class Paper extends Model
 {
     use HasFactory;
 
+    public function category()
+    {
+        return $this->belongsTo(Category::class);
+    }
+
     public function questions()
     {
         return $this->belongsToMany(Question::class);

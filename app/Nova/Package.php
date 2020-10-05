@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Laravel\Nova\Fields\BelongsToMany;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Number;
+use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use OptimistDigital\MultiselectField\Multiselect;
@@ -48,6 +49,13 @@ class Package extends Resource
     {
         return [
             // ID::make(__('ID'), 'id')->sortable(),
+
+            Select::make('分类', 'category_id')
+                ->searchable()
+                ->options($this->categoryTree())
+                ->rules('required')
+                ->displayUsingLabels()
+            ,
 
             Text::make('套餐名', 'name')
                 ->rules('required')

@@ -26,9 +26,9 @@ class QuestionEnum
     ];
 
     public static $difficulty = [
-        self::DIFFICULTY_EASY   => '低',
+        self::DIFFICULTY_EASY   => '易',
         self::DIFFICULTY_MIDDLE => '中',
-        self::DIFFICULTY_HARD   => '高',
+        self::DIFFICULTY_HARD   => '难',
     ];
 
     public static $rightAnswer = [

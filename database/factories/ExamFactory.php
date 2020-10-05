@@ -30,7 +30,7 @@ class ExamFactory extends Factory
     public function exam()
     {
         return [
-            'name' => '考' . mt_rand(1, 100),
+            'name' => '考场' . mt_rand(1, 100),
             'status' => ExamEnum::STATUS_IS_NOT_OPEN,
             'paper_id' => 1,
             'category_id' => 4,

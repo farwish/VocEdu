@@ -2,7 +2,7 @@
 
 @section('content')
 
-    @include('nova::auth.partials.header')
+{{--    @include('nova::auth.partials.header')--}}
 
     <form
         class="bg-white shadow rounded-lg p-8 max-w-login mx-auto"

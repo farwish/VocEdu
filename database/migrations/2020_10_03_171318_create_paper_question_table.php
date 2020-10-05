@@ -16,10 +16,8 @@ class CreatePaperQuestionTable extends Migration
         Schema::create('paper_question', function (Blueprint $table) {
             $table->id();
 
-            $table->unsignedBigInteger('paper_id');
-            $table->unsignedBigInteger('question_id');
-
-            $table->timestamps();
+            $table->unsignedBigInteger('paper_id')->nullable(false)->index();
+            $table->unsignedBigInteger('question_id')->nullable(false)->index();
         });
     }
 

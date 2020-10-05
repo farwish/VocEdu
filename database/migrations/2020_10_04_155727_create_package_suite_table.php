@@ -16,10 +16,8 @@ class CreatePackageSuiteTable extends Migration
         Schema::create('package_suite', function (Blueprint $table) {
             $table->id();
 
-            $table->unsignedBigInteger('package_id');
-            $table->unsignedBigInteger('suite_id');
-
-            $table->timestamps();
+            $table->unsignedBigInteger('package_id')->nullable(false)->index();
+            $table->unsignedBigInteger('suite_id')->nullable(false)->index();
         });
     }
 

@@ -2,18 +2,16 @@
 
 namespace App\Nova;
 
-use App\Models\Category as CategoryModel;
-use Hubertnnn\LaravelNova\Fields\DynamicSelect\DynamicSelect;
+use App\Enums\PatternEnum;
+use App\Models\Pattern as PatternModel;
+use Epartment\NovaDependencyContainer\NovaDependencyContainer;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\ID;
-use Laravel\Nova\Fields\HasMany;
 use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
-use OptimistDigital\MultiselectField\Multiselect;
-use Saumini\Count\RelationshipCount;
 
-class Category extends Resource
+class Pattern extends Resource
 {
     public static $group = '题库管理';
 
@@ -22,7 +20,7 @@ class Category extends Resource
      *
      * @var string
      */
-    public static $model = CategoryModel::class;
+    public static $model = PatternModel::class;
 
     /**
      * The single value that should be used to represent the resource when being displayed.
@@ -49,32 +47,31 @@ class Category extends Resource
     public function fields(Request $request)
     {
         return [
-            ID::make(__('ID'), 'id'),
+            // ID::make(__('ID'), 'id')->sortable(),
 
-            DynamicSelect::make('上级分类', 'parent_id')
-                ->help('不选的时候代表根分类。')
-                ->options($this->categoryTree())
-                ->onlyOnForms()
+            Text::make('题型名称', 'name')
+                ->rules('required')
             ,
 
-            Text::make('名称', 'name')
-                ->rules('required', 'max:255')
-                ->displayUsing(function($name, $resource){
-                    return str_repeat('|— ', $resource->depth) . $name;
+            Select::make('题型分类', 'type')
+                ->options(PatternEnum::$patternType)
+                ->default(function () {
+                    return PatternEnum::TYPE_SUBJECTIVE;
                 })
-                ->asHtml()
+                ->rules('required')
+                ->displayUsingLabels()
             ,
 
-            Multiselect::make('题型', 'patterns')
-                ->belongsToMany(Pattern::class)
+            NovaDependencyContainer::make([
+                Select::make('选项分类', 'classify')
+                    ->options(PatternEnum::$objectiveClassify)
+                    ->default(function () {
+                        return PatternEnum::OBJECTIVE_CLASSIFY_RADIO;
+                    })
+                ,
+            ])
+                ->dependsOn('type', PatternEnum::TYPE_OBJECTIVE)
             ,
-
-            // 列表页
-            RelationshipCount::make('章节知识数量', 'chapters')
-                ->onlyOnIndex()
-            ,
-            // 详情页
-            HasMany::make('章节', 'chapters', Chapter::class),
         ];
     }
 
@@ -119,21 +116,11 @@ class Category extends Resource
      */
     public function actions(Request $request)
     {
-        return [
-            (new Actions\CategoryExamList())->showOnTableRow()->exceptOnDetail(),
-            (new Actions\CategoryPaperList())->showOnTableRow()->exceptOnDetail(),
-            (new Actions\CategorySuiteList())->showOnTableRow()->exceptOnDetail(),
-            (new Actions\CategoryQuestionList())->showOnTableRow()->exceptOnDetail(),
-        ];
+        return [];
     }
 
     public static function label()
     {
-        return '科目分类';
-    }
-
-    public static function indexQuery(NovaRequest $request, $query)
-    {
-        return $query->withDepth()->defaultOrder();
+        return '题型';
     }
 }

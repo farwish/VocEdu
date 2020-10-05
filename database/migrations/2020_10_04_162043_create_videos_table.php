@@ -17,7 +17,7 @@ class CreateVideosTable extends Migration
             $table->id();
 
             $table->string('name')->nullable(false);
-            $table->string('url');
+            $table->string('url')->nullable(false);
 
             $table->unsignedBigInteger('category_id')->nullable(false)->index();
 

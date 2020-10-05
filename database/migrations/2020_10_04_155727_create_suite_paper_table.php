@@ -16,10 +16,8 @@ class CreateSuitePaperTable extends Migration
         Schema::create('suite_paper', function (Blueprint $table) {
             $table->id();
 
-            $table->unsignedBigInteger('suite_id');
-            $table->unsignedBigInteger('paper_id');
-
-            $table->timestamps();
+            $table->unsignedBigInteger('suite_id')->nullable(false)->index();
+            $table->unsignedBigInteger('paper_id')->nullable(false)->index();
         });
     }
 

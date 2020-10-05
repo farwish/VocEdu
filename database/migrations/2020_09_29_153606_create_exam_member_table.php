@@ -16,10 +16,8 @@ class CreateExamMemberTable extends Migration
         Schema::create('exam_member', function (Blueprint $table) {
             $table->id();
 
-            $table->unsignedBigInteger('exam_id');
-            $table->unsignedBigInteger('member_id');
-
-            $table->timestamps();
+            $table->unsignedBigInteger('exam_id')->nullable(false)->index();
+            $table->unsignedBigInteger('member_id')->nullable(false)->index();
         });
     }
 

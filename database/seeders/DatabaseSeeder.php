@@ -18,6 +18,8 @@ class DatabaseSeeder extends Seeder
         $this->call([
             UserSeeder::class,
 
+            PatternSeeder::class,
+
             CategorySeeder::class,
             ChapterSeeder::class,
 

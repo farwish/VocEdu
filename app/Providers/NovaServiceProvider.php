@@ -131,7 +131,7 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
                     ]),
                     TopLevelResource::make([
                         'label' => '账户管理',
-                        'expanded' => false,
+                        'expanded' => null,
                         'badge' => null,
                         'icon' => null,
                         'linkTo' => null, // accepts an instance of `NovaResource` or a Nova `Resource::class`

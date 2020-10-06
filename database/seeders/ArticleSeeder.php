@@ -16,5 +16,6 @@ class ArticleSeeder extends Seeder
     {
         Article::factory()->create(Article::factory()->articleGuide());
         Article::factory()->create(Article::factory()->articleOutline());
+        Article::factory()->create(Article::factory()->articleExplain());
     }
 }

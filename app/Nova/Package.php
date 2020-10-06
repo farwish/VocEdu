@@ -70,6 +70,10 @@ class Package extends Resource
                 ->rules('required')
             ,
 
+            BelongsTo::make('套餐说明', 'explain', Article::class)
+                ->rules('required')
+                ->help('文章模块内容'),
+
             Number::make('价格(元)', 'price')
                 ->rules('required')
                 ->default(function () {

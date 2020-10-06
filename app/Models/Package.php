@@ -9,6 +9,11 @@ class Package extends Model
 {
     use HasFactory;
 
+    public function explain()
+    {
+        return $this->belongsTo(Article::class, 'explain_id', 'id');
+    }
+
     public function category()
     {
         return $this->belongsTo(Category::class);

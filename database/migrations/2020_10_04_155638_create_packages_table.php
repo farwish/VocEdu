@@ -19,6 +19,8 @@ class CreatePackagesTable extends Migration
             $table->string('name')->nullable(false);
             $table->unsignedInteger('price')->nullable(false);
 
+            $table->unsignedBigInteger('explain_id')->nullable(false)->index();
+
             $table->unsignedBigInteger('category_id')->nullable(false)->index();
 
             $table->timestamps();

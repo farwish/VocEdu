@@ -23,4 +23,9 @@ class Article extends Model
     {
         return $this->hasMany(Exam::class, 'outline_id', 'id');
     }
+
+    public function explains()
+    {
+        return $this->hasMany(Package::class, 'explain_id', 'id');
+    }
 }

@@ -32,6 +32,7 @@ class PackageFactory extends Factory
             'name' => '套餐' . mt_rand(1, 100),
             'price' => 100,
 
+            'explain_id' => 3,
             'category_id' => 4,
         ];
     }

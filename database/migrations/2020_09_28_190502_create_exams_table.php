@@ -18,7 +18,9 @@ class CreateExamsTable extends Migration
 
             $table->string('name')->nullable(false);
             $table->unsignedTinyInteger('status')->nullable(false)->default(0);
-            $table->unsignedBigInteger('paper_id')->index();
+            $table->timestamp('expired_at')->nullable();
+
+            $table->unsignedBigInteger('paper_id')->nullable(false)->index();
 
             $table->unsignedBigInteger('category_id')->nullable(false)->index();
 

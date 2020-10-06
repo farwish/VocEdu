@@ -9,10 +9,6 @@ class Package extends Model
 {
     use HasFactory;
 
-    protected $casts = [
-        'expired_at' => 'datetime:Y-m-d H:i:s',
-    ];
-
     public function explain()
     {
         return $this->belongsTo(Article::class, 'explain_id', 'id');

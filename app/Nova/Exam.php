@@ -7,6 +7,7 @@ use Hubertnnn\LaravelNova\Fields\DynamicSelect\DynamicSelect;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\Badge;
 use Laravel\Nova\Fields\BelongsTo;
+use Laravel\Nova\Fields\DateTime;
 use Laravel\Nova\Fields\HasOne;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Select;
@@ -95,6 +96,9 @@ class Exam extends Resource
             BelongsTo::make('考试大纲', 'outline', Article::class)
                 ->rules('required')
                 ->help('文章模块内容'),
+
+            DateTime::make('到期时间', 'expired_at')
+            ,
         ];
     }
 

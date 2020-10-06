@@ -9,6 +9,10 @@ class Exam extends Model
 {
     use HasFactory;
 
+    protected $casts = [
+        'expired_at' => 'datetime:Y-m-d H:i:s',
+    ];
+
     public function category()
     {
         return $this->belongsTo(Category::class);

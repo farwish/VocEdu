@@ -6,11 +6,8 @@ use App\Models\Package as PackageModel;
 use Hubertnnn\LaravelNova\Fields\DynamicSelect\DynamicSelect;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\BelongsTo;
-use Laravel\Nova\Fields\BelongsToMany;
-use Laravel\Nova\Fields\DateTime;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Number;
-use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use OptimistDigital\MultiselectField\Multiselect;
@@ -87,10 +84,6 @@ class Package extends Resource
                 ->default(function () {
                     return 1;
                 })
-            ,
-
-            DateTime::make('到期时间', 'expired_at')
-                ->help('“ 到期时间 ” 设置后，“ 有效期 ” 将自动失效。')
             ,
 
             Multiselect::make('试卷组', 'suites')

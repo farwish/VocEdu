@@ -217,6 +217,7 @@ class Question extends Resource
                 ->onlyOnForms()
                 ->dependsOn(['category_id'])
                 ->options(function ($values) {
+                    if (empty($values['category_id'])) return [];
                     return $this->chapterTree($values['category_id']);
                 })
             ,

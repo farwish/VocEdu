@@ -20,11 +20,13 @@ class CategorySeeder extends Seeder
             Category::create($treeItem);
         }
 
-        // 单独给 4，6 的科目分类绑题型
-        $one = Category::query()->find(4);
-        $one->patterns()->sync([1, 2, 3, 4, 5, 6]);
+        // 当前不给科目绑题型，默认所有可用
 
-        $two = Category::query()->find(6);
-        $two->patterns()->sync([1, 2, 3]);
+        // 单独给 4，6 的科目分类绑题型
+        // $one = Category::query()->find(4);
+        // $one->patterns()->sync([1, 2, 3, 4, 5, 6]);
+        //
+        // $two = Category::query()->find(6);
+        // $two->patterns()->sync([1, 2, 3]);
     }
 }

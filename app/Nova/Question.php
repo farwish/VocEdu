@@ -70,6 +70,7 @@ class Question extends Resource
         // 题型id按选项分类 归类到以上变量中.
         /** @var Collection $patternCollection */
         $patternCollection = PatternModel::query()->get();
+        $patternArray = $patternCollection->pluck('name', 'id')->toArray();
 
         if ($patternCollection->isNotEmpty()) {
             /** @var PatternModel $item */
@@ -207,7 +208,7 @@ class Question extends Resource
                 ->rules('required')
                 ->onlyOnForms()
             ,
-            BelongsTo::make('科目分类', 'category', Category::class)                ->exceptOnForms()
+            BelongsTo::make('科目分类', 'category', Category::class)
                 ->exceptOnForms()
             ,
 
@@ -237,26 +238,33 @@ class Question extends Resource
                 ->displayUsingLabels()
             ,
 
-            DynamicSelect::make('题型', 'pattern_id')
+            Select::make('题型', 'pattern_id')
                 ->rules('required')
-                ->dependsOn(['category_id'])
-                ->options(function ($values) use (&$dynamicPatternIds) {
-                    $category = \App\Models\Category::query()->find($values['category_id']);
-                    if (! $category) return [];
-
-                    /** @var Collection $patterns */
-                    $patterns = $category->patterns()->get();
-                    if ($patterns->isEmpty()) return [];
-
-                    $dynamicPatternIds = $patterns->pluck('name', 'id')->toArray();
-
-                    return $dynamicPatternIds;
-                })
+                ->options($patternArray)
+                ->displayUsingLabels()
             ,
 
-            // $multi_container,
-            // $judge_container,
-            // $const_container,
+            // DynamicSelect::make('题型', 'pattern_id')
+            //     ->rules('required')
+            //     ->dependsOn(['category_id'])
+            //     ->options(function ($values) use (&$dynamicPatternIds) {
+            //         $category = \App\Models\Category::query()->find($values['category_id']);
+            //         if (! $category) return [];
+            //
+            //         /** @var Collection $patterns */
+            //         $patterns = $category->patterns()->get();
+            //         if ($patterns->isEmpty()) return [];
+            //
+            //         $dynamicPatternIds = $patterns->pluck('name', 'id')->toArray();
+            //
+            //         return $dynamicPatternIds;
+            //     })
+            // ,
+
+            $radio_container,
+            $multi_container,
+            $judge_container,
+            $const_container,
 
             Textarea::make('解析', 'analysis'),
         ];

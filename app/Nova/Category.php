@@ -65,9 +65,10 @@ class Category extends Resource
                 ->asHtml()
             ,
 
-            Multiselect::make('题型', 'patterns')
-                ->belongsToMany(Pattern::class)
-            ,
+            // 暂时取消：科目关联题型
+            // Multiselect::make('题型', 'patterns')
+            //     ->belongsToMany(Pattern::class)
+            // ,
 
             // 列表页
             RelationshipCount::make('章节总数', 'chapters')

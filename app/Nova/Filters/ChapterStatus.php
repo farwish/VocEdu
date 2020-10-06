@@ -7,7 +7,7 @@ use Laravel\Nova\Filters\Filter;
 
 class ChapterStatus extends Filter
 {
-    public $name = '章节是否展示';
+    public $name = '章节是否显示';
 
     /**
      * The filter's component.
@@ -38,8 +38,8 @@ class ChapterStatus extends Filter
     public function options(Request $request)
     {
         return [
-            '展示' => 0,
-            '不展示' => 1,
+            '显示' => 0,
+            '不显示' => 1,
         ];
     }
 }

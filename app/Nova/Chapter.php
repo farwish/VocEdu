@@ -82,7 +82,7 @@ class Chapter extends Resource
                 ->asHtml()
             ,
 
-            Boolean::make('章节是否展示', 'status')
+            Boolean::make('章节是否显示', 'status')
                 ->trueValue(0)
                 ->falseValue(1)
             ,

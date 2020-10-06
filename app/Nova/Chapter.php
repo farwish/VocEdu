@@ -2,6 +2,7 @@
 
 namespace App\Nova;
 
+use Laravel\Nova\Fields\Boolean;
 use Saumini\Count\RelationshipCount;
 use Hubertnnn\LaravelNova\Fields\DynamicSelect\DynamicSelect;
 use App\Models\Chapter as ChapterModel;
@@ -9,7 +10,6 @@ use Illuminate\Http\Request;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\HasMany;
 use Laravel\Nova\Fields\ID;
-use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
@@ -80,6 +80,11 @@ class Chapter extends Resource
                     return str_repeat('|— ', $resource->depth) . $name;
                 })
                 ->asHtml()
+            ,
+
+            Boolean::make('章节是否展示', 'status')
+                ->trueValue(0)
+                ->falseValue(1)
             ,
 
             RelationshipCount::make('题量', 'questions')

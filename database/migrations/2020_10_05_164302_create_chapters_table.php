@@ -17,6 +17,7 @@ class CreateChaptersTable extends Migration
             $table->id();
 
             $table->string('name')->nullable(false);
+            $table->unsignedTinyInteger('status')->nullable(false)->default(0);
             $table->unsignedBigInteger('category_id')->nullable(false)->index();
 
             $table->nestedSet();

@@ -22,9 +22,9 @@ class CategorySeeder extends Seeder
 
         // 单独给 4，6 的科目分类绑题型
         $one = Category::query()->find(4);
-        $one->patterns()->sync([1, 2, 3]);
+        $one->patterns()->sync([1, 2, 3, 4, 5, 6]);
 
         $two = Category::query()->find(6);
-        $two->patterns()->sync([1, 2, 4, 5]);
+        $two->patterns()->sync([1, 2, 3]);
     }
 }

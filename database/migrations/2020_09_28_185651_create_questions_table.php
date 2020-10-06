@@ -19,7 +19,7 @@ class CreateQuestionsTable extends Migration
             $table->text('title')->nullable(false);
             $table->text('description')->nullable();
             $table->unsignedTinyInteger('difficulty')->nullable(false)->default(0);
-            $table->unsignedSmallInteger('pattern')->nullable(false);
+            $table->unsignedBigInteger('pattern_id')->nullable(false)->index();
 
             $table->string('option_answer')->nullable();
             $table->string('right_answer')->nullable();

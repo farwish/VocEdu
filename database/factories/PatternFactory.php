@@ -51,13 +51,13 @@ class PatternFactory extends Factory
                 'classify' => PatternEnum::OBJECTIVE_CLASSIFY_JUDGE,
             ],
             [
-                'name' => '简答题',
-                'type' => PatternEnum::TYPE_SUBJECTIVE,
+                'name' => '填空题',
+                'type' => PatternEnum::TYPE_OBJECTIVE,
+                'classify' => PatternEnum::OBJECTIVE_CLASSIFY_CONST,
             ],
             [
-                'name' => '题干题',
-                'type' => PatternEnum::TYPE_OBJECTIVE,
-                'classify' => PatternEnum::OBJECTIVE_CLASSIFY_RADIO,
+                'name' => '简答题',
+                'type' => PatternEnum::TYPE_SUBJECTIVE,
             ],
         ];
     }

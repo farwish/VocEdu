@@ -32,7 +32,7 @@ class QuestionFactory extends Factory
         return [
             'title' => '中华人民共和国成立于（）年?',
             'difficulty' => QuestionEnum::DIFFICULTY_EASY,
-            'pattern' => QuestionEnum::PATTERN_RADIO_CHOICE,
+            'pattern_id' => 1,
             'option_answer' => [
                 'A' => '1990',
                 'B' => '1949',
@@ -50,7 +50,7 @@ class QuestionFactory extends Factory
         return [
             'title' => '淮海战役的参与者都有谁？',
             'difficulty' => QuestionEnum::DIFFICULTY_MIDDLE,
-            'pattern' => QuestionEnum::PATTERN_MULTI_CHOICE,
+            'pattern_id' => 2,
             'option_answer' => [
                 'A' => '毛泽东',
                 'B' => '刘伯承',
@@ -70,7 +70,7 @@ class QuestionFactory extends Factory
         return [
             'title' => '__球有人类？',
             'difficulty' => QuestionEnum::DIFFICULTY_EASY,
-            'pattern' => QuestionEnum::PATTERN_GAP_FILLING,
+            'pattern_id' => 5,
             'right_answer' => '地',
             'category_id' => 4,
             'chapter_id' => 4,
@@ -82,7 +82,7 @@ class QuestionFactory extends Factory
         return [
             'title' => '请谈一下你对网络红人的看法？',
             'difficulty' => QuestionEnum::DIFFICULTY_HARD,
-            'pattern' => QuestionEnum::PATTERN_SHORT_ANSWER,
+            'pattern_id' => 6,
             'right_answer' => '没有标准答案',
             'category_id' => 4,
             'chapter_id' => 4,

@@ -13,4 +13,9 @@ class Pattern extends Model
     {
         return $this->belongsToMany(Category::class);
     }
+
+    public function questions()
+    {
+        return $this->hasMany(Question::class);
+    }
 }

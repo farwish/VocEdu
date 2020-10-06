@@ -24,6 +24,11 @@ class Question extends Model
         return $this->belongsToMany(Paper::class);
     }
 
+    public function pattern()
+    {
+        return $this->belongsTo(Pattern::class);
+    }
+
     public function setOptionAnswerAttribute($option)
     {
         $this->attributes['option_answer'] = json_encode($option, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);

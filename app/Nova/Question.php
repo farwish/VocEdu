@@ -2,10 +2,13 @@
 
 namespace App\Nova;
 
+use App\Models\Pattern as PatternModel;
+use App\Enums\PatternEnum;
 use Hubertnnn\LaravelNova\Fields\DynamicSelect\DynamicSelect;
 use App\Enums\QuestionEnum;
 use App\Models\Question as QuestionModel;
 use Epartment\NovaDependencyContainer\NovaDependencyContainer;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\ID;
@@ -57,8 +60,144 @@ class Question extends Resource
      */
     public function fields(Request $request)
     {
-        $difficulty = QuestionEnum::$difficulty;
-        $patterns = QuestionEnum::$pattern;
+        $objective_classify_radio_pattern_ids =
+        $objective_classify_multi_pattern_ids =
+        $objective_classify_drift_pattern_ids =
+        $objective_classify_judge_pattern_ids =
+        $objective_classify_const_pattern_ids =
+        $subjective_pattern_ids = [];
+
+        // 题型id按选项分类 归类到以上变量中.
+        /** @var Collection $patternCollection */
+        $patternCollection = PatternModel::query()->get();
+
+        if ($patternCollection->isNotEmpty()) {
+            /** @var PatternModel $item */
+            foreach ($patternCollection as $item) {
+                $patternId = $item->getAttribute('id');
+                $patternType = $item->getAttribute('type');
+                $patternClassify = $item->getAttribute('classify');
+
+                if ($patternType == PatternEnum::TYPE_SUBJECTIVE) {
+                    $subjective_pattern_ids[] = $patternId;
+                } else {
+                    switch ($patternClassify) {
+                        case PatternEnum::OBJECTIVE_CLASSIFY_RADIO:
+                            $objective_classify_radio_pattern_ids[] = $patternId;
+                            break;
+                        case PatternEnum::OBJECTIVE_CLASSIFY_MULTI:
+                            $objective_classify_multi_pattern_ids[] = $patternId;
+                            break;
+                        case PatternEnum::OBJECTIVE_CLASSIFY_DRIFT:
+                            $objective_classify_drift_pattern_ids[] = $patternId;
+                            break;
+                        case PatternEnum::OBJECTIVE_CLASSIFY_JUDGE:
+                            $objective_classify_judge_pattern_ids[] = $patternId;
+                            break;
+                        case PatternEnum::OBJECTIVE_CLASSIFY_CONST:
+                            $objective_classify_const_pattern_ids[] = $patternId;
+                            break;
+                        default:
+                            break;
+                    }
+                }
+            }
+        }
+
+        // 单选
+        $radio_container = (NovaDependencyContainer::make([
+            KeyValue::make('选择项', 'option_answer')
+                ->rules('json')
+                ->keyLabel('选项') // Customize the key heading
+                ->valueLabel('内容') // Customize the value heading
+                ->actionText('添加选项')
+                ->withMeta([
+                    'value' => $this->option_answer ?? [
+                            'A' => '',
+                            'B' => '',
+                            'C' => '',
+                            'D' => '',
+                        ]
+                ])->rules('required')
+            ,
+
+            Text::make('答案', 'right_answer')
+                ->placeholder('比如填：A')
+                ->rules('required', 'min:1', 'max:1')
+            ,
+        ]));
+        if ($objective_classify_radio_pattern_ids) {
+            foreach ($objective_classify_radio_pattern_ids as $patternId) {
+                $radio_container = $radio_container->dependsOn('pattern_id', $patternId);
+            }
+        }
+
+        // 多选
+        $multi_container = (NovaDependencyContainer::make([
+            KeyValue::make('选择项', 'option_answer')
+                ->rules('json')
+                ->keyLabel('选项') // Customize the key heading
+                ->valueLabel('内容') // Customize the value heading
+                ->actionText('添加选项')
+                ->withMeta([
+                    'value' => $this->option_answer ?? [
+                            'A' => '',
+                            'B' => '',
+                            'C' => '',
+                            'D' => '',
+                            'E' => '',
+                            'F' => '',
+                            'G' => '',
+                        ]
+                ])->rules('required', 'min:1', 'max:10')
+            ,
+
+            Text::make('答案', 'right_answer')
+                ->placeholder('比如填：ABC')
+                ->rules('required')
+            ,
+        ]));
+        if ($objective_classify_multi_pattern_ids) {
+            foreach ($objective_classify_multi_pattern_ids as $patternId) {
+                $multi_container = $multi_container->dependsOn('pattern_id', $patternId);
+            }
+        }
+
+        if ($objective_classify_drift_pattern_ids) {
+            foreach ($objective_classify_drift_pattern_ids as $patternId) {
+                $multi_container = $multi_container->dependsOn('pattern_id', $patternId);
+            }
+        }
+
+        // 判断
+        $judge_container = (NovaDependencyContainer::make([
+            Select::make('答案', 'right_answer')->options([
+                1 => '正确',
+                0 => '错误',
+            ])->rules('required'),
+        ]));
+        if ($objective_classify_judge_pattern_ids) {
+            foreach ($objective_classify_judge_pattern_ids as $patternId) {
+                $judge_container = $judge_container->dependsOn('pattern_id', $patternId);
+            }
+        }
+
+        // 填空
+        $const_container = (NovaDependencyContainer::make([
+            Text::make('答案', 'right_answer')->rules('required'),
+        ]));
+        if ($objective_classify_const_pattern_ids) {
+            foreach ($objective_classify_const_pattern_ids as $patternId) {
+                $const_container = $const_container->dependsOn('pattern_id', $patternId);
+            }
+        }
+
+        // 简答
+        if ($subjective_pattern_ids) {
+            foreach ($subjective_pattern_ids as $patternId) {
+                $const_container = $const_container->dependsOn('pattern_id', $patternId);
+            }
+        }
 
         return [
             ID::make(__('ID'), 'id')->sortable(),
@@ -88,7 +227,8 @@ class Question extends Resource
 
             Trix::make('题干描述', 'description')->placeholder('没有可不填'),
 
-            Select::make('难度', 'difficulty')->options($difficulty)
+            Select::make('难度', 'difficulty')
+                ->options(QuestionEnum::$difficulty)
                 ->sortable()
                 ->rules('required')
                 ->default(function () {
@@ -97,85 +237,26 @@ class Question extends Resource
                 ->displayUsingLabels()
             ,
 
-            Select::make( '题型', 'pattern')
-                ->options($patterns)
+            DynamicSelect::make('题型', 'pattern_id')
                 ->rules('required')
-                ->default(function () {
-                    return QuestionEnum::PATTERN_RADIO_CHOICE;
+                ->dependsOn(['category_id'])
+                ->options(function ($values) use (&$dynamicPatternIds) {
+                    $category = \App\Models\Category::query()->find($values['category_id']);
+                    if (! $category) return [];
+
+                    /** @var Collection $patterns */
+                    $patterns = $category->patterns()->get();
+                    if ($patterns->isEmpty()) return [];
+
+                    $dynamicPatternIds = $patterns->pluck('name', 'id')->toArray();
+
+                    return $dynamicPatternIds;
                 })
-                ->displayUsingLabels()
             ,
 
-            // 单选
-            NovaDependencyContainer::make([
-                KeyValue::make('选择项', 'option_answer')
-                    ->rules('json')
-                    ->keyLabel('选项') // Customize the key heading
-                    ->valueLabel('内容') // Customize the value heading
-                    ->actionText('添加选项')
-                    ->withMeta([
-                        'value' => $this->option_answer ?? [
-                                'A' => '',
-                                'B' => '',
-                                'C' => '',
-                                'D' => '',
-                            ]
-                    ])->rules('required')
-                ,
-
-                Text::make('答案', 'right_answer')
-                    ->placeholder('比如填：A')
-                    ->rules('required')
-                ,
-            ])
-                ->dependsOn('pattern', QuestionEnum::PATTERN_RADIO_CHOICE)
-            ,
-
-            // 多选
-            NovaDependencyContainer::make([
-                KeyValue::make('选择项', 'option_answer')
-                    ->rules('json')
-                    ->keyLabel('选项') // Customize the key heading
-                    ->valueLabel('内容') // Customize the value heading
-                    ->actionText('添加选项')
-                    ->withMeta([
-                        'value' => $this->option_answer ?? [
-                                'A' => '',
-                                'B' => '',
-                                'C' => '',
-                                'D' => '',
-                                'E' => '',
-                                'F' => '',
-                                'G' => '',
-                            ]
-                    ])->rules('required')
-                ,
-
-                Text::make('答案', 'right_answer')
-                    ->placeholder('比如填：ABC')
-                    ->rules('required')
-                ,
-            ])
-                ->dependsOn('pattern', QuestionEnum::PATTERN_MULTI_CHOICE)
-            ,
-
-            // 判断
-            NovaDependencyContainer::make([
-                Select::make('答案', 'right_answer')->options([
-                    1 => '正确',
-                    0 => '错误',
-                ])->rules('required'),
-            ])
-                ->dependsOn('pattern', QuestionEnum::PATTERN_JUDGE_CHOICE)
-            ,
-
-            // 填空，简答
-            NovaDependencyContainer::make([
-                Text::make('答案', 'right_answer')->rules('required'),
-            ])
-                ->dependsOn('pattern', QuestionEnum::PATTERN_GAP_FILLING)
-                ->dependsOn('pattern', QuestionEnum::PATTERN_SHORT_ANSWER)
-            ,
+            // $multi_container,
+            // $judge_container,
+            // $const_container,
 
             Textarea::make('解析', 'analysis'),
         ];

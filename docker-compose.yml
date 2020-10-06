@@ -13,6 +13,7 @@ services:
       - ./docker/nginx/etc/conf.d/cookieips.conf:/etc/nginx/conf.d/cookieips.conf
     ports:
       - 443:443
+      - 8889:8889
     depends_on:
       - php
     restart: on-failure

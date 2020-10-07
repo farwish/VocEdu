@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\ChapterController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -16,4 +18,13 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
+});
+
+Route::prefix('category')->group(function () {
+    Route::get('index', [CategoryController::class, 'index']);
+    Route::get('tree', [CategoryController::class, 'tree']);
+});
+
+Route::prefix('chapter')->group(function () {
+    Route::get('tree', [ChapterController::class, 'tree']);
 });

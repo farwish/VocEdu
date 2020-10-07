@@ -55,6 +55,19 @@ class CategoryFactory extends Factory
             ],
             [
                 'name' => '金融',
+                'children' => [
+                    [
+                        'name' => '初级会计',
+                        'children' => [
+                            [
+                                'name' => '初级经济法-押题',
+                            ],
+                            [
+                                'name' => '经济法主考场',
+                            ],
+                        ],
+                    ],
+                ],
             ],
             [
                 'name' => '建筑',

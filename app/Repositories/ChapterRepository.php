@@ -3,7 +3,9 @@
 namespace App\Repositories;
 
 use App\Basics\BaseRepository;
+use App\Enums\ChapterEnum;
 use App\Models\Chapter;
+use App\Models\Question;
 use Illuminate\Database\DatabaseManager;
 
 class ChapterRepository extends BaseRepository
@@ -33,8 +35,22 @@ class ChapterRepository extends BaseRepository
             }
         };
 
-        $nodes = Chapter::query()->where('category_id', $categoryId)->get()->toTree();
+        $data = Chapter::query()
+            ->where('category_id', $categoryId)
+            ->where('status', ChapterEnum::STATUS_SHOWN)
+            ->get();
+        $nodes = $data->toTree();
         $traverse($nodes);
+
+        // Trans for data contains column: id, name, parent_id
+
+        $idToParentCollection = $data->pluck('parent_id', 'id');
+
+        $chapterQuestionCountCollection = Question::query()
+            ->select($this->dbManager->raw('count(*) as chapter_question_count, chapter_id'))
+            ->whereIn('chapter_id', $idToParentCollection->keys())
+            ->groupBy('chapter_id')
+            ->pluck('chapter_question_count', 'chapter_id');
 
         $retValues = [];
         if ($chapterValues) {
@@ -42,6 +58,8 @@ class ChapterRepository extends BaseRepository
                 $retValues[] = [
                     'id' => $id,
                     'name' => $name,
+                    'parent_id' => $idToParentCollection[$id] ?? null,
+                    'count' => $chapterQuestionCountCollection[$id] ?? 0,
                 ];
             }
         }

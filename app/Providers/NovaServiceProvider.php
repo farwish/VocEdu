@@ -15,6 +15,7 @@ use App\Nova\Suite;
 use App\Nova\User;
 use App\Nova\Video;
 use DigitalCreative\CollapsibleResourceManager\CollapsibleResourceManager;
+use DigitalCreative\CollapsibleResourceManager\Resources\ExternalLink;
 use DigitalCreative\CollapsibleResourceManager\Resources\NovaResource;
 use DigitalCreative\CollapsibleResourceManager\Resources\TopLevelResource;
 use Illuminate\Support\Facades\App;
@@ -108,6 +109,13 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
                         'icon' => null,
                         'linkTo' => null, // accepts an instance of `NovaResource` or a Nova `Resource::class`
                         'resources' => [
+                            ExternalLink::make([
+                                'label' => '官网',
+                                'badge' => null,
+                                'icon' => null,
+                                'target' => '_blank',
+                                'url' => 'http://121.41.123.125:8889/vocex'
+                            ]),
                             NovaResource::make(Article::class),
                             NovaResource::make(Video::class),
                             NovaResource::make(Category::class),

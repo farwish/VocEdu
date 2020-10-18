@@ -38,3 +38,10 @@ OR
 
 $ php artisan db:seed --class=CategorySeeder
 ```
+
+
+## jwt-auth
+
+https://jwt-auth.readthedocs.io/en/develop/quick-start/
+
+

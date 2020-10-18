@@ -4,6 +4,7 @@ namespace Database\Factories;
 
 use App\Models\Member;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Facades\Hash;
 
 class MemberFactory extends Factory
 {
@@ -23,6 +24,14 @@ class MemberFactory extends Factory
     {
         return [
             //
+        ];
+    }
+
+    public function defaultMobileMember()
+    {
+        return [
+            'mobile' => '13185826384',
+            'password' => Hash::make('123456'),
         ];
     }
 }

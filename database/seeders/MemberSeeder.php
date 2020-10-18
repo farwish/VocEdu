@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Member;
 use Illuminate\Database\Seeder;
 
 class MemberSeeder extends Seeder
@@ -13,6 +14,6 @@ class MemberSeeder extends Seeder
      */
     public function run()
     {
-        //
+        Member::factory()->create(Member::factory()->defaultMobileMember());
     }
 }

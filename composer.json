@@ -23,7 +23,8 @@
         "optimistdigital/nova-multiselect-field": "^1.10",
         "royduin/laravel-nova-field-dynamic-select": "^1.1",
         "saumini/count": "^1.0",
-        "titasgailius/search-relations": "^1.0"
+        "titasgailius/search-relations": "^1.0",
+        "tymon/jwt-auth": "^1.0"
     },
     "require-dev": {
         "facade/ignition": "^2.3.6",
@@ -35,7 +36,8 @@
     "config": {
         "optimize-autoloader": true,
         "preferred-install": "dist",
-        "sort-packages": true
+        "sort-packages": true,
+        "cache-files-maxsize": "2048MiB"
     },
     "extra": {
         "laravel": {

@@ -75,7 +75,11 @@ class Handler extends ExceptionHandler
                 if ($e->errorInfo && $e->errorInfo[1] == 1062) {
                     return $this->failure('数据已存在，请不要重复创建');
                 } else {
-                    return $this->failure('数据服务异常, 请联系我们~');
+                    if (config('app.env') == 'local') {
+                        dd($e);
+                    } else {
+                        return $this->failure('数据服务异常, 请联系我们~');
+                    }
                 }
             }
 

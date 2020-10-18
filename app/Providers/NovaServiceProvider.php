@@ -110,11 +110,11 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
                         'linkTo' => null, // accepts an instance of `NovaResource` or a Nova `Resource::class`
                         'resources' => [
                             ExternalLink::make([
-                                'label' => '官网',
+                                'label' => 'H5',
                                 'badge' => null,
                                 'icon' => null,
                                 'target' => '_blank',
-                                'url' => 'http://121.41.123.125:8889/vocex'
+                                'url' => 'http://121.41.123.125:8889/vocmob'
                             ]),
                             NovaResource::make(Article::class),
                             NovaResource::make(Video::class),

@@ -16,6 +16,21 @@ class Member extends Authenticatable implements JWTSubject
         return $this->belongsToMany(Exam::class, 'exam_member', 'member_id', 'exam_id');
     }
 
+    public function practiseRecords()
+    {
+        return $this->hasMany(PractiseRecord::class);
+    }
+
+    public function practiseCollects()
+    {
+        return $this->hasMany(PractiseCollect::class);
+    }
+
+    public function practiseNotes()
+    {
+        return $this->hasMany(PractiseNote::class);
+    }
+
     /**
      * Get the identifier that will be stored in the subject claim of the JWT.
      *

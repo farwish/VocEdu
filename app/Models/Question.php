@@ -29,6 +29,21 @@ class Question extends Model
         return $this->belongsTo(Pattern::class);
     }
 
+    public function practiseRecords()
+    {
+        return $this->hasMany(PractiseRecord::class);
+    }
+
+    public function practiseCollects()
+    {
+        return $this->hasMany(PractiseCollect::class);
+    }
+
+    public function practiseNotes()
+    {
+        return $this->hasMany(PractiseNote::class);
+    }
+
     public function setOptionAnswerAttribute($option)
     {
         $this->attributes['option_answer'] = json_encode($option, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);

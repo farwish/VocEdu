@@ -40,4 +40,19 @@ class Category extends Model
     {
         return $this->hasMany(Question::class);
     }
+
+    public function practiseRecords()
+    {
+        return $this->hasMany(PractiseRecord::class);
+    }
+
+    public function practiseCollects()
+    {
+        return $this->hasMany(PractiseCollect::class);
+    }
+
+    public function practiseNotes()
+    {
+        return $this->hasMany(PractiseNote::class);
+    }
 }

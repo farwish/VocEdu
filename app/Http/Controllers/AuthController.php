@@ -9,16 +9,6 @@ use App\Http\Controllers\Controller;
 class AuthController extends Controller
 {
     /**
-     * Create a new AuthController instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        $this->middleware('api', ['except' => ['login']]);
-    }
-
-    /**
      * Get a JWT via given credentials.
      *
      * @return \Illuminate\Http\JsonResponse
@@ -93,8 +83,8 @@ class AuthController extends Controller
     {
         $data = [
             'access_token' => $token,
-            'token_type' => 'bearer',
-            'expires_in' => auth('api')->factory()->getTTL() * 60
+            // 'token_type' => 'bearer',
+            // 'expires_in' => auth('api')->factory()->getTTL() * 60
         ];
 
         return $this->success($data);

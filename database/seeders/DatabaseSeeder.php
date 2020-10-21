@@ -30,6 +30,8 @@ class DatabaseSeeder extends Seeder
             VideoSeeder::class,
             ArticleSeeder::class,
             ExamSeeder::class,
+
+            MemberSeeder::class,
         ]);
     }
 }

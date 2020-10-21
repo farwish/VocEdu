@@ -42,6 +42,7 @@ class QuestionFactory extends Factory
             'right_answer' => 'B',
             'category_id' => 4,
             'chapter_id' => 4,
+            'sort' => 6,
         ];
     }
 
@@ -62,6 +63,7 @@ class QuestionFactory extends Factory
             'right_answer' => 'BF',
             'category_id' => 4,
             'chapter_id' => 4,
+            'sort' => 2,
         ];
     }
 
@@ -74,6 +76,7 @@ class QuestionFactory extends Factory
             'right_answer' => '地',
             'category_id' => 4,
             'chapter_id' => 4,
+            'sort' => 8,
         ];
     }
 
@@ -86,6 +89,7 @@ class QuestionFactory extends Factory
             'right_answer' => '没有标准答案',
             'category_id' => 4,
             'chapter_id' => 4,
+            'sort' => 6,
         ];
     }
 }

@@ -15,18 +15,17 @@ class CategoryRepository extends BaseRepository
 
     public function list(?int $pid)
     {
-        $builder = $this->model->newQuery();
+        $builder = $this->model->newQuery()->select('id', 'name');
 
         if (! $pid) {
             // All root category
             return $builder
-                ->select('id', 'name')
                 ->whereNull('parent_id')
                 ->get();
         } else {
-            // get descendants
-            $category = $builder->find($pid);
-            return $category->getDescendants(['id', 'name', 'parent_id']);
+            return $builder
+                ->where('parent_id', $pid)
+                ->get();
         }
     }
 

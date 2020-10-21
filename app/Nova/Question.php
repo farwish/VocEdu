@@ -245,6 +245,15 @@ class Question extends Resource
                 ->displayUsingLabels()
             ,
 
+            Number::make('排序值', 'sort')
+                ->sortable()
+                ->rules('required')
+                ->default(function () {
+                    return 0;
+                })
+                ->help('越大越排前')
+            ,
+
             // DynamicSelect::make('题型', 'pattern_id')
             //     ->rules('required')
             //     ->dependsOn(['category_id'])

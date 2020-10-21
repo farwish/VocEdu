@@ -4,6 +4,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ChapterController;
 use App\Http\Controllers\HealthController;
+use App\Http\Controllers\PractiseController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -24,20 +25,33 @@ Route::group([
     Route::get('status', [HealthController::class, 'status']);
 });
 
-Route::middleware(['api'])
-    ->prefix('auth')
+Route::prefix('auth')
     ->group(function ($router) {
         Route::post('login', [AuthController::class, 'login']);
-        Route::post('logout', [AuthController::class, 'logout']);
+        Route::post('logout', [AuthController::class, 'logout'])->middleware('auth:api');
+        Route::post('me', [AuthController::class, 'me'])->middleware('auth:api');
         // Route::post('refresh', [AuthController::class, 'refresh']);
-        Route::post('me', [AuthController::class, 'me']);
     });
 
-Route::prefix('category')->group(function () {
-    Route::get('index', [CategoryController::class, 'index']);
-    Route::get('tree', [CategoryController::class, 'tree']);
-});
+Route::middleware(['auth:api'])
+    ->prefix('practise')
+    ->group(function ($router) {
+        Route::post('record', [PractiseController::class, 'recordSave']);
+        Route::get('record', [PractiseController::class, 'recordInfo']);
+
+        Route::post('wrongs_count', [PractiseController::class, 'wrongsCount']);
+        Route::post('collects_count', [PractiseController::class, 'collectsCount']);
+        Route::post('notes_count', [PractiseController::class, 'notesCount']);
+    });
+
+Route::middleware(['auth:api'])
+    ->prefix('category')
+    ->group(function ($router) {
+        Route::post('index', [CategoryController::class, 'index']);
+
+        // Route::post('tree', [CategoryController::class, 'tree']);
+    });
 
 Route::prefix('chapter')->group(function () {
-    Route::get('tree', [ChapterController::class, 'tree']);
+    Route::post('tree', [ChapterController::class, 'tree']);
 });

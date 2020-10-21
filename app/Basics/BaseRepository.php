@@ -24,14 +24,19 @@ class BaseRepository
         $this->dbManager = $dbManager;
     }
 
-    public function getModel()
-    {
-        return $this->model;
-    }
-
     public function getDbManager()
     {
         return $this->dbManager;
+    }
+
+    public function newModel()
+    {
+        return $this->model->newInstance();
+    }
+
+    public function getModel()
+    {
+        return $this->model;
     }
 
     public function newQuery()

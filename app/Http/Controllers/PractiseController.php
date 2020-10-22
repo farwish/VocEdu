@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\PractiseRecordInfo;
 use App\Http\Requests\PractiseRecordSave;
 use App\Repositories\PractiseCollectRepository;
 use App\Repositories\PractiseNoteRepository;
@@ -34,11 +33,11 @@ class PractiseController extends Controller
         $replyAnswer = $validated['reply_answer'] ?? null;
 
         if (! $questionId) {
-            $theRecordInfo = $practiseRecordRepository->theRecordInfo($member, $categoryId);
+            $specificRecordInfo = $practiseRecordRepository->specificRecordInfo($member, $categoryId);
 
-            if ($theRecordInfo) {
-                // Do nothing about exists category when without question_id.
-                return $this->success();
+            if ($specificRecordInfo) {
+                // Find last record its question_id
+                $questionId = $specificRecordInfo->getAttribute('question_id');
             } else {
                 // Or fill first question_id as default.
                 $question = $questionRepository->firstSeriesNumberQuestion($categoryId);
@@ -51,7 +50,7 @@ class PractiseController extends Controller
         }
 
         // Actually saving.
-        $bool = $practiseRecordRepository->save($member, $categoryId, $questionId, $replyAnswer);
+        $bool = $practiseRecordRepository->recordSave($member, $categoryId, $questionId, $replyAnswer);
         return $bool ? $this->success() : $this->failure();
     }
 
@@ -59,44 +58,34 @@ class PractiseController extends Controller
     {
         $member = $request->user('api');
 
-        $practiseRecordInfo = $practiseRecordRepository->practiseRecordInfo($member);
+        $recordInfo = $practiseRecordRepository->recordInfo($member);
 
-        return $this->success($practiseRecordInfo);
+        return $this->success($recordInfo);
     }
 
-    public function wrongsCount(PractiseRecordInfo $request, PractiseRecordRepository $practiseRecordRepository)
+    public function recordSummary(Request $request, PractiseRecordRepository $practiseRecordRepository)
     {
         $member = $request->user('api');
 
-        $validated = $request->validated();
-        $categoryId = $validated['category_id'];
+        $summary = $practiseRecordRepository->recordSummary($member);
 
-        $practiseWrongsCount = $practiseRecordRepository->practiseWrongsCount($member, $categoryId);
-
-        return $this->success($practiseWrongsCount);
+        return $this->success($summary);
     }
 
-    public function collectsCount(PractiseRecordInfo $request, PractiseCollectRepository $practiseCollectRepository)
+    /**
+     * Current subject basic info
+     *
+     * @param Request $request
+     * @param PractiseRecordRepository $practiseRecordRepository
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function currentSubject(Request $request, PractiseRecordRepository $practiseRecordRepository)
     {
         $member = $request->user('api');
 
-        $validated = $request->validated();
-        $categoryId = $validated['category_id'];
+        $currentSubject = $practiseRecordRepository->currentSubjectInfo($member);
 
-        $practiseCollectsCount = $practiseCollectRepository->practiseCollectsCount($member, $categoryId);
-
-        return $this->success($practiseCollectsCount);
-    }
-
-    public function notesCount(PractiseRecordInfo $request, PractiseNoteRepository $practiseNoteRepository)
-    {
-        $member = $request->user('api');
-
-        $validated = $request->validated();
-        $categoryId = $validated['category_id'];
-
-        $practiseNotesCount = $practiseNoteRepository->practiseNotesCount($member, $categoryId);
-
-        return $this->success($practiseNotesCount);
+        return $this->success($currentSubject);
     }
 }

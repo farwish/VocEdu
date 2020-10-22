@@ -38,10 +38,10 @@ Route::middleware(['auth:api'])
     ->group(function ($router) {
         Route::post('record', [PractiseController::class, 'recordSave']);
         Route::get('record', [PractiseController::class, 'recordInfo']);
+        Route::post('summary', [PractiseController::class, 'recordSummary']);
 
-        Route::post('wrongs_count', [PractiseController::class, 'wrongsCount']);
-        Route::post('collects_count', [PractiseController::class, 'collectsCount']);
-        Route::post('notes_count', [PractiseController::class, 'notesCount']);
+        Route::get('current-subject', [PractiseController::class, 'currentSubject']);
+
     });
 
 Route::middleware(['auth:api'])

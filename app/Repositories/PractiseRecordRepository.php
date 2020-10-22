@@ -30,19 +30,21 @@ class PractiseRecordRepository extends BaseRepository
      *
      * @return bool
      */
-    public function save(Member $member, int $categoryId, int $questionId, ?string $replyAnswer = null): bool
+    public function recordSave(Member $member, int $categoryId, int $questionId, ?string $replyAnswer = null): bool
     {
         // Check practise_record existence
-        $model = $this->theRecordInfo($member, $categoryId, $questionId);
+        $model = $this->specificRecordInfo($member, $categoryId, $questionId);
 
         if ($model) {
             // Update
 
             if ($replyAnswer) {
                 $model->setAttribute('reply_answer', $replyAnswer);
-
-                return $model->save();
             }
+
+            $model->setAttribute('updated_at', now());
+
+            return $model->save();
 
         } else {
             // Create
@@ -66,28 +68,13 @@ class PractiseRecordRepository extends BaseRepository
     }
 
     /**
-     * Last record row
-     *
-     * @param Member $member
-     *
-     * @return \Illuminate\Database\Eloquent\Builder|Model|object|null
-     */
-    public function lastPractiseRecord(Member $member)
-    {
-        return $this->newQuery()
-            ->where('member_id', $member->getAttribute('id'))
-            ->orderBy('updated_at', 'DESC')
-            ->first();
-    }
-
-    /**
      * Record info
      *
      * @param Member $member
      *
      * @return array
      */
-    public function practiseRecordInfo(Member $member)
+    public function recordInfo(Member $member)
     {
         $lastPractiseRecord = $this->lastPractiseRecord($member);
 
@@ -120,32 +107,62 @@ class PractiseRecordRepository extends BaseRepository
         ];
     }
 
+    public function currentSubjectInfo(Member $member)
+    {
+        $lastPractiseRecord = $this->lastPractiseRecord($member);
+
+        if (! $lastPractiseRecord) {
+            return [];
+        }
+
+        $category = $lastPractiseRecord->category()->first();
+
+        return [
+            'categoryName' => $category->getAttribute('name'),
+            'questionsCount' => (string)$category->questions()->count(),
+            'openStatus' => '试用',
+            'expiredAt' => '-',
+        ];
+    }
+
     /**
-     * Wrongs count
+     * Wrongs count / collects count / notes count
      *
      * @param Member $member
-     * @param int $categoryId
+     * @param int|null $categoryId
      * @param PractiseRecord|null $lastPractiseRecord
      *
      * @return int
      */
-    public function practiseWrongsCount(Member $member, int $categoryId, ?PractiseRecord $lastPractiseRecord = null)
+    public function recordSummary(Member $member, ?int $categoryId = null)
     {
-        if (! $lastPractiseRecord) {
-            $lastPractiseRecord = $this->lastPractiseRecord($member);
-        }
+        $lastPractiseRecord = $this->lastPractiseRecord($member);
 
         // No practise record.
         if (! $lastPractiseRecord) {
             return 0;
         }
 
-        return $this->newQuery()
-            ->leftJoin('questions', 'practise_records.question_id', '=', 'questions.id')
+        if (! $categoryId) {
+            $category = $lastPractiseRecord->category()->first();
+            $categoryId = $category->getAttribute('id');
+        }
+
+        $summary['wrongsCount'] = $this->newQuery()
+            ->leftJoin('questions', function ($join) {
+                $join->on('practise_records.question_id', '=', 'questions.id');
+            })
             ->where('practise_records.member_id', $member->getAttribute('id'))
             ->where('practise_records.category_id', $categoryId)
-            ->where('practise_records.reply_answer', '!=', 'question_id.right_answer')
+            ->whereNotNull('practise_records.reply_answer')
+            ->whereColumn('practise_records.reply_answer', '!=', 'questions.right_answer')
+            // ->toSql();
             ->count('practise_records.id');
+
+        $summary['collectsCount'] = app(PractiseCollectRepository::class)->practiseCollectsCount($member, $categoryId);
+        $summary['notesCount'] = app(PractiseNoteRepository::class)->practiseNotesCount($member, $categoryId);
+
+        return $summary;
     }
 
     /**
@@ -157,7 +174,7 @@ class PractiseRecordRepository extends BaseRepository
      *
      * @return \Illuminate\Database\Eloquent\Builder|Model|object|null
      */
-    public function theRecordInfo(Member $member, int $categoryId, ?int $questionId = null)
+    public function specificRecordInfo(Member $member, int $categoryId, ?int $questionId = null)
     {
         $qb = $this->newQuery()
             ->where('member_id', $member->getAttribute('id'))
@@ -168,6 +185,21 @@ class PractiseRecordRepository extends BaseRepository
         }
 
         return $qb
+            ->orderBy('updated_at', 'DESC')
+            ->first();
+    }
+
+    /**
+     * Last record row
+     *
+     * @param Member $member
+     *
+     * @return \Illuminate\Database\Eloquent\Builder|Model|object|null
+     */
+    protected function lastPractiseRecord(Member $member)
+    {
+        return $this->newQuery()
+            ->where('member_id', $member->getAttribute('id'))
             ->orderBy('updated_at', 'DESC')
             ->first();
     }

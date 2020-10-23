@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\AuthLogin;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
@@ -11,14 +12,16 @@ class AuthController extends Controller
     /**
      * Get a JWT via given credentials.
      *
+     * @param AuthLogin $authLogin
+     *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function login()
+    public function login(AuthLogin $authLogin)
     {
-        $credentials = request(['mobile', 'password']);
+        $credentials = $authLogin->validated();
 
         if (! $token = auth('api')->attempt($credentials)) {
-            return $this->failure('登录失败', 401);
+            return $this->failure('登录校验不通过', 401);
         }
 
         return $this->respondWithToken($token);

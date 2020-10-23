@@ -61,13 +61,17 @@ class Handler extends ExceptionHandler
             // Validation error
             if ($e instanceof ValidationException) {
                 $array = $e->errors();
-                $messages = '';
-                foreach ($array as $column => $items) {
-                    foreach ($items as $idx => $message) {
-                        $messages .= "{$message}";
-                    }
-                }
-                return $this->failure($messages);
+
+                // $messages = '';
+                // foreach ($array as $column => $items) {
+                //     foreach ($items as $idx => $message) {
+                //         $messages .= "{$message}";
+                //     }
+                // }
+
+                // Now only show one error message
+                $message = current(current($array));
+                return $this->failure($message);
             }
 
             if ($e instanceof QueryException) {

@@ -48,10 +48,12 @@ Route::middleware(['auth:api'])
     ->prefix('category')
     ->group(function ($router) {
         Route::post('index', [CategoryController::class, 'index']);
-
         // Route::post('tree', [CategoryController::class, 'tree']);
     });
 
-Route::prefix('chapter')->group(function () {
-    Route::post('tree', [ChapterController::class, 'tree']);
-});
+Route::middleware(['auth:api'])
+    ->prefix('chapter')
+    ->group(function ($router) {
+        Route::post('index', [ChapterController::class, 'index']);
+        // Route::post('tree', [ChapterController::class, 'tree']);
+    });

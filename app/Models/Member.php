@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Support\Facades\Hash;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 
 class Member extends Authenticatable implements JWTSubject
@@ -29,6 +30,11 @@ class Member extends Authenticatable implements JWTSubject
     public function practiseNotes()
     {
         return $this->hasMany(PractiseNote::class);
+    }
+
+    public function setPasswordAttribute($password)
+    {
+        $this->attributes['password'] = Hash::make($password);
     }
 
     /**

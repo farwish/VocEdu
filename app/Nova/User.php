@@ -112,6 +112,6 @@ class User extends Resource
 
     public static function label()
     {
-        return '后台';
+        return '管理员';
     }
 }

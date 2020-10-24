@@ -43,13 +43,34 @@ class Member extends Resource
         return [
             // ID::make(__('ID'), 'id')->sortable(),
 
-            Text::make('用户名', 'name')
+            Text::make('手机号', 'mobile')
                 ->rules('required', 'max:255')
             ,
 
-            Text::make('邮箱', 'email')
-                ->rules('required', 'email', 'max:255')
+            Text::make('密码', 'password')
+                ->resolveUsing(function ($value) {
+                    return '';
+                })
+                ->onlyOnForms()
+                ->creationRules('required', 'string', 'min:6')
+                ->updateRules('nullable', 'string', 'min:6')
             ,
+
+            Text::make('创建时间', 'created_at')
+                ->displayUsing(function ($carbon) {
+                    /** @var \Illuminate\Support\Carbon $carbon */
+                    return $carbon->toDateTimeString();
+                })
+                ->exceptOnForms()
+            ,
+
+            // Text::make('用户名', 'name')
+            //     ->rules('required', 'max:255')
+            // ,
+            //
+            // Text::make('邮箱', 'email')
+            //     ->rules('required', 'email', 'max:255')
+            // ,
         ];
     }
 

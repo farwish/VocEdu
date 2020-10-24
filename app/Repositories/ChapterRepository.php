@@ -15,6 +15,23 @@ class ChapterRepository extends BaseRepository
         parent::__construct($model, $dbManager);
     }
 
+    public function list(int $categoryId, ?int $parentChapterId = null)
+    {
+        $builder = $this->model->newQuery()
+            ->select('id', 'name')
+            ->where('category_id', $categoryId)
+        ;
+
+        if (! $parentChapterId) {
+            $builder->whereNull('parent_id');
+        } else {
+            $builder->where('parent_id', $parentChapterId);
+        }
+
+        return $builder
+            ->get();
+    }
+
     public function tree(int $categoryId)
     {
         $chapterValues = [];

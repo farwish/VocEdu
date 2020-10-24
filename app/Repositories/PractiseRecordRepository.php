@@ -101,6 +101,7 @@ class PractiseRecordRepository extends BaseRepository
         ;
 
         return [
+            'categoryId' => $category->getAttribute('id'),
             'categoryName' => $category->getAttribute('name'),
             'chapterName' => $chapter->getAttribute('name'),
             'questionSerialNumber' => $previousQuestionCount + 1, // 第几题

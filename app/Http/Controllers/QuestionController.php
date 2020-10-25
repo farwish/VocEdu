@@ -29,9 +29,10 @@ class QuestionController extends Controller
     {
         $validated = $request->validated();
 
+        $member = $request->user('api');
         $qid = $validated['qid'];
 
-        $question = $questionRepository->detail($qid);
+        $question = $questionRepository->detail($member, $qid);
 
         return $this->success($question);
     }

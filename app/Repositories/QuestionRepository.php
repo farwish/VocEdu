@@ -65,13 +65,31 @@ class QuestionRepository extends BaseRepository
             $qb->limit(4);
         }
 
+        $questionList = $qb->get()->toArray();
+
+        // Questions that has Done
+        $hasRecordsQuestionIds = app(PractiseRecordRepository::class)
+            ->hasRecordsQuestionIds(
+                $member,
+                $category->getAttribute('id'),
+                array_column($questionList, 'id')
+            );
+        foreach ($questionList as &$item) {
+            if (isset($hasRecordsQuestionIds[$item['id']])) {
+                $item['done'] = true;
+            } else {
+                $item['done'] = false;
+            }
+        }
+        unset($item);
+
         return [
-            'questionIds' => $qb->get()->toArray(),
+            'questionList' => $questionList,
             'openStatus' => $categoryOfMember ? 1 : 0,
         ];
     }
 
-    public function detail(int $questionId)
+    public function detail(Member $member, int $questionId)
     {
         /** @var Question $question */
         $question = $this->newQuery()
@@ -90,6 +108,19 @@ class QuestionRepository extends BaseRepository
             $question->setAttribute('right_answer', QuestionEnum::$rightAnswer[ $rightAnswer ]);
         }
 
-        return $question;
+        unset(
+            $question['created_at'],
+            $question['updated_at'],
+            $question['pattern_id']
+        );
+
+        $categoryId = $question->category()->first()->getAttribute('id');
+        $practiseRecord = app(PractiseRecordRepository::class)->specificRecordInfo($member, $categoryId, $questionId);
+        $recordReplyAnswer = $practiseRecord->getAttribute('reply_answer');
+
+        return [
+            'questionDetail' => $question,
+            'recordReplyAnswer' => $recordReplyAnswer,
+        ];
     }
 }

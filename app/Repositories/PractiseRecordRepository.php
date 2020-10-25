@@ -112,27 +112,6 @@ class PractiseRecordRepository extends BaseRepository
         ];
     }
 
-    public function currentSubjectInfo(Member $member)
-    {
-        $lastPractiseRecord = $this->lastPractiseRecord($member);
-
-        if (! $lastPractiseRecord) {
-            return [];
-        }
-
-        $category = $lastPractiseRecord->category()->first();
-
-        // check member's category.
-        $categoryOfMember = app(CategoryRepository::class)->categoryOfMember($category, $member);
-
-        return [
-            'categoryName' => $category->getAttribute('name'),
-            'questionsCount' => (string)$category->questions()->count(),
-            'openStatus' => $categoryOfMember ? '已开通' : '试用',
-            'expiredAt' => $categoryOfMember ? $categoryOfMember->pivot->expired_at : '-',
-        ];
-    }
-
     /**
      * Wrongs count / collects count / notes count
      *
@@ -173,6 +152,27 @@ class PractiseRecordRepository extends BaseRepository
         return $summary;
     }
 
+    public function currentSubjectInfo(Member $member)
+    {
+        $lastPractiseRecord = $this->lastPractiseRecord($member);
+
+        if (! $lastPractiseRecord) {
+            return [];
+        }
+
+        $category = $lastPractiseRecord->category()->first();
+
+        // check member's category.
+        $categoryOfMember = app(CategoryRepository::class)->categoryOfMember($category, $member);
+
+        return [
+            'categoryName' => $category->getAttribute('name'),
+            'questionsCount' => (string)$category->questions()->count(),
+            'openStatus' => $categoryOfMember ? '已开通' : '试用',
+            'expiredAt' => $categoryOfMember ? $categoryOfMember->pivot->expired_at : '-',
+        ];
+    }
+
     /**
      * To query unique record existence
      *
@@ -195,6 +195,19 @@ class PractiseRecordRepository extends BaseRepository
         return $qb
             ->orderBy('updated_at', 'DESC')
             ->first();
+    }
+
+    public function hasRecordsQuestionIds(Member $member, int $categoryId, array $questionIds): array
+    {
+        return $this->newQuery()
+            ->select(['id'])
+            ->where('member_id', $member->getAttribute('id'))
+            ->where('category_id', $categoryId)
+            ->whereIn('question_id', $questionIds)
+            ->get()
+            ->unique()
+            ->toArray()
+        ;
     }
 
     /**

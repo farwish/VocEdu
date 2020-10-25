@@ -92,15 +92,17 @@ class PractiseRecordRepository extends BaseRepository
         // SELECT count(id) FROM questions where
         // category_id = {$category} AND sort >= {$questionSort} AND id < {$questionId}
         // order by sort DESC, id ASC;
-        $previousQuestionCount = $this->questionRepository
+        $questionsIds = $this->questionRepository
             ->newQuery()
             ->where('category_id', '=', $category->getAttribute('id'))
             ->where('sort', '>=', $question->getAttribute('sort'))
-            ->where('id', '<', $question->getAttribute('id'))
             ->orderBy('sort', 'DESC')
             ->orderBy('id', 'ASC')
-            ->count('id')
+            ->pluck('id')
+            ->toArray()
         ;
+
+        $previousQuestionCount = array_search($question->getAttribute('id'), $questionsIds);
 
         return [
             'categoryId' => $category->getAttribute('id'),

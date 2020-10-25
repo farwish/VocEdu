@@ -57,7 +57,9 @@ class QuestionRepository extends BaseRepository
         $qb = $this->newQuery()
             ->select(['id'])
             ->where('chapter_id', $chapterId)
-            ->orderBy('sort', 'DESC');
+            ->orderBy('sort', 'DESC')
+            ->orderBy('id', 'ASC')
+        ;
 
         if (! $categoryOfMember) {
             $qb->limit(4);
@@ -77,10 +79,12 @@ class QuestionRepository extends BaseRepository
         ;
 
         $question->setAttribute('difficulty', QuestionEnum::$difficulty[ $question->getAttribute('difficulty') ]);
+        if (! $question->getAttribute('analysis')) {
+            $question->setAttribute('analysis', '本题没有解析');
+        }
 
         $pattern = $question->pattern()->first();
         $classify = $pattern->getAttribute('classify');
-
         if (PatternEnum::OBJECTIVE_CLASSIFY_JUDGE == $classify) {
             $rightAnswer = $question->getAttribute('right_answer');
             $question->setAttribute('right_answer', QuestionEnum::$rightAnswer[ $rightAnswer ]);

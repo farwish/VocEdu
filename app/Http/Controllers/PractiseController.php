@@ -27,9 +27,9 @@ class PractiseController extends Controller
         $validated = $request->validated();
 
         $member = $request->user('api');
-        $categoryId = $validated['category_id'];
+        $categoryId = $validated['cid'];
 
-        $questionId = $validated['question_id'] ?? null;
+        $questionId = $validated['qid'] ?? null;
         $replyAnswer = $validated['reply_answer'] ?? null;
 
         if (! $questionId) {

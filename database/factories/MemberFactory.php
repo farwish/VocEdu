@@ -31,7 +31,7 @@ class MemberFactory extends Factory
     {
         return [
             'mobile' => '13185826384',
-            'password' => Hash::make('123456'),
+            'password' => '123456',
         ];
     }
 }

@@ -62,7 +62,7 @@ class Question extends Resource
     {
         $objective_classify_radio_pattern_ids =
         $objective_classify_multi_pattern_ids =
-        $objective_classify_drift_pattern_ids =
+        // $objective_classify_drift_pattern_ids =
         $objective_classify_judge_pattern_ids =
         $objective_classify_const_pattern_ids =
         $subjective_pattern_ids = [];
@@ -89,9 +89,9 @@ class Question extends Resource
                         case PatternEnum::OBJECTIVE_CLASSIFY_MULTI:
                             $objective_classify_multi_pattern_ids[] = $patternId;
                             break;
-                        case PatternEnum::OBJECTIVE_CLASSIFY_DRIFT:
-                            $objective_classify_drift_pattern_ids[] = $patternId;
-                            break;
+                        // case PatternEnum::OBJECTIVE_CLASSIFY_DRIFT:
+                        //     $objective_classify_drift_pattern_ids[] = $patternId;
+                        //     break;
                         case PatternEnum::OBJECTIVE_CLASSIFY_JUDGE:
                             $objective_classify_judge_pattern_ids[] = $patternId;
                             break;
@@ -164,18 +164,19 @@ class Question extends Resource
             }
         }
 
-        if ($objective_classify_drift_pattern_ids) {
-            foreach ($objective_classify_drift_pattern_ids as $patternId) {
-                $multi_container = $multi_container->dependsOn('pattern_id', $patternId);
-            }
-        }
+        // if ($objective_classify_drift_pattern_ids) {
+        //     foreach ($objective_classify_drift_pattern_ids as $patternId) {
+        //         $multi_container = $multi_container->dependsOn('pattern_id', $patternId);
+        //     }
+        // }
 
         // 判断
         $judge_container = (NovaDependencyContainer::make([
             Select::make('答案', 'right_answer')->options([
-                1 => '正确',
-                0 => '错误',
-            ])->rules('required'),
+                0 => '正确',
+                1 => '错误',
+            ])->rules('required')
+                ->displayUsingLabels(),
         ]));
         if ($objective_classify_judge_pattern_ids) {
             foreach ($objective_classify_judge_pattern_ids as $patternId) {

@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreatePractiseNotesTable extends Migration
+class CreateCategoryMemberTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,18 +13,14 @@ class CreatePractiseNotesTable extends Migration
      */
     public function up()
     {
-        Schema::create('practise_notes', function (Blueprint $table) {
+        Schema::create('category_member', function (Blueprint $table) {
             $table->id();
-
-            $table->unsignedBigInteger('member_id')->nullable()->index();
 
             $table->unsignedBigInteger('category_id')->nullable(false)->index();
 
-            $table->unsignedBigInteger('question_id')->nullable(false)->index();
+            $table->unsignedBigInteger('member_id')->nullable(false)->index();
 
-            $table->text('note')->nullable();
-
-            $table->unique(['member_id', 'category_id', 'question_id']);
+            $table->date('expired_at')->nullable(false);
 
             $table->timestamps();
         });
@@ -37,6 +33,6 @@ class CreatePractiseNotesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('practise_notes');
+        Schema::dropIfExists('category_member');
     }
 }

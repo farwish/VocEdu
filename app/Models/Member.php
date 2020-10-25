@@ -32,6 +32,12 @@ class Member extends Authenticatable implements JWTSubject
         return $this->hasMany(PractiseNote::class);
     }
 
+    // 用户开通的科目题目
+    public function categories()
+    {
+        return $this->belongsToMany(Category::class);
+    }
+
     public function setPasswordAttribute($password)
     {
         $this->attributes['password'] = Hash::make($password);

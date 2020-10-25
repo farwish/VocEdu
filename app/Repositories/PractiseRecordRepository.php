@@ -3,10 +3,12 @@
 namespace App\Repositories;
 
 use App\Basics\BaseRepository;
+use App\Models\Category;
 use App\Models\Member;
 use App\Models\PractiseRecord;
 use Illuminate\Database\DatabaseManager;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class PractiseRecordRepository extends BaseRepository
 {
@@ -118,11 +120,14 @@ class PractiseRecordRepository extends BaseRepository
 
         $category = $lastPractiseRecord->category()->first();
 
+        // check member's category.
+        $categoryOfMember = app(CategoryRepository::class)->categoryOfMember($category, $member);
+
         return [
             'categoryName' => $category->getAttribute('name'),
             'questionsCount' => (string)$category->questions()->count(),
-            'openStatus' => '试用',
-            'expiredAt' => '-',
+            'openStatus' => $categoryOfMember ? '已开通' : '试用',
+            'expiredAt' => $categoryOfMember ? $categoryOfMember->pivot->expired_at : '-',
         ];
     }
 

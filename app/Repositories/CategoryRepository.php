@@ -4,6 +4,7 @@ namespace App\Repositories;
 
 use App\Models\Category;
 use App\Basics\BaseRepository;
+use App\Models\Member;
 use Illuminate\Database\DatabaseManager;
 
 class CategoryRepository extends BaseRepository
@@ -26,6 +27,47 @@ class CategoryRepository extends BaseRepository
             return $builder
                 ->where('parent_id', $pid)
                 ->get();
+        }
+    }
+
+    /**
+     * category of member buys
+     *
+     * usage example:
+     * $expiredAt = $categoryOfMember ? $categoryOfMember->pivot->expired_at : '-',
+     *
+     * @param Category $category
+     * @param Member $member
+     *
+     * @return mixed
+     */
+    public function categoryOfMember(Category $category, Member $member)
+    {
+        return $category->members()
+            ->withPivot('expired_at')
+            ->wherePivot('member_id', '=', $member->getAttribute('id'))
+            ->wherePivot('expired_at', '>', now()->toDateTimeString())
+            ->first()
+        ;
+    }
+
+    public function saveCategoryOfMember(int $cid, Member $member)
+    {
+        $category = $this->newQuery()->find($cid);
+
+        $oldOne = $category->members()
+            ->withPivot('expired_at')
+            ->wherePivot('member_id', '=', $member->getAttribute('id'))
+            ->first();
+
+        if ($oldOne) {
+            $oldOne->setAttribute('expired_at', now()->addDays(366));
+            return $oldOne->save();
+        } else {
+            $category->members()->attach($member->getAttribute('id'), [
+                'expired_at' => now()->addDays(366),
+            ]);
+            return true;
         }
     }
 

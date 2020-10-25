@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class ChapterInfo extends FormRequest
+class QuestionDetail extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,16 +24,7 @@ class ChapterInfo extends FormRequest
     public function rules()
     {
         return [
-            'cid' => 'required|int',
-            'pid' => ''
-        ];
-    }
-
-    public function messages()
-    {
-        return [
-            'cid.required' => '缺少参数cid',
-            // 'cid.int' => '参数cid格式不正确'
+            'qid' => 'required'
         ];
     }
 }

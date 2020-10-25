@@ -40,11 +40,11 @@ class PatternFactory extends Factory
                 'type' => PatternEnum::TYPE_OBJECTIVE,
                 'classify' => PatternEnum::OBJECTIVE_CLASSIFY_MULTI,
             ],
-            [
-                'name' => '不定项选择',
-                'type' => PatternEnum::TYPE_OBJECTIVE,
-                'classify' => PatternEnum::OBJECTIVE_CLASSIFY_DRIFT,
-            ],
+            // [
+            //     'name' => '不定项选择',
+            //     'type' => PatternEnum::TYPE_OBJECTIVE,
+            //     'classify' => PatternEnum::OBJECTIVE_CLASSIFY_DRIFT,
+            // ],
             [
                 'name' => '判断题',
                 'type' => PatternEnum::TYPE_OBJECTIVE,

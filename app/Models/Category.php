@@ -55,4 +55,10 @@ class Category extends Model
     {
         return $this->hasMany(PractiseNote::class);
     }
+
+    // 开通科目题库的用户
+    public function members()
+    {
+        return $this->belongsToMany(Member::class);
+    }
 }

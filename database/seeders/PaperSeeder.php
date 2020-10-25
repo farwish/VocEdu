@@ -18,6 +18,7 @@ class PaperSeeder extends Seeder
         Paper::factory()
             ->hasQuestions(1, Question::factory()->questionRadioChoice())
             ->hasQuestions(1, Question::factory()->questionMultiChoice())
+            ->hasQuestions(1, Question::factory()->questionJudgement())
             ->create(Paper::factory()->paper());
 
         Paper::factory()

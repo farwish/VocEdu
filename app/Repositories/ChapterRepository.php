@@ -20,6 +20,7 @@ class ChapterRepository extends BaseRepository
         $builder = $this->model->newQuery()
             ->select('id', 'name')
             ->where('category_id', $categoryId)
+            ->where('status', ChapterEnum::STATUS_SHOWN)
         ;
 
         if (! $parentChapterId) {

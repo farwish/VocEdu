@@ -63,7 +63,20 @@ class QuestionFactory extends Factory
             'right_answer' => 'BF',
             'category_id' => 4,
             'chapter_id' => 4,
-            'sort' => 2,
+            'sort' => 6,
+        ];
+    }
+
+    public function questionJudgement()
+    {
+        return [
+            'title' => '人有三只眼睛',
+            'difficulty' => QuestionEnum::DIFFICULTY_EASY,
+            'pattern_id' => 3,
+            'right_answer' => 0,
+            'category_id' => 4,
+            'chapter_id' => 4,
+            'sort' => 5,
         ];
     }
 
@@ -85,11 +98,11 @@ class QuestionFactory extends Factory
         return [
             'title' => '请谈一下你对网络红人的看法？',
             'difficulty' => QuestionEnum::DIFFICULTY_HARD,
-            'pattern_id' => 6,
+            'pattern_id' => 5,
             'right_answer' => '没有标准答案',
             'category_id' => 4,
             'chapter_id' => 4,
-            'sort' => 6,
+            'sort' => 2,
         ];
     }
 }

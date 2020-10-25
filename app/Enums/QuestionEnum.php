@@ -8,8 +8,8 @@ class QuestionEnum
     const DIFFICULTY_MIDDLE = 1;
     const DIFFICULTY_HARD   = 2;
 
-    const ANSWER_RIGHT = 1;
-    const ANSWER_WRONG = 0;
+    const ANSWER_RIGHT = 0;
+    const ANSWER_WRONG = 1;
 
     public static $difficulty = [
         self::DIFFICULTY_EASY   => '易',

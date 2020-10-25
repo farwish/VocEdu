@@ -9,7 +9,7 @@ class PatternEnum
 
     const OBJECTIVE_CLASSIFY_RADIO = 1;
     const OBJECTIVE_CLASSIFY_MULTI = 2;
-    const OBJECTIVE_CLASSIFY_DRIFT = 3;
+    // const OBJECTIVE_CLASSIFY_DRIFT = 3;
     const OBJECTIVE_CLASSIFY_JUDGE = 4;
     const OBJECTIVE_CLASSIFY_CONST = 5;
 
@@ -23,7 +23,7 @@ class PatternEnum
     public static $objectiveClassify = [
         self::OBJECTIVE_CLASSIFY_RADIO => '单选',
         self::OBJECTIVE_CLASSIFY_MULTI => '多选',
-        self::OBJECTIVE_CLASSIFY_DRIFT => '不定向选',
+        // self::OBJECTIVE_CLASSIFY_DRIFT => '不定向选',
         self::OBJECTIVE_CLASSIFY_JUDGE => '判断',
         self::OBJECTIVE_CLASSIFY_CONST => '定值填空题',
     ];

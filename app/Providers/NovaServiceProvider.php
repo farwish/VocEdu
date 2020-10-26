@@ -144,8 +144,8 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
                         'icon' => null,
                         'linkTo' => null, // accepts an instance of `NovaResource` or a Nova `Resource::class`
                         'resources' => [
-                            NovaResource::make(User::class),
                             NovaResource::make(Member::class),
+                            NovaResource::make(User::class),
                         ]
                     ]),
                 ]

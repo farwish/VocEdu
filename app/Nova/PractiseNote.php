@@ -2,35 +2,29 @@
 
 namespace App\Nova;
 
-use App\Models\Paper as PaperModel;
-use Hubertnnn\LaravelNova\Fields\DynamicSelect\DynamicSelect;
+use App\Models\PractiseNote as PractiseNoteModel;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\ID;
-use Laravel\Nova\Fields\Number;
-use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Text;
+use Laravel\Nova\Fields\Textarea;
 use Laravel\Nova\Http\Requests\NovaRequest;
-use OptimistDigital\MultiselectField\Multiselect;
-use Saumini\Count\RelationshipCount;
 
-class Paper extends Resource
+class PractiseNote extends Resource
 {
-    public static $group = '题库管理';
-
     /**
      * The model the resource corresponds to.
      *
      * @var string
      */
-    public static $model = PaperModel::class;
+    public static $model = PractiseNoteModel::class;
 
     /**
      * The single value that should be used to represent the resource when being displayed.
      *
      * @var string
      */
-    public static $title = 'name';
+    public static $title = 'id';
 
     /**
      * The columns that should be searched.
@@ -38,11 +32,11 @@ class Paper extends Resource
      * @var array
      */
     public static $search = [
-        'name',
+        'id', 'note',
     ];
 
     public static $searchRelations = [
-        'category' => ['id', 'name'],
+        'question' => ['title'],
     ];
 
     /**
@@ -54,37 +48,11 @@ class Paper extends Resource
     public function fields(Request $request)
     {
         return [
-            ID::make(__('ID'), 'id')->sortable(),
+            // ID::make(__('ID'), 'id')->sortable(),
 
-            DynamicSelect::make('科目分类', 'category_id')
-                ->options($this->categoryTree())
-                ->rules('required')
-                ->onlyOnForms()
-            ,
+            BelongsTo::make('题目', 'question', Question::class),
 
-            BelongsTo::make('科目分类', 'category', Category::class)
-                ->exceptOnForms()
-            ,
-
-            Text::make('试卷名称', 'name')->rules('required'),
-
-            Number::make('总分', 'total_score'),
-
-            Number::make('及格分', 'pass_score'),
-
-            Number::make('时间(分钟)', 'minutes'),
-
-            // Only Index
-            RelationshipCount::make('题量', 'questions')
-                ->onlyOnIndex()
-            ,
-
-            // Form and Detail
-            Multiselect::make('题目', 'questions')
-                ->rules('required')
-                ->belongsToMany(Question::class)
-                ->hideFromIndex()
-            ,
+            Textarea::make('笔记', 'note'),
         ];
     }
 
@@ -134,6 +102,21 @@ class Paper extends Resource
 
     public static function label()
     {
-        return '试卷';
+        return '笔记';
+    }
+
+    public static function authorizedToCreate(Request $request)
+    {
+        return false;
+    }
+
+    public function authorizedToUpdate(Request $request)
+    {
+        return false;
+    }
+
+    public function authorizedToDelete(Request $request)
+    {
+        return false;
     }
 }

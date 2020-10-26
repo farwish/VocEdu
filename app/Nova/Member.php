@@ -3,9 +3,13 @@
 namespace App\Nova;
 
 use Illuminate\Http\Request;
+use Laravel\Nova\Fields\BelongsToMany;
+use Laravel\Nova\Fields\DateTime;
+use Laravel\Nova\Fields\HasMany;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
+use Saumini\Count\RelationshipCount;
 
 class Member extends Resource
 {
@@ -21,7 +25,7 @@ class Member extends Resource
      *
      * @var string
      */
-    public static $title = 'name';
+    public static $title = 'mobile';
 
     /**
      * The columns that should be searched.
@@ -29,7 +33,11 @@ class Member extends Resource
      * @var array
      */
     public static $search = [
-        'name', 'email'
+        'id', 'mobile',
+    ];
+
+    public static $searchRelations = [
+        'categories' => ['name'],
     ];
 
     /**
@@ -41,7 +49,7 @@ class Member extends Resource
     public function fields(Request $request)
     {
         return [
-            // ID::make(__('ID'), 'id')->sortable(),
+            ID::make(__('ID'), 'id')->sortable(),
 
             Text::make('手机号', 'mobile')
                 ->rules('required', 'max:255')
@@ -59,10 +67,28 @@ class Member extends Resource
             Text::make('创建时间', 'created_at')
                 ->displayUsing(function ($carbon) {
                     /** @var \Illuminate\Support\Carbon $carbon */
-                    return $carbon->toDateTimeString();
+                    return $carbon->format('Y-m-d H:i');
                 })
-                ->exceptOnForms()
+                ->onlyOnDetail()
             ,
+
+            BelongsToMany::make('开通科目', 'categories', Category::class)
+                ->searchable()
+                ->fields(function () {
+                    return [
+                        DateTime::make('到期时间', 'expired_at')
+                    ];
+                })
+            ,
+
+            RelationshipCount::make('开通科目数', 'categories')->sortable(),
+
+            RelationshipCount::make('笔记数', 'practiseNotes')->sortable(),
+
+            HasMany::make('错题', 'practiseRecords', PractiseRecord::class),
+
+            HasMany::make('笔记', 'practiseNotes', PractiseNote::class),
+
 
             // Text::make('用户名', 'name')
             //     ->rules('required', 'max:255')
@@ -121,5 +147,12 @@ class Member extends Resource
     public static function label()
     {
         return '用户';
+    }
+
+    // Overwrite the indexQuery to include relationship count
+    public static function indexQuery(NovaRequest $request, $query)
+    {
+        // Give relationship name as alias else Laravel will name it as comments_count
+        return $query->withCount('practiseNotes')->withCount('categories');
     }
 }

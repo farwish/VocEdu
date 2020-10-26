@@ -14,6 +14,10 @@ class MemberSeeder extends Seeder
      */
     public function run()
     {
-        Member::factory()->create(Member::factory()->defaultMobileMember());
+        $members = Member::factory()->defaultMobileMember();
+
+        foreach ($members as $member) {
+            Member::factory()->create($member);
+        }
     }
 }

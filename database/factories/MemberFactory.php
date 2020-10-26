@@ -30,8 +30,14 @@ class MemberFactory extends Factory
     public function defaultMobileMember()
     {
         return [
-            'mobile' => '13185826384',
-            'password' => '123456',
+            [
+                'mobile' => '13185826384',
+                'password' => '123456',
+            ],
+            [
+                'mobile' => '13720496099',
+                'password' => '123456',
+            ],
         ];
     }
 }

@@ -116,7 +116,7 @@ class QuestionRepository extends BaseRepository
 
         $categoryId = $question->category()->first()->getAttribute('id');
         $practiseRecord = app(PractiseRecordRepository::class)->specificRecordInfo($member, $categoryId, $questionId);
-        $recordReplyAnswer = $practiseRecord->getAttribute('reply_answer');
+        $recordReplyAnswer = $practiseRecord ? $practiseRecord->getAttribute('reply_answer') : '';
 
         return [
             'questionDetail' => $question,

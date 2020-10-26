@@ -81,14 +81,19 @@ class Member extends Resource
                 })
             ,
 
-            RelationshipCount::make('开通科目数', 'categories')->sortable(),
+            RelationshipCount::make('开通科目数', 'categories')
+                ->sortable()
+                ->onlyOnIndex()
+            ,
 
-            RelationshipCount::make('笔记数', 'practiseNotes')->sortable(),
+            RelationshipCount::make('笔记数', 'practiseNotes')
+                ->sortable()
+                ->onlyOnIndex()
+            ,
 
             HasMany::make('错题', 'practiseRecords', PractiseRecord::class),
 
             HasMany::make('笔记', 'practiseNotes', PractiseNote::class),
-
 
             // Text::make('用户名', 'name')
             //     ->rules('required', 'max:255')

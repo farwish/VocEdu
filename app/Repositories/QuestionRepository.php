@@ -74,8 +74,9 @@ class QuestionRepository extends BaseRepository
                 $category->getAttribute('id'),
                 array_column($questionList, 'id')
             );
+
         foreach ($questionList as &$item) {
-            if (isset($hasRecordsQuestionIds[$item['id']])) {
+            if (in_array($item['id'], $hasRecordsQuestionIds)) {
                 $item['done'] = true;
             } else {
                 $item['done'] = false;
@@ -97,6 +98,7 @@ class QuestionRepository extends BaseRepository
         ;
 
         $question->setAttribute('difficulty', QuestionEnum::$difficulty[ $question->getAttribute('difficulty') ]);
+
         if (! $question->getAttribute('analysis')) {
             $question->setAttribute('analysis', '本题没有解析');
         }
@@ -104,9 +106,9 @@ class QuestionRepository extends BaseRepository
         $pattern = $question->pattern()->first();
         $classify = $pattern->getAttribute('classify');
         if (PatternEnum::OBJECTIVE_CLASSIFY_JUDGE == $classify) {
-            $rightAnswer = $question->getAttribute('right_answer');
-            $question->setAttribute('right_answer', QuestionEnum::$rightAnswer[ $rightAnswer ]);
+            $question->setAttribute('option_answer', QuestionEnum::$judgeAnswer);
         }
+        $question->setAttribute('pattern_classify', $classify);
 
         unset(
             $question['created_at'],

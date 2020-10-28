@@ -173,8 +173,8 @@ class Question extends Resource
         // 判断
         $judge_container = (NovaDependencyContainer::make([
             Select::make('答案', 'right_answer')->options([
-                0 => '正确',
-                1 => '错误',
+                1 => '正确',
+                2 => '错误',
             ])->rules('required')
                 ->displayUsingLabels(),
         ]));

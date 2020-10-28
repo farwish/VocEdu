@@ -200,11 +200,10 @@ class PractiseRecordRepository extends BaseRepository
     public function hasRecordsQuestionIds(Member $member, int $categoryId, array $questionIds): array
     {
         return $this->newQuery()
-            ->select(['id'])
             ->where('member_id', $member->getAttribute('id'))
             ->where('category_id', $categoryId)
             ->whereIn('question_id', $questionIds)
-            ->get()
+            ->pluck('question_id')
             ->unique()
             ->toArray()
         ;

@@ -8,8 +8,8 @@ class QuestionEnum
     const DIFFICULTY_MIDDLE = 1;
     const DIFFICULTY_HARD   = 2;
 
-    const ANSWER_RIGHT = 0;
-    const ANSWER_WRONG = 1;
+    const ANSWER_RIGHT = 1;
+    const ANSWER_WRONG = 2;
 
     public static $difficulty = [
         self::DIFFICULTY_EASY   => '易',
@@ -17,7 +17,7 @@ class QuestionEnum
         self::DIFFICULTY_HARD   => '难',
     ];
 
-    public static $rightAnswer = [
+    public static $judgeAnswer = [
         self::ANSWER_RIGHT => '正确',
         self::ANSWER_WRONG => '错误',
     ];

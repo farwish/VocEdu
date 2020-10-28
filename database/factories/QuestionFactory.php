@@ -73,7 +73,7 @@ class QuestionFactory extends Factory
             'title' => '人有三只眼睛',
             'difficulty' => QuestionEnum::DIFFICULTY_EASY,
             'pattern_id' => 3,
-            'right_answer' => 0,
+            'right_answer' => 2,
             'category_id' => 4,
             'chapter_id' => 4,
             'sort' => 5,
@@ -85,7 +85,7 @@ class QuestionFactory extends Factory
         return [
             'title' => '__球有人类？',
             'difficulty' => QuestionEnum::DIFFICULTY_EASY,
-            'pattern_id' => 5,
+            'pattern_id' => 4,
             'right_answer' => '地',
             'category_id' => 4,
             'chapter_id' => 4,

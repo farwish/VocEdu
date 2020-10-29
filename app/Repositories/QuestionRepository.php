@@ -69,7 +69,7 @@ class QuestionRepository extends BaseRepository
 
         // Questions that has Done
         $hasRecordsQuestionIds = app(PractiseRecordRepository::class)
-            ->hasRecordsQuestionIds(
+            ->hasRecordsAndAnswerQuestionIds(
                 $member,
                 $category->getAttribute('id'),
                 array_column($questionList, 'id')
@@ -110,6 +110,8 @@ class QuestionRepository extends BaseRepository
         }
         $question->setAttribute('pattern_classify', $classify);
 
+        $question->setAttribute('pattern_type', $pattern->getAttribute('type'));
+
         unset(
             $question['created_at'],
             $question['updated_at'],
@@ -118,7 +120,9 @@ class QuestionRepository extends BaseRepository
 
         $categoryId = $question->category()->first()->getAttribute('id');
         $practiseRecord = app(PractiseRecordRepository::class)->specificRecordInfo($member, $categoryId, $questionId);
-        $recordReplyAnswer = $practiseRecord ? $practiseRecord->getAttribute('reply_answer') : '';
+        $recordReplyAnswer = ($practiseRecord && !is_null($practiseRecord->getAttribute('reply_answer')))
+                ? $practiseRecord->getAttribute('reply_answer')
+                : '';
 
         return [
             'questionDetail' => $question,

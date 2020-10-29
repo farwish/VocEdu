@@ -21,8 +21,6 @@ class CreateCategoryMemberTable extends Migration
             $table->unsignedBigInteger('member_id')->nullable(false)->index();
 
             $table->date('expired_at')->nullable(false);
-
-            $table->timestamps();
         });
     }
 

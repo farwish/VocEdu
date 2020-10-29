@@ -3,12 +3,11 @@
 namespace App\Repositories;
 
 use App\Basics\BaseRepository;
-use App\Models\Category;
+use App\Enums\PatternEnum;
 use App\Models\Member;
 use App\Models\PractiseRecord;
 use Illuminate\Database\DatabaseManager;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class PractiseRecordRepository extends BaseRepository
 {
@@ -40,10 +39,7 @@ class PractiseRecordRepository extends BaseRepository
         if ($model) {
             // Update
 
-            if ($replyAnswer) {
-                $model->setAttribute('reply_answer', $replyAnswer);
-            }
-
+            $model->setAttribute('reply_answer', !is_null($replyAnswer) ? $replyAnswer : '');
             $model->setAttribute('updated_at', now());
 
             return $model->save();
@@ -139,8 +135,12 @@ class PractiseRecordRepository extends BaseRepository
             ->leftJoin('questions', function ($join) {
                 $join->on('practise_records.question_id', '=', 'questions.id');
             })
+            ->leftJoin('patterns', function ($join) {
+                $join->on('questions.pattern_id', '=', 'patterns.id');
+            })
             ->where('practise_records.member_id', $member->getAttribute('id'))
             ->where('practise_records.category_id', $categoryId)
+            ->where('patterns.type', '=', PatternEnum::TYPE_OBJECTIVE)
             ->whereNotNull('practise_records.reply_answer')
             ->whereColumn('practise_records.reply_answer', '!=', 'questions.right_answer')
             // ->toSql();
@@ -197,12 +197,23 @@ class PractiseRecordRepository extends BaseRepository
             ->first();
     }
 
-    public function hasRecordsQuestionIds(Member $member, int $categoryId, array $questionIds): array
+    /**
+     * question_ids that have records with answer exist.
+     *
+     * @param Member $member
+     * @param int $categoryId
+     * @param array $questionIds
+     *
+     * @return array
+     */
+    public function hasRecordsAndAnswerQuestionIds(Member $member, int $categoryId, array $questionIds): array
     {
         return $this->newQuery()
             ->where('member_id', $member->getAttribute('id'))
             ->where('category_id', $categoryId)
             ->whereIn('question_id', $questionIds)
+            ->where('reply_answer', '!=', '')
+            ->whereNotNull('reply_answer')
             ->pluck('question_id')
             ->unique()
             ->toArray()

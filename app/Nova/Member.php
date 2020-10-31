@@ -86,12 +86,17 @@ class Member extends Resource
                 ->onlyOnIndex()
             ,
 
+            RelationshipCount::make('做题记录', 'practiseRecords')
+                ->sortable()
+                ->onlyOnIndex()
+            ,
+
             RelationshipCount::make('笔记数', 'practiseNotes')
                 ->sortable()
                 ->onlyOnIndex()
             ,
 
-            HasMany::make('错题', 'practiseRecords', PractiseRecord::class),
+            HasMany::make('做题记录', 'practiseRecords', PractiseRecord::class),
 
             HasMany::make('笔记', 'practiseNotes', PractiseNote::class),
 

@@ -132,17 +132,29 @@ class PractiseRecordRepository extends BaseRepository
         }
 
         $summary['wrongsCount'] = $this->newQuery()
+
+            // relate questions and patterns
             ->leftJoin('questions', function ($join) {
                 $join->on('practise_records.question_id', '=', 'questions.id');
             })
             ->leftJoin('patterns', function ($join) {
                 $join->on('questions.pattern_id', '=', 'patterns.id');
             })
+
+            // specify owner
             ->where('practise_records.member_id', $member->getAttribute('id'))
             ->where('practise_records.category_id', $categoryId)
+
+            // only objective question
             ->where('patterns.type', '=', PatternEnum::TYPE_OBJECTIVE)
+
+            // reply_answer not empty
+            ->where('practise_records.reply_answer', '!=', '')
             ->whereNotNull('practise_records.reply_answer')
+
+            // reply_answer not right
             ->whereColumn('practise_records.reply_answer', '!=', 'questions.right_answer')
+
             // ->toSql();
             ->count('practise_records.id');
 

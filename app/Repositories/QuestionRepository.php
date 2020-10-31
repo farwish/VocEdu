@@ -34,7 +34,7 @@ class QuestionRepository extends BaseRepository
     }
 
     /**
-     * 提卡
+     * 题卡
      * 章节下的题，校验用户是否购买
      *
      * @param Member $member
@@ -51,8 +51,8 @@ class QuestionRepository extends BaseRepository
         $category = $chapter->category()->first();
 
         // check category is open by member
-        $categoryOfMember = app(CategoryRepository::class)
-            ->categoryOfMember($category, $member);
+        $categoryMember = app(CategoryRepository::class)
+            ->categoryMember($category, $member);
 
         $qb = $this->newQuery()
             ->select(['id'])
@@ -61,7 +61,7 @@ class QuestionRepository extends BaseRepository
             ->orderBy('id', 'ASC')
         ;
 
-        if (! $categoryOfMember) {
+        if (! $categoryMember) {
             $qb->limit(4);
         }
 
@@ -86,7 +86,7 @@ class QuestionRepository extends BaseRepository
 
         return [
             'questionList' => $questionList,
-            'openStatus' => $categoryOfMember ? 1 : 0,
+            'openStatus' => $categoryMember ? 1 : 0,
         ];
     }
 

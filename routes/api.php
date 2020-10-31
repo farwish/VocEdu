@@ -49,7 +49,8 @@ Route::middleware(['auth:api'])
     ->prefix('category')
     ->group(function ($router) {
         Route::post('index', [CategoryController::class, 'index']);
-        Route::post('buy', [CategoryController::class, 'buy']);
+        Route::post('open', [CategoryController::class, 'open']);
+        Route::post('opened', [CategoryController::class, 'opened']);
 
         // Route::post('tree', [CategoryController::class, 'tree']);
     });

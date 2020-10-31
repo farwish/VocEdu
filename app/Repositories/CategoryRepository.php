@@ -34,14 +34,14 @@ class CategoryRepository extends BaseRepository
      * category of member buys
      *
      * usage example:
-     * $expiredAt = $categoryOfMember ? $categoryOfMember->pivot->expired_at : '-',
+     * $expiredAt = $categoryMember ? $categoryMember->pivot->expired_at : '-',
      *
      * @param Category $category
      * @param Member $member
      *
      * @return mixed
      */
-    public function categoryOfMember(Category $category, Member $member)
+    public function categoryMember(Category $category, Member $member)
     {
         return $category->members()
             ->withPivot('expired_at')
@@ -51,7 +51,25 @@ class CategoryRepository extends BaseRepository
         ;
     }
 
-    public function saveCategoryOfMember(int $cid, Member $member)
+    public function categoryMemberMyAll(Member $member)
+    {
+        $res = $member->categories()
+            ->select(['category_id', 'name'])
+            ->withPivot('expired_at')
+            ->wherePivot('expired_at', '>', now()->toDateTimeString())
+            ->get()
+            ->toArray()
+        ;
+
+        foreach ($res as &$item) {
+            unset($item['pivot']['member_id'], $item['pivot']['category_id']);
+        }
+        unset($item);
+
+        return $res;
+    }
+
+    public function saveCategoryMember(int $cid, Member $member)
     {
         $category = $this->newQuery()->find($cid);
 

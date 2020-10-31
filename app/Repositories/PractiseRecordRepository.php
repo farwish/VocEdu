@@ -175,13 +175,13 @@ class PractiseRecordRepository extends BaseRepository
         $category = $lastPractiseRecord->category()->first();
 
         // check member's category.
-        $categoryOfMember = app(CategoryRepository::class)->categoryOfMember($category, $member);
+        $categoryMember = app(CategoryRepository::class)->categoryMember($category, $member);
 
         return [
             'categoryName' => $category->getAttribute('name'),
             'questionsCount' => (string)$category->questions()->count(),
-            'openStatus' => $categoryOfMember ? '已开通' : '试用',
-            'expiredAt' => $categoryOfMember ? $categoryOfMember->pivot->expired_at : '-',
+            'openStatus' => $categoryMember ? '已开通' : '试用',
+            'expiredAt' => $categoryMember ? $categoryMember->pivot->expired_at : '-',
         ];
     }
 

@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\CategoryOpen;
+use App\Http\Requests\CategorySearch;
 use App\Repositories\CategoryRepository;
-use App\Repositories\MemberRepository;
 use Illuminate\Http\Request;
 
 class CategoryController extends Controller
@@ -58,6 +58,15 @@ class CategoryController extends Controller
         $openedCategories = $categoryRepository->categoryMemberMyAll($member);
 
         return $this->success($openedCategories);
+    }
+
+    public function search(CategorySearch $request, CategoryRepository $categoryRepository)
+    {
+        $name = $request->validated()['n'];
+
+        $categories = $categoryRepository->searchLastCategoryByName($name);
+
+        return $this->success($categories);
     }
 
     public function tree(Request $request, CategoryRepository $categoryRepository)

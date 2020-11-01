@@ -14,6 +14,13 @@ class CategoryRepository extends BaseRepository
         parent::__construct($model, $dbManager);
     }
 
+    /**
+     * category list
+     *
+     * @param int|null $pid
+     *
+     * @return \Illuminate\Database\Eloquent\Builder[]|\Illuminate\Database\Eloquent\Collection
+     */
     public function list(?int $pid)
     {
         $builder = $this->model->newQuery()->select('id', 'name');
@@ -31,7 +38,7 @@ class CategoryRepository extends BaseRepository
     }
 
     /**
-     * category of member buys
+     * category of member's open
      *
      * usage example:
      * $expiredAt = $categoryMember ? $categoryMember->pivot->expired_at : '-',
@@ -51,6 +58,13 @@ class CategoryRepository extends BaseRepository
         ;
     }
 
+    /**
+     * My open category
+     *
+     * @param Member $member
+     *
+     * @return array
+     */
     public function categoryMemberMyAll(Member $member)
     {
         $res = $member->categories()
@@ -69,6 +83,14 @@ class CategoryRepository extends BaseRepository
         return $res;
     }
 
+    /**
+     * Open category
+     *
+     * @param int $cid
+     * @param Member $member
+     *
+     * @return bool
+     */
     public function saveCategoryMember(int $cid, Member $member)
     {
         $category = $this->newQuery()->find($cid);
@@ -87,6 +109,15 @@ class CategoryRepository extends BaseRepository
             ]);
             return true;
         }
+    }
+
+    public function searchLastCategoryByName(string $name)
+    {
+        return $this->newQuery()
+            ->select(['id', 'name'])
+            ->whereIsLeaf()
+            ->where('name', 'like', "%{$name}%")
+            ->get();
     }
 
     public function tree(?int $pid)

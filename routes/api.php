@@ -30,44 +30,44 @@ Route::prefix('auth')
     ->group(function ($router) {
         Route::post('login', [AuthController::class, 'login']);
         Route::post('logout', [AuthController::class, 'logout'])->middleware('auth:api');
-        Route::post('me', [AuthController::class, 'me'])->middleware('auth:api');
+        Route::get('me', [AuthController::class, 'me'])->middleware('auth:api');
         // Route::post('refresh', [AuthController::class, 'refresh']);
     });
 
-Route::middleware(['auth:api'])
-    ->prefix('practise')
+Route::prefix('practise')
+    ->middleware(['auth:api'])
     ->group(function ($router) {
         Route::get('record', [PractiseController::class, 'recordInfo']);
         Route::post('record', [PractiseController::class, 'recordSave']);
-        Route::post('summary', [PractiseController::class, 'recordSummary']);
 
+        Route::get('summary', [PractiseController::class, 'recordSummary']);
         Route::get('current-subject', [PractiseController::class, 'currentSubject']);
-
     });
 
-Route::middleware(['auth:api'])
-    ->prefix('category')
+Route::prefix('category')
+    ->middleware(['auth:api'])
     ->group(function ($router) {
-        Route::post('index', [CategoryController::class, 'index']);
+        Route::get('index', [CategoryController::class, 'index']);
+        Route::get('opened', [CategoryController::class, 'opened']);
         Route::post('open', [CategoryController::class, 'open']);
-        Route::post('opened', [CategoryController::class, 'opened']);
+        Route::get('search', [CategoryController::class, 'search']);
 
         // Route::post('tree', [CategoryController::class, 'tree']);
     });
 
-Route::middleware(['auth:api'])
-    ->prefix('chapter')
+Route::prefix('chapter')
+    ->middleware(['auth:api'])
     ->group(function ($router) {
-        Route::post('index', [ChapterController::class, 'index']);
+        Route::get('index', [ChapterController::class, 'index']);
+
         // Route::post('tree', [ChapterController::class, 'tree']);
     });
 
-Route::middleware(['auth:api'])
-    ->prefix('question')
+Route::prefix('question')
+    ->middleware(['auth:api'])
     ->group(function ($router) {
-        Route::post('index', [QuestionController::class, 'index']);
-        Route::post('detail', [QuestionController::class, 'detail']);
-
+        Route::get('index', [QuestionController::class, 'index']);
+        Route::get('detail', [QuestionController::class, 'detail']);
         Route::get('note', [QuestionController::class, 'noteInfo']);
         Route::post('note', [QuestionController::class, 'noteSave']);
     });

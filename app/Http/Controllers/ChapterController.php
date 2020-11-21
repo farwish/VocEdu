@@ -7,6 +7,66 @@ use App\Repositories\ChapterRepository;
 
 class ChapterController extends Controller
 {
+    /**
+     * @OA\Get(
+     *      path="/api/chapter/index",
+     *      operationId="/api/chapter/index",
+     *      tags={"Chapter"},
+     *      summary="章节列表",
+     *      description="Category's chapter list",
+     *      security={
+     *          {"bearerXxx": {}}
+     *      },
+     *      @OA\Parameter(
+     *          name="Authorization",
+     *          description="`Bearer <access_token>`若需调试，统一在顶部 Authorize 中设置",
+     *          in="header"
+     *      ),
+     *      @OA\Parameter(
+     *          name="cid",
+     *          description="科目id",
+     *          required=true,
+     *          in="query",
+     *      ),
+     *      @OA\Parameter(
+     *          name="pid",
+     *          description="章节id（有传这个参数的时候, 返回此章节下的子章节）",
+     *          in="query",
+     *      ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="Successful request",
+     *          @OA\MediaType(
+     *              mediaType="application/json",
+     *              @OA\Schema(
+     *                  @OA\Property(property="data", type="array",
+     *                      @OA\Items(type="object",
+     *                          @OA\Property(property="id", type="integer", description="章节id"),
+     *                          @OA\Property(property="name", type="string", description="章节名称"),
+     *                      ),
+     *                  ),
+     *                  @OA\Property(property="message", type="string", default="success"),
+     *                  @OA\Property(property="code", type="integer", default=0),
+     *              )
+     *          )
+     *      ),
+     *      @OA\Response(
+     *          response=401,
+     *          description="Unauthorized",
+     *          @OA\JsonContent(
+     *              type="object",
+     *              @OA\Property(property="data", default=""),
+     *              @OA\Property(property="message", type="string", default="登录校验不通过"),
+     *              @OA\Property(property="code", type="integer", default=-1),
+     *         )
+     *      ),
+     * )
+     *
+     * @param ChapterInfo $request
+     * @param ChapterRepository $chapterRepository
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function index(ChapterInfo $request, ChapterRepository $chapterRepository)
     {
         $validated = $request->validated();

@@ -76,7 +76,12 @@ class CategoryRepository extends BaseRepository
         ;
 
         foreach ($res as &$item) {
-            unset($item['pivot']['member_id'], $item['pivot']['category_id']);
+            $item['categoryId'] = $item['category_id'];
+            $item['expiredAt'] = $item['pivot']['expired_at'];
+            unset(
+                $item['category_id'],
+                $item['pivot'],
+            );
         }
         unset($item);
 
@@ -93,18 +98,18 @@ class CategoryRepository extends BaseRepository
      */
     public function saveCategoryMember(int $cid, Member $member)
     {
-        $category = $this->newQuery()->find($cid);
-
-        $oldOne = $category->members()
+        $memberHesCategory = $member->categories()
             ->withPivot('expired_at')
-            ->wherePivot('member_id', '=', $member->getAttribute('id'))
+            ->wherePivot('category_id', '=', $cid)
             ->first();
 
-        if ($oldOne) {
-            $oldOne->setAttribute('expired_at', now()->addDays(366));
-            return $oldOne->save();
+        if ($memberHesCategory) {
+            return false;
+            // update many to many relation fields
+            // $oldOne->setAttribute('expired_at', now()->addDays(366));
+            // return $oldOne->save();
         } else {
-            $category->members()->attach($member->getAttribute('id'), [
+            $member->categories()->attach($cid, [
                 'expired_at' => now()->addDays(366),
             ]);
             return true;

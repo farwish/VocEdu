@@ -4,6 +4,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ChapterController;
 use App\Http\Controllers\HealthController;
+use App\Http\Controllers\LoginController;
 use App\Http\Controllers\PractiseController;
 use App\Http\Controllers\QuestionController;
 use Illuminate\Http\Request;
@@ -28,29 +29,22 @@ Route::group([
 
 Route::prefix('auth')
     ->group(function ($router) {
-        Route::post('login', [AuthController::class, 'login']);
-        Route::post('logout', [AuthController::class, 'logout'])->middleware('auth:api');
-        Route::get('me', [AuthController::class, 'me'])->middleware('auth:api');
+        Route::post('login', [AuthController::class, 'login'])
+            ->name('login'); // Resolve: "Route [login] not defined" of auth:api tip
+        Route::post('logout', [AuthController::class, 'logout'])
+            ->middleware('auth:api');
+        Route::get('me', [AuthController::class, 'me'])
+            ->middleware('auth:api');
         // Route::post('refresh', [AuthController::class, 'refresh']);
-    });
-
-Route::prefix('practise')
-    ->middleware(['auth:api'])
-    ->group(function ($router) {
-        Route::get('record', [PractiseController::class, 'recordInfo']);
-        Route::post('record', [PractiseController::class, 'recordSave']);
-
-        Route::get('summary', [PractiseController::class, 'recordSummary']);
-        Route::get('current-subject', [PractiseController::class, 'currentSubject']);
     });
 
 Route::prefix('category')
     ->middleware(['auth:api'])
     ->group(function ($router) {
         Route::get('index', [CategoryController::class, 'index']);
+        Route::get('search', [CategoryController::class, 'search']);
         Route::get('opened', [CategoryController::class, 'opened']);
         Route::post('open', [CategoryController::class, 'open']);
-        Route::get('search', [CategoryController::class, 'search']);
 
         // Route::post('tree', [CategoryController::class, 'tree']);
     });
@@ -61,6 +55,16 @@ Route::prefix('chapter')
         Route::get('index', [ChapterController::class, 'index']);
 
         // Route::post('tree', [ChapterController::class, 'tree']);
+    });
+
+Route::prefix('practise')
+    ->middleware(['auth:api'])
+    ->group(function ($router) {
+        Route::get('record', [PractiseController::class, 'recordInfo']);
+        Route::post('record', [PractiseController::class, 'recordSave']);
+
+        Route::get('summary', [PractiseController::class, 'recordSummary']);
+        Route::get('current-subject', [PractiseController::class, 'currentSubject']);
     });
 
 Route::prefix('question')

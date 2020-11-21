@@ -24,7 +24,9 @@ class PractiseRecordSave extends FormRequest
     public function rules()
     {
         return [
-            'cid' => 'required|int',
+            'cid' => '', // category id，两者只能取其一
+            'pid' => '', // chapter id，两者只能取其一
+
             'qid' => '',          // optional param. If no practise_record, we must fill first question as the default later.
             'reply_answer' => '', // optional param. Only optional field for database.
         ];
@@ -33,7 +35,6 @@ class PractiseRecordSave extends FormRequest
     public function messages()
     {
         return [
-            'cid.required' => '缺少参数cid',
         ];
     }
 }

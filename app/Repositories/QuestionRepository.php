@@ -108,15 +108,9 @@ class QuestionRepository extends BaseRepository
         if (PatternEnum::OBJECTIVE_CLASSIFY_JUDGE == $classify) {
             $question->setAttribute('option_answer', QuestionEnum::$judgeAnswer);
         }
-        $question->setAttribute('pattern_classify', $classify);
 
-        $question->setAttribute('pattern_type', $pattern->getAttribute('type'));
-
-        unset(
-            $question['created_at'],
-            $question['updated_at'],
-            $question['pattern_id']
-        );
+        $question->setAttribute('patternClassify', $classify);
+        $question->setAttribute('patternType', $pattern->getAttribute('type'));
 
         $categoryId = $question->category()->first()->getAttribute('id');
         $practiseRecord = app(PractiseRecordRepository::class)->specificRecordInfo($member, $categoryId, $questionId);
@@ -124,8 +118,24 @@ class QuestionRepository extends BaseRepository
                 ? $practiseRecord->getAttribute('reply_answer')
                 : '';
 
+        unset($question['created_at'], $question['updated_at'], $question['pattern_id']);
+
+        $questionDetailArr = $question->toArray();
+        unset($question);
+
+        $questionDetailArr['optionAnswer'] = $questionDetailArr['option_answer'];
+        $questionDetailArr['rightAnswer'] = $questionDetailArr['right_answer'];
+        $questionDetailArr['categoryId'] = $questionDetailArr['category_id'];
+        $questionDetailArr['chapterId'] = $questionDetailArr['chapter_id'];
+        unset(
+            $questionDetailArr['option_answer'],
+            $questionDetailArr['right_answer'],
+            $questionDetailArr['category_id'],
+            $questionDetailArr['chapter_id'],
+        );
+
         return [
-            'questionDetail' => $question,
+            'questionDetail' => $questionDetailArr,
             'recordReplyAnswer' => $recordReplyAnswer,
         ];
     }

@@ -80,7 +80,7 @@ class Handler extends ExceptionHandler
                     return $this->failure('数据已存在，请不要重复创建');
                 } else {
                     if (config('app.env') == 'local') {
-                        dd($e);
+                        return $this->failure($e->getMessage());
                     } else {
                         return $this->failure('数据服务异常, 请联系我们~');
                     }
@@ -99,7 +99,7 @@ class Handler extends ExceptionHandler
 
             // Finally, if the exception is unknown, local env can just throw it out.
             if (config('app.env') == 'local') {
-                dd($e);
+                return $this->failure($e->getMessage());
             }
 
             // Return json instead of the default redirect render

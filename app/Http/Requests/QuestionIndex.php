@@ -24,15 +24,14 @@ class QuestionIndex extends FormRequest
     public function rules()
     {
         return [
-            'cid' => 'required|int'
+            'pid' => 'required|int'
         ];
     }
 
     public function messages()
     {
         return [
-            'cid.required' => '缺少参数cid', // chapter.id
-            // 'cid.int' => '参数cid格式不正确',
+            'pid.required' => '缺少参数pid', // chapter.id
         ];
     }
 }

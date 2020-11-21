@@ -3,14 +3,63 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\AuthLogin;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use App\Http\Controllers\Controller;
 
 class AuthController extends Controller
 {
     /**
-     * Get a JWT via given credentials.
+     * @OA\Post(
+     *      path="/api/auth/login",
+     *      operationId="/api/auth/login",
+     *      tags={"Auth"},
+     *      summary="登录",
+     *      description="Get a JWT via given credentials",
+     *      @OA\Parameter(
+     *          name="mobile",
+     *          description="手机号",
+     *          required=true,
+     *          in="query"
+     *      ),
+     *      @OA\Parameter(
+     *          name="password",
+     *          description="密码",
+     *          required=true,
+     *          in="query"
+     *      ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="Success request",
+     *          @OA\MediaType(
+     *              mediaType="application/json",
+     *              @OA\Schema(
+     *                  @OA\Property(property="data", type="object",
+     *                      @OA\Property(property="access_token", type="string"),
+     *                  ),
+     *                  @OA\Property(property="message", default="success"),
+     *                  @OA\Property(property="code", type="integer", default=0),
+     *              )
+     *          )
+     *      ),
+     *      @OA\Response(
+     *          response=201,
+     *          description="Success request",
+     *          @OA\JsonContent(
+     *              type="object",
+     *              @OA\Property(property="data", default=""),
+     *              @OA\Property(property="message", type="string", default="手机号不正确"),
+     *              @OA\Property(property="code", type="integer", default=-1),
+     *         )
+     *      ),
+     *      @OA\Response(
+     *          response=401,
+     *          description="Unauthorized",
+     *          @OA\JsonContent(
+     *              type="object",
+     *              @OA\Property(property="data", default=""),
+     *              @OA\Property(property="message", type="string", default="登录校验不通过"),
+     *              @OA\Property(property="code", type="integer", default=-1),
+     *         )
+     *      )
+     *  ),
      *
      * @param AuthLogin $authLogin
      *
@@ -28,7 +77,45 @@ class AuthController extends Controller
     }
 
     /**
-     * Get the authenticated User.
+     * @OA\Get(
+     *      path="/api/auth/me",
+     *      operationId="/api/auth/me",
+     *      tags={"Auth"},
+     *      summary="当前登录账号信息",
+     *      description="Get the authenticated User",
+     *      security={
+     *          {"bearerXxx": {}}
+     *      },
+     *      @OA\Parameter(
+     *          name="Authorization",
+     *          description="`Bearer <access_token>`若需调试，统一在顶部 Authorize 中设置",
+     *          in="header"
+     *      ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="Successful request",
+     *          @OA\MediaType(
+     *              mediaType="application/json",
+     *              @OA\Schema(
+     *                  @OA\Property(property="data", type="object",
+     *                      @OA\Property(property="mobile", type="string"),
+     *                  ),
+     *                  @OA\Property(property="message", type="string", default="success"),
+     *                  @OA\Property(property="code", type="integer", default=0),
+     *              )
+     *          )
+     *      ),
+     *      @OA\Response(
+     *          response=401,
+     *          description="Unauthorized",
+     *          @OA\JsonContent(
+     *              type="object",
+     *              @OA\Property(property="data", default=""),
+     *              @OA\Property(property="message", type="string", default="登录校验不通过"),
+     *              @OA\Property(property="code", type="integer", default=-1),
+     *         )
+     *      ),
+     * )
      *
      * @return \Illuminate\Http\JsonResponse
      */
@@ -54,7 +141,43 @@ class AuthController extends Controller
     }
 
     /**
-     * Log the user out (Invalidate the token).
+     * @OA\Post(
+     *      path="/api/auth/logout",
+     *      operationId="/api/auth/logout",
+     *      tags={"Auth"},
+     *      summary="登出",
+     *      description="Log the user out.",
+     *      security={
+     *          {"bearerXxx": {}}
+     *      },
+     *      @OA\Parameter(
+     *          name="Authorization",
+     *          description="`Bearer <access_token>`若需调试，统一在顶部 Authorize 中设置",
+     *          in="header"
+     *      ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="Successful request",
+     *          @OA\MediaType(
+     *              mediaType="application/json",
+     *              @OA\Schema(
+     *                  @OA\Property(property="data", default=null),
+     *                  @OA\Property(property="message", type="string", default="退出成功"),
+     *                  @OA\Property(property="code", type="integer", default=0),
+     *              )
+     *          )
+     *      ),
+     *      @OA\Response(
+     *          response=401,
+     *          description="Unauthorized",
+     *          @OA\JsonContent(
+     *              type="object",
+     *              @OA\Property(property="data", default=""),
+     *              @OA\Property(property="message", type="string", default="登录校验不通过"),
+     *              @OA\Property(property="code", type="integer", default=-1),
+     *         )
+     *      ),
+     * )
      *
      * @return \Illuminate\Http\JsonResponse
      */
@@ -86,8 +209,8 @@ class AuthController extends Controller
     {
         $data = [
             'access_token' => $token,
+            // 'expires_in' => auth('api')->factory()->getTTL(), // 返回展示作用，实际控制为 JWT_TTL
             // 'token_type' => 'bearer',
-            // 'expires_in' => auth('api')->factory()->getTTL() * 60
         ];
 
         return $this->success($data);

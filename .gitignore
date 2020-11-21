@@ -10,7 +10,11 @@ Homestead.json
 Homestead.yaml
 npm-debug.log
 yarn-error.log
-
 .idea
 .DS_Store
+
+# deployed frontend spa
 public/spa
+
+# swagger api-docs/ that store json file
+storage/api-docs

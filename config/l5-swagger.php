@@ -12,7 +12,7 @@ return [
                 /*
                  * Route for accessing api documentation interface
                 */
-                'api' => 'api/documentation',
+                'api' => 'api/documentation-4L9l5jK_',
             ],
             'paths' => [
                 /*

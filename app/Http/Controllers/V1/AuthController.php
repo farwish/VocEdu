@@ -1,16 +1,17 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\V1;
 
 use App\Http\Requests\AuthLogin;
+use App\Http\Controllers\Controller;
 
 class AuthController extends Controller
 {
     /**
      * @OA\Post(
-     *      path="/api/auth/login",
-     *      operationId="/api/auth/login",
-     *      tags={"Auth"},
+     *      path="/api/v1/auth/login",
+     *      operationId="/api/v1/auth/login",
+     *      tags={"Auth v1"},
      *      summary="登录",
      *      description="Get a JWT via given credentials",
      *      @OA\Parameter(
@@ -78,9 +79,9 @@ class AuthController extends Controller
 
     /**
      * @OA\Get(
-     *      path="/api/auth/me",
-     *      operationId="/api/auth/me",
-     *      tags={"Auth"},
+     *      path="/api/v1/auth/me",
+     *      operationId="/api/v1/auth/me",
+     *      tags={"Auth v1"},
      *      summary="当前登录账号信息",
      *      description="Get the authenticated User",
      *      security={
@@ -142,9 +143,9 @@ class AuthController extends Controller
 
     /**
      * @OA\Post(
-     *      path="/api/auth/logout",
-     *      operationId="/api/auth/logout",
-     *      tags={"Auth"},
+     *      path="/api/v1/auth/logout",
+     *      operationId="/api/v1/auth/logout",
+     *      tags={"Auth v1"},
      *      summary="登出",
      *      description="Log the user out.",
      *      security={

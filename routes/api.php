@@ -1,13 +1,18 @@
 <?php
 
-use App\Http\Controllers\AuthController;
-use App\Http\Controllers\CategoryController;
-use App\Http\Controllers\ChapterController;
-use App\Http\Controllers\HealthController;
-use App\Http\Controllers\LoginController;
-use App\Http\Controllers\PractiseController;
-use App\Http\Controllers\QuestionController;
-use Illuminate\Http\Request;
+use App\Http\Controllers\V1\AuthController as V1AuthController;
+use App\Http\Controllers\V1\CategoryController as V1CategoryController;
+use App\Http\Controllers\V1\ChapterController as V1ChapterController;
+use App\Http\Controllers\V1\HealthController as V1HealthController;
+use App\Http\Controllers\V1\PractiseController as V1PractiseController;
+use App\Http\Controllers\V1\QuestionController as V1QuestionController;
+
+use App\Http\Controllers\VD\AuthController;
+use App\Http\Controllers\VD\CategoryController;
+use App\Http\Controllers\VD\ChapterController;
+use App\Http\Controllers\VD\HealthController;
+use App\Http\Controllers\VD\PractiseController;
+use App\Http\Controllers\VD\QuestionController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -20,6 +25,69 @@ use Illuminate\Support\Facades\Route;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
+
+// Version 1
+
+Route::group([
+    'prefix' => 'v1',
+], function () {
+    Route::group([
+        'prefix' => 'health',
+    ], function () {
+        Route::get('status', [V1HealthController::class, 'status']);
+    });
+
+    Route::prefix('auth')
+        ->group(function ($router) {
+            Route::post('login', [V1AuthController::class, 'login'])
+                ->name('login'); // Resolve: "Route [login] not defined" of auth:api tip
+            Route::post('logout', [V1AuthController::class, 'logout'])
+                ->middleware('auth:api');
+            Route::get('me', [V1AuthController::class, 'me'])
+                ->middleware('auth:api');
+            // Route::post('refresh', [V1AuthController::class, 'refresh']);
+        });
+
+    Route::prefix('category')
+        ->middleware(['auth:api'])
+        ->group(function ($router) {
+            Route::get('index', [V1CategoryController::class, 'index']);
+            Route::get('search', [V1CategoryController::class, 'search']);
+            Route::get('opened', [V1CategoryController::class, 'opened']);
+            Route::post('open', [V1CategoryController::class, 'open']);
+
+            // Route::post('tree', [V1CategoryController::class, 'tree']);
+        });
+
+    Route::prefix('chapter')
+        ->middleware(['auth:api'])
+        ->group(function ($router) {
+            Route::get('index', [V1ChapterController::class, 'index']);
+
+            // Route::post('tree', [V1ChapterController::class, 'tree']);
+        });
+
+    Route::prefix('practise')
+        ->middleware(['auth:api'])
+        ->group(function ($router) {
+            Route::get('record', [V1PractiseController::class, 'recordInfo']);
+            Route::post('record', [V1PractiseController::class, 'recordSave']);
+
+            Route::get('summary', [V1PractiseController::class, 'recordSummary']);
+            Route::get('current-subject', [V1PractiseController::class, 'currentSubject']);
+        });
+
+    Route::prefix('question')
+        ->middleware(['auth:api'])
+        ->group(function ($router) {
+            Route::get('index', [V1QuestionController::class, 'index']);
+            Route::get('detail', [V1QuestionController::class, 'detail']);
+            Route::get('note', [V1QuestionController::class, 'noteInfo']);
+            Route::post('note', [V1QuestionController::class, 'noteSave']);
+        });
+});
+
+// =========================================================================
 
 Route::group([
     'prefix' => 'health',

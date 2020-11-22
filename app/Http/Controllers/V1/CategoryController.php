@@ -1,19 +1,20 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\V1;
 
 use App\Http\Requests\CategoryOpen;
 use App\Http\Requests\CategorySearch;
 use App\Repositories\CategoryRepository;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
 class CategoryController extends Controller
 {
     /**
      * @OA\Get(
-     *      path="/api/category/index",
-     *      operationId="/api/category/index",
-     *      tags={"Category"},
+     *      path="/api/v1/category/index",
+     *      operationId="/api/v1/category/index",
+     *      tags={"Category v1"},
      *      summary="科目分类列表",
      *      description="Category list",
      *      security={
@@ -66,9 +67,9 @@ class CategoryController extends Controller
 
     /**
      * @OA\Get(
-     *      path="/api/category/search",
-     *      operationId="/api/category/search",
-     *      tags={"Category"},
+     *      path="/api/v1/category/search",
+     *      operationId="/api/v1/category/search",
+     *      tags={"Category v1"},
      *      summary="检索科目分类",
      *      description="Search category by name",
      *      security={
@@ -130,9 +131,9 @@ class CategoryController extends Controller
 
     /**
      * @OA\Get(
-     *      path="/api/category/opened",
-     *      operationId="/api/category/opened",
-     *      tags={"Category"},
+     *      path="/api/v1/category/opened",
+     *      operationId="/api/v1/category/opened",
+     *      tags={"Category v1"},
      *      summary="用户开通的科目列表",
      *      description="User opened categories",
      *      security={
@@ -189,9 +190,9 @@ class CategoryController extends Controller
 
     /**
      * @OA\Post(
-     *      path="/api/category/open",
-     *      operationId="/api/category/open",
-     *      tags={"Category"},
+     *      path="/api/v1/category/open",
+     *      operationId="/api/v1/category/open",
+     *      tags={"Category v1"},
      *      summary="执行科目开通",
      *      description="Open the category",
      *      security={

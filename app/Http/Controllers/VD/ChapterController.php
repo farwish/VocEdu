@@ -1,9 +1,10 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\VD;
 
 use App\Http\Requests\ChapterInfo;
 use App\Repositories\ChapterRepository;
+use App\Http\Controllers\Controller;
 
 class ChapterController extends Controller
 {
@@ -11,7 +12,7 @@ class ChapterController extends Controller
      * @OA\Get(
      *      path="/api/chapter/index",
      *      operationId="/api/chapter/index",
-     *      tags={"Chapter"},
+     *      tags={"Chapter v0"},
      *      summary="章节列表",
      *      description="Category's chapter list",
      *      security={

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\VD;
 
 use App\Http\Requests\PractiseRecordSave;
 use App\Models\Chapter;
@@ -8,6 +8,7 @@ use App\Repositories\ChapterRepository;
 use App\Repositories\PractiseRecordRepository;
 use App\Repositories\QuestionRepository;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
 class PractiseController extends Controller
 {
@@ -15,7 +16,7 @@ class PractiseController extends Controller
      * @OA\Get(
      *      path="/api/practise/record",
      *      operationId="/api/practise/record—get",
-     *      tags={"Practise"},
+     *      tags={"Practise v0"},
      *      summary="用户`做题记录`基础信息",
      *      description="Get the practise record of User",
      *      security={
@@ -70,7 +71,7 @@ class PractiseController extends Controller
      * @OA\Post(
      *      path="/api/practise/record",
      *      operationId="/api/practise/record-post",
-     *      tags={"Practise"},
+     *      tags={"Practise v0"},
      *      summary="用户`做题记录`保存",
      *      description="Save the practise record of User",
      *      security={
@@ -190,7 +191,7 @@ class PractiseController extends Controller
      * @OA\Get(
      *      path="/api/practise/summary",
      *      operationId="/api/practise/summary",
-     *      tags={"Practise"},
+     *      tags={"Practise v0"},
      *      summary="用户`做题记录`统计信息",
      *      description="Get the practise summary of User",
      *      security={
@@ -247,7 +248,7 @@ class PractiseController extends Controller
      * @OA\Get(
      *      path="/api/practise/current-subject",
      *      operationId="/api/practise/current-subject",
-     *      tags={"Practise"},
+     *      tags={"Practise v0"},
      *      summary="用户当前所选择科目的基础信息",
      *      description="Current subject basic info",
      *      security={

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\V1;
 
 use App\Http\Requests\QuestionDetail;
 use App\Http\Requests\QuestionIndex;
@@ -8,14 +8,15 @@ use App\Http\Requests\QuestionNoteInfo;
 use App\Http\Requests\QuestionNoteSave;
 use App\Repositories\PractiseNoteRepository;
 use App\Repositories\QuestionRepository;
+use App\Http\Controllers\Controller;
 
 class QuestionController extends Controller
 {
     /**
      * @OA\Get(
-     *      path="/api/question/index",
-     *      operationId="/api/question/index",
-     *      tags={"Question"},
+     *      path="/api/v1/question/index",
+     *      operationId="/api/v1/question/index",
+     *      tags={"Question v1"},
      *      summary="题目列表",
      *      description="Chapter's question list",
      *      security={
@@ -84,9 +85,9 @@ class QuestionController extends Controller
 
     /**
      * @OA\Get(
-     *      path="/api/question/detail",
-     *      operationId="/api/question/detail",
-     *      tags={"Question"},
+     *      path="/api/v1/question/detail",
+     *      operationId="/api/v1/question/detail",
+     *      tags={"Question v1"},
      *      summary="题目详情",
      *      description="Question detail",
      *      security={
@@ -164,6 +165,60 @@ class QuestionController extends Controller
         return $this->success($question);
     }
 
+    /**
+     * @OA\Post(
+     *      path="/api/v1/question/note",
+     *      operationId="/api/v1/question/note-post",
+     *      tags={"Question v1"},
+     *      summary="用户保存 当前题目笔记",
+     *      description="Save the question node",
+     *      security={
+     *          {"bearerXxx": {}}
+     *      },
+     *      @OA\Parameter(
+     *          name="Authorization",
+     *          description="`Bearer <access_token>`若需调试，统一在顶部 Authorize 中设置",
+     *          in="header"
+     *      ),
+     *      @OA\Parameter(
+     *          name="qid",
+     *          description="题目id",
+     *          in="query"
+     *      ),
+     *      @OA\Parameter(
+     *          name="note",
+     *          description="笔记内容",
+     *          in="query"
+     *      ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="Successful request",
+     *          @OA\MediaType(
+     *              mediaType="application/json",
+     *              @OA\Schema(
+     *                  @OA\Property(property="data", default=null),
+     *                  @OA\Property(property="message", type="string", default="success"),
+     *                  @OA\Property(property="code", type="integer", default=0)
+     *              )
+     *          )
+     *      ),
+     *      @OA\Response(
+     *          response=401,
+     *          description="Unauthorized",
+     *          @OA\JsonContent(
+     *              type="object",
+     *              @OA\Property(property="data", default=""),
+     *              @OA\Property(property="message", type="string", default="登录校验不通过"),
+     *              @OA\Property(property="code", type="integer", default=-1)
+     *         )
+     *      ),
+     * )
+     *
+     * @param QuestionNoteSave $request
+     * @param PractiseNoteRepository $practiseNoteRepository
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function noteSave(QuestionNoteSave $request, PractiseNoteRepository $practiseNoteRepository)
     {
         $validated = $request->validated();
@@ -177,6 +232,57 @@ class QuestionController extends Controller
         return $bool ? $this->success() : $this->failure();
     }
 
+    /**
+     * @OA\Get(
+     *      path="/api/v1/question/note",
+     *      operationId="/api/v1/question/note-get",
+     *      tags={"Question v1"},
+     *      summary="用户保存的 当前题目的笔记",
+     *      description="Save the question node",
+     *      security={
+     *          {"bearerXxx": {}}
+     *      },
+     *      @OA\Parameter(
+     *          name="Authorization",
+     *          description="`Bearer <access_token>`若需调试，统一在顶部 Authorize 中设置",
+     *          in="header"
+     *      ),
+     *      @OA\Parameter(
+     *          name="qid",
+     *          description="题目id",
+     *          in="query"
+     *      ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="Successful request",
+     *          @OA\MediaType(
+     *              mediaType="application/json",
+     *              @OA\Schema(
+     *                  @OA\Property(property="data", type="object",
+     *                      @OA\Property(property="note", type="string", description="笔记内容"),
+     *                  ),
+     *                  @OA\Property(property="message", type="string", default="success"),
+     *                  @OA\Property(property="code", type="integer", default=0)
+     *              )
+     *          )
+     *      ),
+     *      @OA\Response(
+     *          response=401,
+     *          description="Unauthorized",
+     *          @OA\JsonContent(
+     *              type="object",
+     *              @OA\Property(property="data", default=""),
+     *              @OA\Property(property="message", type="string", default="登录校验不通过"),
+     *              @OA\Property(property="code", type="integer", default=-1)
+     *         )
+     *      ),
+     * )
+     *
+     * @param QuestionNoteInfo $request
+     * @param PractiseNoteRepository $practiseNoteRepository
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function noteInfo(QuestionNoteInfo $request, PractiseNoteRepository $practiseNoteRepository)
     {
         $validated = $request->validated();

@@ -25,6 +25,11 @@ class CategoryController extends Controller
      *          description="`Bearer <access_token>`若需调试，统一在顶部 Authorize 中设置",
      *          in="header"
      *      ),
+     *      @OA\Parameter(
+     *          name="pid",
+     *          description="父级分类id",
+     *          in="query",
+     *      ),
      *      @OA\Response(
      *          response=200,
      *          description="Successful request",

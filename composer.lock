@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "b82dd1f792efba4fcc583df3813cec9b",
+    "content-hash": "fb134d749e5939c6049c99eb2cb6470f",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -63,6 +63,55 @@
                 "stack"
             ],
             "time": "2020-05-31T07:17:05+00:00"
+        },
+        {
+            "name": "benjacho/belongs-to-many-field",
+            "version": "1.8",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Benjacho/belongs-to-many-field-nova.git",
+                "reference": "42e3ebc5606b3e267f8db612435a3d00c51b7666"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Benjacho/belongs-to-many-field-nova/zipball/42e3ebc5606b3e267f8db612435a3d00c51b7666",
+                "reference": "42e3ebc5606b3e267f8db612435a3d00c51b7666",
+                "shasum": "",
+                "mirrors": [
+                    {
+                        "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
+                        "preferred": true
+                    }
+                ]
+            },
+            "require": {
+                "php": ">=7.1.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Benjacho\\BelongsToManyField\\FieldServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Benjacho\\BelongsToManyField\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "belongsToMany nova representation in field.",
+            "keywords": [
+                "Many to Many Field",
+                "belongsToMany",
+                "laravel",
+                "nova"
+            ],
+            "time": "2020-06-25T14:27:23+00:00"
         },
         {
             "name": "brick/math",
@@ -7030,6 +7079,7 @@
                 "faker",
                 "fixtures"
             ],
+            "abandoned": true,
             "time": "2019-12-12T13:22:17+00:00"
         },
         {

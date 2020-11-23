@@ -10,6 +10,7 @@
     "require": {
         "php": "^7.3",
         "ext-json": "*",
+        "benjacho/belongs-to-many-field": "^1.8",
         "darkaonline/l5-swagger": "^8.0",
         "digital-creative/collapsible-resource-manager": "^1.2",
         "epartment/nova-dependency-container": "^1.2",

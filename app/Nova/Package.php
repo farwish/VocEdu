@@ -103,6 +103,21 @@ class Package extends Resource
                 })
             ,
 
+            // Tabs:
+
+            // For form
+            BelongsToManyField::make('标签', 'tabs', Tab::class)
+                ->rules('required')
+                ->onlyOnForms()
+            ,
+            // For index and detail
+            Multiselect::make('标签', 'tabs')
+                ->rules('required')
+                ->options(\App\Models\Tab::all()->pluck('name', 'name')->toArray())
+                ->belongsToMany(Tab::class)
+                ->exceptOnForms()
+            ,
+
             // Suite:
 
             // Only for create/edit, for help with 'Multiselect', dependency should be native field.

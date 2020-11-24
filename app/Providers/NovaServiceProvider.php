@@ -12,6 +12,7 @@ use App\Nova\Paper;
 use App\Nova\Pattern;
 use App\Nova\Question;
 use App\Nova\Suite;
+use App\Nova\Tab;
 use App\Nova\User;
 use App\Nova\Video;
 use DigitalCreative\CollapsibleResourceManager\CollapsibleResourceManager;
@@ -121,6 +122,7 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
                             NovaResource::make(Category::class),
                             NovaResource::make(Chapter::class),
                             NovaResource::make(Pattern::class),
+                            NovaResource::make(Tab::class),
                         ],
                     ]),
                     TopLevelResource::make([

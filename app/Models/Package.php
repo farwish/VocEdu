@@ -23,4 +23,9 @@ class Package extends Model
     {
         return $this->belongsToMany(Suite::class);
     }
+
+    public function tabs()
+    {
+        return $this->belongsToMany(Tab::class);
+    }
 }

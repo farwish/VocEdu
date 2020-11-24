@@ -26,6 +26,7 @@ class DatabaseSeeder extends Seeder
             PackageSeeder::class,
             SuiteSeeder::class,
             PaperSeeder::class,
+            TabSeeder::class,
 
             VideoSeeder::class,
             ArticleSeeder::class,

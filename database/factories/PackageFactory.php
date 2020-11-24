@@ -28,12 +28,13 @@ class PackageFactory extends Factory
 
     public function package()
     {
+        $rand = mt_rand(1, 100);
         return [
-            'name' => '套餐' . mt_rand(1, 100),
+            'name' => '套餐' . $rand,
             'price' => 100,
             'period' => 1,
 
-            'explain_id' => 3,
+            'explain' => '针对专业侧重点进行练习 ' . $rand,
             'category_id' => 4,
         ];
     }

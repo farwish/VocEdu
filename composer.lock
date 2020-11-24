@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "fb134d749e5939c6049c99eb2cb6470f",
+    "content-hash": "4600d0f7fed1a2d0f91464a86825cb61",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -2295,6 +2295,53 @@
             ],
             "description": "Mime-type detection for Flysystem",
             "time": "2020-09-21T18:10:53+00:00"
+        },
+        {
+            "name": "manmohanjit/nova-belongs-to-dependency",
+            "version": "1.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/manmohanjit/nova-belongs-to-dependency.git",
+                "reference": "a9a4c73d3fe14a1ee1f0530fce711cf297c61c34"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/manmohanjit/nova-belongs-to-dependency/zipball/a9a4c73d3fe14a1ee1f0530fce711cf297c61c34",
+                "reference": "a9a4c73d3fe14a1ee1f0530fce711cf297c61c34",
+                "shasum": "",
+                "mirrors": [
+                    {
+                        "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
+                        "preferred": true
+                    }
+                ]
+            },
+            "require": {
+                "php": ">=7.1.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Manmohanjit\\BelongsToDependency\\FieldServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Manmohanjit\\BelongsToDependency\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "Extended Laravel Nova BelongsTo field that can depend on other fields",
+            "keywords": [
+                "laravel",
+                "nova"
+            ],
+            "time": "2019-01-19T13:25:09+00:00"
         },
         {
             "name": "monolog/monolog",
@@ -7340,6 +7387,53 @@
             "time": "2020-08-27T18:58:22+00:00"
         },
         {
+            "name": "orlyapps/nova-belongsto-depend",
+            "version": "2.0.10",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/orlyapps/nova-belongsto-depend.git",
+                "reference": "2406aaefa40acf43cb057ebe09101abeee8cd044"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/orlyapps/nova-belongsto-depend/zipball/2406aaefa40acf43cb057ebe09101abeee8cd044",
+                "reference": "2406aaefa40acf43cb057ebe09101abeee8cd044",
+                "shasum": "",
+                "mirrors": [
+                    {
+                        "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
+                        "preferred": true
+                    }
+                ]
+            },
+            "require": {
+                "php": ">=7.1.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Orlyapps\\NovaBelongsToDepend\\FieldServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Orlyapps\\NovaBelongsToDepend\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "A Laravel Nova field.",
+            "keywords": [
+                "laravel",
+                "nova"
+            ],
+            "time": "2020-09-09T04:19:34+00:00"
+        },
+        {
             "name": "phar-io/manifest",
             "version": "2.0.1",
             "source": {
@@ -9155,6 +9249,54 @@
                 "validate"
             ],
             "time": "2020-07-08T17:02:28+00:00"
+        },
+        {
+            "name": "webparking/nova-belongs-to-dependency",
+            "version": "1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/webparking/nova-belongs-to-dependency.git",
+                "reference": "c5cae175593508e9e73003c305c3c3fbb7af8901"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/webparking/nova-belongs-to-dependency/zipball/c5cae175593508e9e73003c305c3c3fbb7af8901",
+                "reference": "c5cae175593508e9e73003c305c3c3fbb7af8901",
+                "shasum": "",
+                "mirrors": [
+                    {
+                        "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
+                        "preferred": true
+                    }
+                ]
+            },
+            "require": {
+                "laravel/nova": "*",
+                "php": ">=7.1.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Webparking\\BelongsToDependency\\FieldServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Webparking\\BelongsToDependency\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "Extended Laravel Nova BelongsTo field that can depend on other fields",
+            "keywords": [
+                "laravel",
+                "nova"
+            ],
+            "time": "2020-08-31T15:43:06+00:00"
         }
     ],
     "aliases": [],

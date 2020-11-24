@@ -3,12 +3,9 @@
 namespace App\Nova;
 
 use App\Enums\ExamEnum;
-use Hubertnnn\LaravelNova\Fields\DynamicSelect\DynamicSelect;
 use Illuminate\Http\Request;
-use Laravel\Nova\Fields\Badge;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\DateTime;
-use Laravel\Nova\Fields\HasOne;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Text;
@@ -56,10 +53,19 @@ class Exam extends Resource
         return [
             ID::make(__('ID'), 'id')->sortable(),
 
-            DynamicSelect::make('科目分类', 'category_id')
-                ->options($this->categoryTree())
-                ->rules('required')
+            // DynamicSelect::make('科目分类', 'category_id')
+            //     ->options($this->categoryTree())
+            //     ->rules('required')
+            //     ->onlyOnForms()
+            // ,
+            // Only relation can be used by BelongsToManyField::dependOn
+            BelongsTo::make('科目分类', 'category', Category::class)
                 ->onlyOnForms()
+                ->searchable()
+                ->displayUsing(function ($model) {
+                    $tree = $this->categoryTree();
+                    return $model ? $tree[$model->getAttribute('id')] : $tree;
+                })
             ,
 
             BelongsTo::make('科目分类', 'category', Category::class)

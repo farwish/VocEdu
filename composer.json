@@ -22,6 +22,7 @@
         "laravel/framework": "^8.0",
         "laravel/nova": "~3.0",
         "laravel/tinker": "^2.0",
+        "manmohanjit/nova-belongs-to-dependency": "^1.1",
         "optimistdigital/nova-multiselect-field": "^1.10",
         "royduin/laravel-nova-field-dynamic-select": "^1.1",
         "saumini/count": "^1.0",

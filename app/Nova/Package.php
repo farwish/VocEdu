@@ -4,13 +4,12 @@ namespace App\Nova;
 
 use App\Models\Package as PackageModel;
 use Benjacho\BelongsToManyField\BelongsToManyField;
-use Hubertnnn\LaravelNova\Fields\DynamicSelect\DynamicSelect;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Number;
-use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Text;
+use Laravel\Nova\Fields\Textarea;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use OptimistDigital\MultiselectField\Multiselect;
 
@@ -77,7 +76,7 @@ class Package extends Resource
                     return $model ? $tree[$model->getAttribute('id')] : $tree;
                 })
             ,
-
+            // On index and detail page
             BelongsTo::make('科目分类', 'category', Category::class)
                 ->exceptOnForms()
             ,
@@ -86,9 +85,9 @@ class Package extends Resource
                 ->rules('required')
             ,
 
-            BelongsTo::make('套餐说明', 'explain', Article::class)
+            Textarea::make('套餐说明', 'explain')
                 ->rules('required')
-                ->help('文章模块内容'),
+            ,
 
             Number::make('价格(元)', 'price')
                 ->rules('required')
@@ -106,7 +105,7 @@ class Package extends Resource
 
             // Suite:
 
-            // Only for create/edit, for help with 'Multiselect'.
+            // Only for create/edit, for help with 'Multiselect', dependency should be native field.
             BelongsToManyField::make('试卷组', 'suites', Suite::class)
                 ->dependsOn('category', 'category_id')
                 ->onlyOnForms()

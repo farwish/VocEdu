@@ -33,4 +33,12 @@ class SuiteFactory extends Factory
             'category_id' => 4,
         ];
     }
+
+    public function suite2()
+    {
+        return [
+            'name' => '试卷组' . mt_rand(1, 100),
+            'category_id' => 6,
+        ];
+    }
 }

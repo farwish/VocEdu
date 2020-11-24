@@ -17,5 +17,6 @@ class ExamSeeder extends Seeder
     public function run()
     {
         Exam::factory()->create(Exam::factory()->exam());
+        Exam::factory()->create(Exam::factory()->exam2());
     }
 }

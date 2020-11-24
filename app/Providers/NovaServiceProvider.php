@@ -132,8 +132,8 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
                         'resources' => [
                             NovaResource::make(Package::class),
                             NovaResource::make(Exam::class),
-                            NovaResource::make(Paper::class),
                             NovaResource::make(Suite::class),
+                            NovaResource::make(Paper::class),
                             NovaResource::make(Question::class),
                         ]
                     ]),

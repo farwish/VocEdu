@@ -3,6 +3,7 @@
 namespace App\Nova;
 
 use App\Models\Suite as SuiteModel;
+use Benjacho\BelongsToManyField\BelongsToManyField;
 use Hubertnnn\LaravelNova\Fields\DynamicSelect\DynamicSelect;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\BelongsTo;
@@ -54,12 +55,20 @@ class Suite extends Resource
         return [
             ID::make(__('ID'), 'id')->sortable(),
 
-            DynamicSelect::make('科目分类', 'category_id')
-                ->options($this->categoryTree())
-                ->rules('required')
+            // DynamicSelect::make('科目分类', 'category_id')
+            //     ->options($this->categoryTree())
+            //     ->rules('required')
+            //     ->onlyOnForms()
+            // ,
+            // Only relation can be used by BelongsToManyField::dependOn
+            BelongsTo::make('科目分类', 'category', Category::class)
                 ->onlyOnForms()
+                ->searchable()
+                ->displayUsing(function ($model) {
+                    $tree = $this->categoryTree();
+                    return $model ? $tree[$model->getAttribute('id')] : $tree;
+                })
             ,
-
             BelongsTo::make('科目分类', 'category', Category::class)
                 ->exceptOnForms()
             ,
@@ -68,9 +77,17 @@ class Suite extends Resource
                 ->rules('required')
             ,
 
+            // Papers:
+
+            BelongsToManyField::make('试卷', 'papers', Paper::class)
+                ->dependsOn('category', 'category_id')
+                ->onlyOnForms()
+            ,
+
             Multiselect::make('试卷', 'papers')
                 ->rules('required')
                 ->belongsToMany(Paper::class)
+                ->exceptOnForms()
             ,
         ];
     }

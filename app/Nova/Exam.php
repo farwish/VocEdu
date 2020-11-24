@@ -10,6 +10,7 @@ use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
+use Manmohanjit\BelongsToDependency\BelongsToDependency;
 
 class Exam extends Resource
 {
@@ -59,20 +60,28 @@ class Exam extends Resource
             //     ->onlyOnForms()
             // ,
             // Only relation can be used by BelongsToManyField::dependOn
-            BelongsTo::make('科目分类', 'category', Category::class)
-                ->onlyOnForms()
-                ->searchable()
-                ->displayUsing(function ($model) {
-                    $tree = $this->categoryTree();
-                    return $model ? $tree[$model->getAttribute('id')] : $tree;
-                })
-            ,
+            // BelongsTo::make('科目分类', 'category', Category::class)
+            //     ->onlyOnForms()
+            //     // ->searchable() // BelongsToDependency not support searchable()
+            //     ->displayUsing(function ($model) {
+            //         $tree = $this->categoryTree();
+            //         return $model ? $tree[$model->getAttribute('id')] : $tree;
+            //     })
+            // ,
 
-            BelongsTo::make('科目分类', 'category', Category::class)
+            Select::make('科目', 'category')
+                ->options($this->categoryOfLastLevel())
+                ->onlyOnForms()
+            ,
+            BelongsTo::make('科目', 'category', Category::class)
                 ->exceptOnForms()
             ,
 
             Text::make('考场名称', 'name')->rules('required'),
+
+            Text::make('考试地区', 'area')
+                ->rules('required')
+            ,
 
             // Badge::make( '状态', 'status', function () {
             //     return ExamEnum::$status[$this->status];
@@ -87,20 +96,19 @@ class Exam extends Resource
                 ->displayUsingLabels()
             ,
 
-            BelongsTo::make('试卷', 'paper', Paper::class)
+            BelongsToDependency::make('试卷', 'paper', Paper::class)
                 ->rules('required')
+                ->dependsOn('category', 'category_id')
             ,
 
-            Text::make('考试地区', 'area')
+            BelongsToDependency::make('考试指南', 'guide', Article::class)
                 ->rules('required')
-            ,
-
-            BelongsTo::make('考试指南', 'guide', Article::class)
-                ->rules('required')
+                ->dependsOn('category', 'category_id')
                 ->help('文章模块内容'),
 
-            BelongsTo::make('考试大纲', 'outline', Article::class)
+            BelongsToDependency::make('考试大纲', 'outline', Article::class)
                 ->rules('required')
+                ->dependsOn('category', 'category_id')
                 ->help('文章模块内容'),
 
             DateTime::make('到期时间', 'expired_at')

@@ -21,8 +21,8 @@ class PackageSeeder extends Seeder
             ->create(Package::factory()->package());
 
         Package::factory()
-            ->hasSuites(1, Suite::factory()->suite())
-            ->hasSuites(1, Suite::factory()->suite())
-            ->create(Package::factory()->package());
+            ->hasSuites(1, Suite::factory()->suite2())
+            ->hasSuites(1, Suite::factory()->suite2())
+            ->create(Package::factory()->package2());
     }
 }

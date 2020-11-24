@@ -3,6 +3,7 @@
 namespace App\Nova;
 
 use App\Models\Paper as PaperModel;
+use Benjacho\BelongsToManyField\BelongsToManyField;
 use Hubertnnn\LaravelNova\Fields\DynamicSelect\DynamicSelect;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\BelongsTo;
@@ -56,12 +57,23 @@ class Paper extends Resource
         return [
             ID::make(__('ID'), 'id')->sortable(),
 
-            DynamicSelect::make('科目分类', 'category_id')
-                ->options($this->categoryTree())
-                ->rules('required')
-                ->onlyOnForms()
-            ,
+            // DynamicSelect::make('科目分类', 'category_id')
+            //     ->options($this->categoryTree())
+            //     ->rules('required')
+            //     ->onlyOnForms()
+            // ,
 
+
+            // Only relation can be used by BelongsToManyField::dependOn
+            BelongsTo::make('科目分类', 'category', Category::class)
+                ->onlyOnForms()
+                ->searchable()
+                ->displayUsing(function ($model) {
+                    $tree = $this->categoryTree();
+                    return $model ? $tree[$model->getAttribute('id')] : $tree;
+                })
+            ,
+            // On index and detail page
             BelongsTo::make('科目分类', 'category', Category::class)
                 ->exceptOnForms()
             ,
@@ -79,11 +91,17 @@ class Paper extends Resource
                 ->onlyOnIndex()
             ,
 
-            // Form and Detail
+            // Question:
+
+            BelongsToManyField::make('题目', 'questions', Question::class)
+                ->dependsOn('category', 'category_id')
+                ->onlyOnForms()
+            ,
+            // for index and Detail
             Multiselect::make('题目', 'questions')
                 ->rules('required')
                 ->belongsToMany(Question::class)
-                ->hideFromIndex()
+                ->exceptOnForms()
             ,
         ];
     }

@@ -40,4 +40,18 @@ class ExamFactory extends Factory
             'outline_id' => 2,
         ];
     }
+
+    public function exam2()
+    {
+        return [
+            'name' => '考场' . mt_rand(1, 100),
+            'status' => ExamEnum::STATUS_IS_NOT_OPEN,
+            'paper_id' => 1,
+            'category_id' => 6,
+
+            'area' => '北京',
+            'guide_id' => 3,
+            'outline_id' => 4,
+        ];
+    }
 }

@@ -38,4 +38,17 @@ class PackageFactory extends Factory
             'category_id' => 4,
         ];
     }
+
+    public function package2()
+    {
+        $rand = mt_rand(1, 100);
+        return [
+            'name' => '套餐' . $rand,
+            'price' => 100,
+            'period' => 1,
+
+            'explain' => '针对NB专业侧重点进行练习 ' . $rand,
+            'category_id' => 6,
+        ];
+    }
 }

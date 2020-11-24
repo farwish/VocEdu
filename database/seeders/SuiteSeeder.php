@@ -21,8 +21,8 @@ class SuiteSeeder extends Seeder
             ->create(Suite::factory()->suite());
 
         Suite::factory()
-            ->hasPapers(1, Paper::factory()->paper())
-            ->hasPapers(1, Paper::factory()->paper())
-            ->create(Suite::factory()->suite());
+            ->hasPapers(1, Paper::factory()->paper2())
+            ->hasPapers(1, Paper::factory()->paper2())
+            ->create(Suite::factory()->suite2());
     }
 }

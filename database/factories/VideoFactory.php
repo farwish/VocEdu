@@ -34,4 +34,13 @@ class VideoFactory extends Factory
             'category_id' => 4,
         ];
     }
+
+    public function video2()
+    {
+        return [
+            'name' => '视频' . mt_rand(1, 100),
+            'url' => $this->faker->url,
+            'category_id' => 6,
+        ];
+    }
 }

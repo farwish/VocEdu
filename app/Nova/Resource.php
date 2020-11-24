@@ -99,6 +99,15 @@ abstract class Resource extends NovaResource
         return $cateValues;
     }
 
+    public function categoryOfLastLevel()
+    {
+        return CategoryModel::query()
+            ->select(['id', 'name'])
+            ->whereIsLeaf()
+            ->pluck('name', 'id')
+            ->toArray();
+    }
+
     public function chapterTree(?int $categoryId)
     {
         $chapterValues = [];

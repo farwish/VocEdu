@@ -4,6 +4,7 @@ namespace App\Nova;
 
 use App\Models\Tab as TabModel;
 use Illuminate\Http\Request;
+use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
@@ -42,7 +43,20 @@ class Tab extends Resource
     public function fields(Request $request)
     {
         return [
-            // ID::make(__('ID'), 'id')->sortable(),
+            ID::make(__('ID'), 'id')->sortable(),
+
+            BelongsTo::make('科目分类', 'category', Category::class)
+                ->onlyOnForms()
+                ->searchable()
+                ->displayUsing(function ($model) {
+                    $tree = $this->categoryTree();
+                    return $model ? $tree[$model->getAttribute('id')] : $tree;
+                })
+            ,
+            // On index and detail page
+            BelongsTo::make('科目分类', 'category', Category::class)
+                ->exceptOnForms()
+            ,
 
             Text::make('标签名', 'name'),
         ];

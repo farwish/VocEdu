@@ -19,6 +19,14 @@ class TabSeeder extends Seeder
         foreach ($tabNames as $name) {
             Tab::factory()->create([
                 'name' => $name,
+                'category_id' => 4,
+            ]);
+        }
+
+        foreach ($tabNames as $name) {
+            Tab::factory()->create([
+                'name' => $name . mt_rand(1, 100),
+                'category_id' => 6,
             ]);
         }
     }

@@ -14,9 +14,12 @@ class CreateTabsTable extends Migration
     public function up()
     {
         Schema::create('tabs', function (Blueprint $table) {
-            $table->increments('id');
+            $table->id();
 
-            $table->string('name')->unique();
+            $table->string('name')->nullable(false);
+            $table->unsignedBigInteger('category_id')->nullable(false);
+
+            $table->unique(['category_id', 'name']);
 
             $table->timestamps();
         });

@@ -41,6 +41,11 @@ class Category extends Model
         return $this->hasMany(Question::class);
     }
 
+    public function tabs()
+    {
+        return $this->hasMany(Tab::class);
+    }
+
     public function practiseRecords()
     {
         return $this->hasMany(PractiseRecord::class);

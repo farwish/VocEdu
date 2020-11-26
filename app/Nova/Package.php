@@ -108,6 +108,7 @@ class Package extends Resource
             // For form
             BelongsToManyField::make('标签', 'tabs', Tab::class)
                 ->rules('required')
+                ->dependsOn('category', 'category_id')
                 ->onlyOnForms()
             ,
             // For index and detail

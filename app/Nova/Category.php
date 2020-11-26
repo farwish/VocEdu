@@ -76,6 +76,9 @@ class Category extends Resource
             ,
             // 详情页
             HasMany::make('章节', 'chapters', Chapter::class),
+
+            // 标签
+
         ];
     }
 

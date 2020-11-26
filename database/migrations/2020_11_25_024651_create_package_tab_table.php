@@ -17,7 +17,7 @@ class CreatePackageTabTable extends Migration
             $table->id();
 
             $table->unsignedBigInteger('package_id')->nullable(false)->index();
-            $table->unsignedInteger('tab_id')->nullable(false)->index();
+            $table->unsignedBigInteger('tab_id')->nullable(false)->index();
         });
     }
 

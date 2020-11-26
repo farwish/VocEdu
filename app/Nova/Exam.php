@@ -60,20 +60,15 @@ class Exam extends Resource
             //     ->onlyOnForms()
             // ,
             // Only relation can be used by BelongsToManyField::dependOn
-            // BelongsTo::make('科目分类', 'category', Category::class)
-            //     ->onlyOnForms()
-            //     // ->searchable() // BelongsToDependency not support searchable()
-            //     ->displayUsing(function ($model) {
-            //         $tree = $this->categoryTree();
-            //         return $model ? $tree[$model->getAttribute('id')] : $tree;
-            //     })
-            // ,
-
-            Select::make('科目', 'category')
-                ->options($this->categoryOfLastLevel())
+            BelongsTo::make('科目分类', 'category', Category::class)
                 ->onlyOnForms()
+                // ->searchable() // BelongsToDependency not support searchable()
+                ->displayUsing(function ($model) {
+                    $tree = $this->categoryTree();
+                    return $model ? $tree[$model->getAttribute('id')] : $tree;
+                })
             ,
-            BelongsTo::make('科目', 'category', Category::class)
+            BelongsTo::make('科目分类', 'category', Category::class)
                 ->exceptOnForms()
             ,
 

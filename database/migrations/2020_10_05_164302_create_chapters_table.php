@@ -22,6 +22,8 @@ class CreateChaptersTable extends Migration
 
             $table->nestedSet();
 
+            $table->unique(['category_id', 'parent_id', 'name']);
+
             $table->timestamps();
         });
     }

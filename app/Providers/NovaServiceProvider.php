@@ -133,7 +133,7 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
                         'linkTo' => null, // accepts an instance of `NovaResource` or a Nova `Resource::class`
                         'resources' => [
                             NovaResource::make(Package::class),
-                            NovaResource::make(Exam::class),
+                            // NovaResource::make(Exam::class),
                             NovaResource::make(Suite::class),
                             NovaResource::make(Paper::class),
                             NovaResource::make(Question::class),

@@ -2,7 +2,9 @@
 
 namespace App\Nova;
 
+use App\Enums\ChapterEnum;
 use Laravel\Nova\Fields\Boolean;
+use Laravel\Nova\Fields\Number;
 use Saumini\Count\RelationshipCount;
 use Hubertnnn\LaravelNova\Fields\DynamicSelect\DynamicSelect;
 use App\Models\Chapter as ChapterModel;
@@ -82,12 +84,26 @@ class Chapter extends Resource
                 ->asHtml()
             ,
 
-            Boolean::make('章节是否显示', 'status')
-                ->trueValue(0)
-                ->falseValue(1)
+            Boolean::make('本章节不禁用', 'status')
+                ->trueValue(ChapterEnum::STATUS_NORMAL)
+                ->falseValue(ChapterEnum::STATUS_DISABLED)
+                ->help('禁用后不展示给用户')
             ,
 
-            RelationshipCount::make('题量', 'questions')
+            Boolean::make('子章节不锁定', 'sub_lock_status')
+                ->trueValue(ChapterEnum::SUB_LOCK_STATUS_NORMAL)
+                ->falseValue(ChapterEnum::SUB_LOCK_STATUS_BUYING)
+                ->help('锁定后表示需要购买套餐后才能进入子章节')
+            ,
+
+            Number::make('免费题量', 'free_question_num')
+                ->min(0)
+                ->step(1)
+                ->rules('required')
+                ->help('只对最后一级生效')
+            ,
+
+            RelationshipCount::make('总题量', 'questions')
                 ->onlyOnIndex()
             ,
 

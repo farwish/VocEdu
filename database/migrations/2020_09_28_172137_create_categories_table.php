@@ -17,6 +17,7 @@ class CreateCategoriesTable extends Migration
             $table->id();
 
             $table->string('name')->nullable(false)->unique();
+            $table->timestamp('exam_time')->nullable();
 
             $table->nestedSet();
             $table->timestamps();

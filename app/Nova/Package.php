@@ -2,6 +2,7 @@
 
 namespace App\Nova;
 
+use App\Enums\PackageEnum;
 use App\Models\Package as PackageModel;
 use Benjacho\BelongsToManyField\BelongsToManyField;
 use Illuminate\Http\Request;
@@ -102,29 +103,27 @@ class Package extends Resource
             RadioButton::make('有效期模式', 'expire_mode')
                 ->onlyOnForms()
                 ->options([
-                    0 => ['不设置' => '自动跟随科目考试时间'],
-                    1 => ['设置'   => '固定时间期限'],
+                    PackageEnum::EXPIRE_MODE_FIXED   => [ '设置'   => PackageEnum::$expireModes[PackageEnum::EXPIRE_MODE_FIXED] ],
+                    PackageEnum::EXPIRE_MODE_DYNAMIC => [ '不设置' => PackageEnum::$expireModes[PackageEnum::EXPIRE_MODE_DYNAMIC] ],
                 ])
                 ->default(0)     // optional
                 ->stack()               // optional (required to show hints)
                 ->marginBetween()       // optional
                 ->skipTransformation()  // optional
                 ->toggle([              // optional
-                    0 => ['duration']     // will hide period field when value is equal to the key
+                    1 => ['duration']     // will hide period field when value is equal to the key
                 ])
             ,
             // 用于展示
             Select::make('有效期模式', 'expire_mode')
                 ->exceptOnForms()
-                ->options([
-                    0 => '自动跟随科目考试时间',
-                    1 => '固定时间期限',
-                ])
+                ->options(PackageEnum::$expireModes)
                 ->displayUsingLabels()
             ,
 
             Number::make('有效时间(年)', 'duration')
-                ->rules('required', 'min:1')
+                ->rules('required', 'min:1', 'max:10')
+                ->step(1)
             ,
 
             // Tabs:

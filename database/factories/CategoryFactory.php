@@ -48,6 +48,7 @@ class CategoryFactory extends Factory
                         'children' => [
                             [
                                 'name' => '护士执业资格考试',
+                                'exam_time' => '2022-10-01 12:00:00'
                             ],
                         ],
                     ]

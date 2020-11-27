@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Enums\PackageEnum;
 use App\Models\Package;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -32,7 +33,7 @@ class PackageFactory extends Factory
         return [
             'name' => '套餐' . $rand,
             'price' => 100,
-            'expire_mode' => 1,
+            'expire_mode' => PackageEnum::EXPIRE_MODE_FIXED,
             'duration' => 1,
 
             'explain' => '针对专业侧重点进行练习 ' . $rand,
@@ -46,7 +47,7 @@ class PackageFactory extends Factory
         return [
             'name' => '套餐' . $rand,
             'price' => 100,
-            'expire_mode' => 0,
+            'expire_mode' => PackageEnum::EXPIRE_MODE_DYNAMIC,
             'duration' => null,
 
             'explain' => '针对NB专业侧重点进行练习 ' . $rand,

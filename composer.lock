@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "4600d0f7fed1a2d0f91464a86825cb61",
+    "content-hash": "6b06072c956bc8592fa6e38ecc7796c8",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -3005,6 +3005,53 @@
                 "translations"
             ],
             "time": "2020-11-23T14:03:09+00:00"
+        },
+        {
+            "name": "owenmelbz/nova-radio-field",
+            "version": "1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/OwenMelbz/nova-radio-field.git",
+                "reference": "fa103657c3fc0fdbb3297b20da452215c89acfe9"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/OwenMelbz/nova-radio-field/zipball/fa103657c3fc0fdbb3297b20da452215c89acfe9",
+                "reference": "fa103657c3fc0fdbb3297b20da452215c89acfe9",
+                "shasum": "",
+                "mirrors": [
+                    {
+                        "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
+                        "preferred": true
+                    }
+                ]
+            },
+            "require": {
+                "php": ">=7.1.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "OwenMelbz\\RadioField\\FieldServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "OwenMelbz\\RadioField\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "A Laravel Nova radio button field type with the ability to toggle other field visibility.",
+            "keywords": [
+                "laravel",
+                "nova"
+            ],
+            "time": "2020-07-20T07:48:26+00:00"
         },
         {
             "name": "phpoption/phpoption",

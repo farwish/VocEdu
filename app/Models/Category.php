@@ -11,6 +11,10 @@ class Category extends Model
     use HasFactory;
     use NodeTrait;
 
+    protected $casts = [
+        'exam_time' => 'datetime',
+    ];
+
     public function chapters()
     {
         return $this->hasMany(Chapter::class);

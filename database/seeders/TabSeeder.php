@@ -14,18 +14,16 @@ class TabSeeder extends Seeder
      */
     public function run()
     {
-        $tabNames = Tab::factory()->tabNames();
-
-        foreach ($tabNames as $name) {
+        foreach (Tab::factory()->tabNames() as $name) {
             Tab::factory()->create([
                 'name' => $name,
                 'category_id' => 4,
             ]);
         }
 
-        foreach ($tabNames as $name) {
+        foreach (Tab::factory()->tabNames2() as $name) {
             Tab::factory()->create([
-                'name' => $name . mt_rand(1, 100),
+                'name' => $name,
                 'category_id' => 6,
             ]);
         }

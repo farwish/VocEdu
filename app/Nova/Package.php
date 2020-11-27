@@ -8,10 +8,12 @@ use Illuminate\Http\Request;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Number;
+use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\Textarea;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use OptimistDigital\MultiselectField\Multiselect;
+use OwenMelbz\RadioField\RadioButton;
 
 class Package extends Resource
 {
@@ -96,11 +98,33 @@ class Package extends Resource
                 })
             ,
 
-            Number::make('有效期(年)', 'period')
+            // 用于Form
+            RadioButton::make('有效期模式', 'expire_mode')
+                ->onlyOnForms()
+                ->options([
+                    0 => ['不设置' => '自动跟随科目考试时间'],
+                    1 => ['设置'   => '固定时间期限'],
+                ])
+                ->default(0)     // optional
+                ->stack()               // optional (required to show hints)
+                ->marginBetween()       // optional
+                ->skipTransformation()  // optional
+                ->toggle([              // optional
+                    0 => ['duration']     // will hide period field when value is equal to the key
+                ])
+            ,
+            // 用于展示
+            Select::make('有效期模式', 'expire_mode')
+                ->exceptOnForms()
+                ->options([
+                    0 => '自动跟随科目考试时间',
+                    1 => '固定时间期限',
+                ])
+                ->displayUsingLabels()
+            ,
+
+            Number::make('有效时间(年)', 'duration')
                 ->rules('required', 'min:1')
-                ->default(function () {
-                    return 1;
-                })
             ,
 
             // Tabs:

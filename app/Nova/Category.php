@@ -5,6 +5,7 @@ namespace App\Nova;
 use App\Models\Category as CategoryModel;
 use Hubertnnn\LaravelNova\Fields\DynamicSelect\DynamicSelect;
 use Illuminate\Http\Request;
+use Laravel\Nova\Fields\DateTime;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\HasMany;
 use Laravel\Nova\Fields\Select;
@@ -74,6 +75,11 @@ class Category extends Resource
             RelationshipCount::make('章节总数', 'chapters')
                 ->onlyOnIndex()
             ,
+
+            DateTime::make('考试时间', 'exam_time')
+                ->help('可对考试分类进行设置考试时间')
+            ,
+
             // 详情页
             HasMany::make('章节', 'chapters', Chapter::class),
 
@@ -125,7 +131,7 @@ class Category extends Resource
     {
         return [
             (new Actions\CategoryPackageList())->showOnTableRow()->exceptOnDetail(),
-            (new Actions\CategoryExamList())->showOnTableRow()->exceptOnDetail(),
+            // (new Actions\CategoryExamList())->showOnTableRow()->exceptOnDetail(),
             (new Actions\CategoryPaperList())->showOnTableRow()->exceptOnDetail(),
             (new Actions\CategorySuiteList())->showOnTableRow()->exceptOnDetail(),
             (new Actions\CategoryQuestionList())->showOnTableRow()->exceptOnDetail(),

@@ -32,7 +32,8 @@ class PackageFactory extends Factory
         return [
             'name' => '套餐' . $rand,
             'price' => 100,
-            'period' => 1,
+            'expire_mode' => 1,
+            'duration' => 1,
 
             'explain' => '针对专业侧重点进行练习 ' . $rand,
             'category_id' => 4,
@@ -45,7 +46,8 @@ class PackageFactory extends Factory
         return [
             'name' => '套餐' . $rand,
             'price' => 100,
-            'period' => 1,
+            'expire_mode' => 0,
+            'duration' => null,
 
             'explain' => '针对NB专业侧重点进行练习 ' . $rand,
             'category_id' => 6,

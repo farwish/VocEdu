@@ -20,7 +20,7 @@ class ChapterRepository extends BaseRepository
         $builder = $this->model->newQuery()
             ->select('id', 'name')
             ->where('category_id', $categoryId)
-            ->where('status', ChapterEnum::STATUS_SHOWN)
+            ->where('status', ChapterEnum::STATUS_NORMAL)
         ;
 
         if (! $parentChapterId) {
@@ -55,7 +55,7 @@ class ChapterRepository extends BaseRepository
 
         $data = Chapter::query()
             ->where('category_id', $categoryId)
-            ->where('status', ChapterEnum::STATUS_SHOWN)
+            ->where('status', ChapterEnum::STATUS_NORMAL)
             ->get();
         $nodes = $data->toTree();
         $traverse($nodes);

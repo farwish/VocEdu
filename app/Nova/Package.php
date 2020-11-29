@@ -7,6 +7,7 @@ use App\Models\Package as PackageModel;
 use Benjacho\BelongsToManyField\BelongsToManyField;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\BelongsTo;
+use Laravel\Nova\Fields\DateTime;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Number;
 use Laravel\Nova\Fields\Select;
@@ -99,23 +100,24 @@ class Package extends Resource
                 })
             ,
 
-            // 用于Form
-            RadioButton::make('有效期模式', 'expire_mode')
+            // 用于表单
+            RadioButton::make('有效期(模式)', 'expire_mode')
                 ->onlyOnForms()
+                ->rules('required')
                 ->options([
-                    PackageEnum::EXPIRE_MODE_FIXED   => [ '设置'   => PackageEnum::$expireModes[PackageEnum::EXPIRE_MODE_FIXED] ],
-                    PackageEnum::EXPIRE_MODE_DYNAMIC => [ '不设置' => PackageEnum::$expireModes[PackageEnum::EXPIRE_MODE_DYNAMIC] ],
+                    PackageEnum::EXPIRE_MODE_FIXED   => [ PackageEnum::$expireModes[PackageEnum::EXPIRE_MODE_FIXED]   => '' ],
+                    PackageEnum::EXPIRE_MODE_DYNAMIC => [ PackageEnum::$expireModes[PackageEnum::EXPIRE_MODE_DYNAMIC] => '' ],
                 ])
-                ->default(0)     // optional
+                ->default(PackageEnum::EXPIRE_MODE_FIXED)     // optional
                 ->stack()               // optional (required to show hints)
                 ->marginBetween()       // optional
                 ->skipTransformation()  // optional
                 ->toggle([              // optional
-                    1 => ['duration']     // will hide period field when value is equal to the key
+                    PackageEnum::EXPIRE_MODE_DYNAMIC => ['duration']     // will hide period field when value is equal to the key
                 ])
             ,
             // 用于展示
-            Select::make('有效期模式', 'expire_mode')
+            Select::make('有效期(模式)', 'expire_mode')
                 ->exceptOnForms()
                 ->options(PackageEnum::$expireModes)
                 ->displayUsingLabels()
@@ -124,6 +126,32 @@ class Package extends Resource
             Number::make('有效时间(年)', 'duration')
                 ->rules('required', 'min:1', 'max:10')
                 ->step(1)
+            ,
+
+            // 用于表单
+            RadioButton::make('上架状态', 'list_status')
+                ->onlyOnForms()
+                ->rules('required')
+                ->options([
+                    PackageEnum::LIST_STATUS_NORMAL   => [ '已上架'   => '' ],
+                    PackageEnum::LIST_STATUS_DISABLED => [ '未上架' => '' ],
+                ])
+                ->default(PackageEnum::LIST_STATUS_DISABLED)     // optional
+                ->stack()               // optional (required to show hints)
+                ->marginBetween()       // optional
+                ->skipTransformation()  // optional
+                ->toggle([              // optional
+                    PackageEnum::LIST_STATUS_NORMAL => ['list_datetime']     // will hide period field when value is equal to the key
+                ])
+            ,
+            // 用于展示
+            Select::make('是否上架', 'list_status')
+                ->exceptOnForms()
+                ->options(PackageEnum::$listStatuses)
+                ->displayUsingLabels()
+            ,
+
+            DateTime::make('自动上架时间', 'list_datetime')
             ,
 
             // Tabs:

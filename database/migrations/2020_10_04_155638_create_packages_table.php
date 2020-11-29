@@ -19,8 +19,12 @@ class CreatePackagesTable extends Migration
             $table->string('name')->nullable(false);
             $table->string('explain', 600)->nullable(false)->default('');
             $table->unsignedInteger('price')->nullable(false);
+
             $table->unsignedTinyInteger('expire_mode')->nullable(false)->default(0);
             $table->unsignedInteger('duration')->nullable();
+
+            $table->unsignedTinyInteger('list_status')->nullable(false)->default(1);
+            $table->timestamp('list_datetime')->nullable();
 
             $table->unsignedBigInteger('category_id')->nullable(false)->index();
 

@@ -35,6 +35,7 @@ class PackageFactory extends Factory
             'price' => 100,
             'expire_mode' => PackageEnum::EXPIRE_MODE_FIXED,
             'duration' => 1,
+            'list_status' => PackageEnum::LIST_STATUS_NORMAL,
 
             'explain' => '针对专业侧重点进行练习 ' . $rand,
             'category_id' => 4,
@@ -49,6 +50,7 @@ class PackageFactory extends Factory
             'price' => 100,
             'expire_mode' => PackageEnum::EXPIRE_MODE_DYNAMIC,
             'duration' => null,
+            'list_status' => PackageEnum::LIST_STATUS_NORMAL,
 
             'explain' => '针对NB专业侧重点进行练习 ' . $rand,
             'category_id' => 6,

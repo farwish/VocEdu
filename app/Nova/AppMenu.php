@@ -58,7 +58,7 @@ class AppMenu extends Resource
                     $tree = $this->categoryTree();
                     return $model ? $tree[$model->getAttribute('id')] : $tree;
                 })
-                ->help('不选分类时，会作为其它没有相关数据的科目的默认卡片')
+                ->help('不选分类时，会作为其它没有相关数据的科目的默认菜单')
             ,
             // On index and detail page
             BelongsTo::make('科目分类', 'category', Category::class)
@@ -97,7 +97,7 @@ class AppMenu extends Resource
                 ->step(1)
             ,
 
-            Text::make('卡片标记', 'slag')
+            Text::make('菜单标记', 'slag')
                 ->readonly()
             ,
         ];
@@ -149,6 +149,6 @@ class AppMenu extends Resource
 
     public static function label()
     {
-        return 'APP卡片';
+        return 'APP菜单';
     }
 }

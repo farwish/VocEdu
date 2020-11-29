@@ -19,7 +19,7 @@ class CreateAppMenusTable extends Migration
             $table->string('title')->nullable(false);
             $table->string('sub_title')->nullable(false);
             $table->string('icon')->nullable(false);
-            $table->string('color');
+            $table->string('color')->nullable();
             $table->string('next_format')->nullable(false);
             $table->string('slag')->nullable(false);
             $table->unsignedTinyInteger('status')->nullable(false)->default(0);

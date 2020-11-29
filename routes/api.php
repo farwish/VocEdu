@@ -5,6 +5,7 @@ use App\Http\Controllers\V1\CategoryController as V1CategoryController;
 use App\Http\Controllers\V1\ChapterController as V1ChapterController;
 use App\Http\Controllers\V1\HealthController as V1HealthController;
 use App\Http\Controllers\V1\AppMenuController as V1AppMenuController;
+use App\Http\Controllers\V1\PackageController as V1PackageController;
 use App\Http\Controllers\V1\PractiseController as V1PractiseController;
 use App\Http\Controllers\V1\QuestionController as V1QuestionController;
 
@@ -38,6 +39,12 @@ Route::group([
         Route::get('status', [V1HealthController::class, 'status']);
     });
 
+    Route::prefix('menu')
+        ->middleware(['auth:api'])
+        ->group(function ($router) {
+            Route::get('index', [V1AppMenuController::class, 'index']);
+        });
+
     Route::prefix('auth')
         ->group(function ($router) {
             Route::post('login', [V1AuthController::class, 'login'])
@@ -47,12 +54,6 @@ Route::group([
             Route::get('me', [V1AuthController::class, 'me'])
                 ->middleware('auth:api');
             // Route::post('refresh', [V1AuthController::class, 'refresh']);
-        });
-
-    Route::prefix('menu')
-        ->middleware(['auth:api'])
-        ->group(function ($router) {
-            Route::get('index', [V1AppMenuController::class, 'index']);
         });
 
     Route::prefix('category')
@@ -72,6 +73,12 @@ Route::group([
             Route::get('index', [V1ChapterController::class, 'index']);
 
             // Route::post('tree', [V1ChapterController::class, 'tree']);
+        });
+
+    Route::prefix('package')
+        ->middleware(['auth:api'])
+        ->group(function ($router) {
+            Route::get('index', [V1PackageController::class, 'list']);
         });
 
     Route::prefix('practise')

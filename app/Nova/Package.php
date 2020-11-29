@@ -94,11 +94,15 @@ class Package extends Resource
                 ->rules('required')
             ,
 
-            Number::make('价格(元)', 'price')
-                ->rules('required')
+            Number::make('售价(元)', 'price')
+                ->rules('required', 'min:1')
                 ->default(function () {
-                    return 0;
+                    return 1;
                 })
+            ,
+
+            Number::make('原价(元)', 'ori_price')
+                ->help('不填写默认和售价一致')
             ,
 
             // 用于表单
@@ -193,6 +197,15 @@ class Package extends Resource
             Multiselect::make('视频', 'videos')
                 ->belongsToMany(Video::class)
                 ->exceptOnForms()
+            ,
+
+            Number::make('套餐排序值', 'sort')
+                ->rules('required', 'min:0')
+                ->step(1)
+                ->default(function () {
+                    return 0;
+                })
+                ->help('数字越大越排前')
             ,
         ];
     }

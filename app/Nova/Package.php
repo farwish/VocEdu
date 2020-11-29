@@ -4,6 +4,7 @@ namespace App\Nova;
 
 use App\Enums\PackageEnum;
 use App\Models\Package as PackageModel;
+use App\Nova\Actions\PackageListOn;
 use Benjacho\BelongsToManyField\BelongsToManyField;
 use Epartment\NovaDependencyContainer\NovaDependencyContainer;
 use Illuminate\Http\Request;
@@ -251,7 +252,9 @@ class Package extends Resource
      */
     public function actions(Request $request)
     {
-        return [];
+        return [
+            (new PackageListOn),
+        ];
     }
 
     public static function label()

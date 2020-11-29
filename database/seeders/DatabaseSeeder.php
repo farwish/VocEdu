@@ -33,6 +33,8 @@ class DatabaseSeeder extends Seeder
             ExamSeeder::class,
 
             MemberSeeder::class,
+
+            AppMenuSeeder::class,
         ]);
     }
 }

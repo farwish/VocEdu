@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Nova\AppMenu;
 use App\Nova\Article;
 use App\Nova\Category;
 use App\Nova\Chapter;
@@ -147,6 +148,16 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
                             NovaResource::make(Video::class),
                             NovaResource::make(Pattern::class),
                         ],
+                    ]),
+                    TopLevelResource::make([
+                        'label' => '系统管理',
+                        'expanded' => null,
+                        'badge' => null,
+                        'icon' => null,
+                        'linkTo' => null, // accepts an instance of `NovaResource` or a Nova `Resource::class`
+                        'resources' => [
+                            NovaResource::make(AppMenu::class),
+                        ]
                     ]),
                     TopLevelResource::make([
                         'label' => '账户管理',

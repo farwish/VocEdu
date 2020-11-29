@@ -93,9 +93,9 @@ class Chapter extends Resource
                         ->help('禁用后不展示给用户')
                     ,
 
-                    Boolean::make('子章节不锁定', 'sub_lock_status')
-                        ->trueValue(ChapterEnum::SUB_LOCK_STATUS_NORMAL)
-                        ->falseValue(ChapterEnum::SUB_LOCK_STATUS_BUYING)
+                    Boolean::make('子章节不锁定', 'sub_lock')
+                        ->trueValue(ChapterEnum::SUB_LOCK_NORMAL)
+                        ->falseValue(ChapterEnum::SUB_LOCK_BUYING)
                         ->help('锁定后表示需要购买套餐后才能进入子章节')
                     ,
 

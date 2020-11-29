@@ -18,7 +18,7 @@ class ChapterRepository extends BaseRepository
     public function list(int $categoryId, ?int $parentChapterId = null)
     {
         $builder = $this->model->newQuery()
-            ->select('id', 'name')
+            ->select(['id', 'name', 'sub_lock as subLock'])
             ->where('category_id', $categoryId)
             ->where('status', ChapterEnum::STATUS_NORMAL)
         ;
@@ -29,8 +29,7 @@ class ChapterRepository extends BaseRepository
             $builder->where('parent_id', $parentChapterId);
         }
 
-        return $builder
-            ->get();
+        return $builder->get()->toArray();
     }
 
     public function tree(int $categoryId)

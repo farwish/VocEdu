@@ -2,19 +2,20 @@
 
 namespace App\Http\Controllers\V1;
 
-use App\Http\Requests\ChapterInfo;
-use App\Repositories\ChapterRepository;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\V1\AppMenuRequest;
+use App\Repositories\AppMenuRepository;
+use Illuminate\Http\Request;
 
-class ChapterController extends Controller
+class AppMenuController extends Controller
 {
     /**
      * @OA\Get(
-     *      path="/api/v1/chapter/index",
-     *      operationId="/api/v1/chapter/index",
-     *      tags={"Chapter v1"},
-     *      summary="章节列表",
-     *      description="Category's chapter list",
+     *      path="/api/v1/menu/index",
+     *      operationId="/api/v1/menu/index",
+     *      tags={"App Menu v1"},
+     *      summary="APP卡片菜单列表",
+     *      description="Menu list",
      *      security={
      *          {"bearerXxx": {}}
      *      },
@@ -26,12 +27,6 @@ class ChapterController extends Controller
      *      @OA\Parameter(
      *          name="cid",
      *          description="科目id",
-     *          required=true,
-     *          in="query",
-     *      ),
-     *      @OA\Parameter(
-     *          name="pid",
-     *          description="章节id（有传这个参数的时候, 返回此章节下的子章节）",
      *          in="query",
      *      ),
      *      @OA\Response(
@@ -42,9 +37,13 @@ class ChapterController extends Controller
      *              @OA\Schema(
      *                  @OA\Property(property="data", type="array",
      *                      @OA\Items(type="object",
-     *                          @OA\Property(property="id", type="integer", description="章节id"),
-     *                          @OA\Property(property="name", type="string", description="章节名称"),
-     *                          @OA\Property(property="subLock", type="integer", description="子章节是否锁住, 0-不锁, 1-有锁"),
+     *                          @OA\Property(property="id", type="integer", description="menu id"),
+     *                          @OA\Property(property="title", type="string", description="标题"),
+     *                          @OA\Property(property="subTitle", type="string", description="副标题"),
+     *                          @OA\Property(property="icon", type="string", description="图标"),
+     *                          @OA\Property(property="color", type="string", description="颜色"),
+     *                          @OA\Property(property="nextFormat", type="string", description="下页格式"),
+     *                          @OA\Property(property="slag", type="string", description="特殊标记"),
      *                      ),
      *                  ),
      *                  @OA\Property(property="message", type="string", default="success"),
@@ -64,24 +63,17 @@ class ChapterController extends Controller
      *      ),
      * )
      *
-     * @param ChapterInfo $request
-     * @param ChapterRepository $chapterRepository
+     * @param AppMenuRequest $request
+     * @param AppMenuRepository $repository
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function index(ChapterInfo $request, ChapterRepository $chapterRepository)
+    public function index(AppMenuRequest $request, AppMenuRepository $repository)
     {
-        $validated = $request->validated();
-        $cid = $validated['cid'];         // chapter category_id
-        $pid = $validated['pid'] ?? null; // chapter parent_id
+        $categoryId = $request->validated()['cid'];
 
-        return $this->success($chapterRepository->list($cid, $pid));
-    }
+        $list = $repository->list($categoryId);
 
-    public function tree(ChapterInfo $request, ChapterRepository $chapterRepository)
-    {
-        $cid = $request->validated()['cid'];
-
-        return $this->success($chapterRepository->tree($cid));
+        return $this->success($list);
     }
 }

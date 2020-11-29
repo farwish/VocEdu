@@ -9,6 +9,11 @@ class Package extends Model
 {
     use HasFactory;
 
+    protected $casts = [
+        'list_datetime' => 'datetime',
+        'list_off_datetime' => 'datetime',
+    ];
+
     public function category()
     {
         return $this->belongsTo(Category::class);

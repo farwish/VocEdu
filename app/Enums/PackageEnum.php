@@ -16,7 +16,7 @@ class PackageEnum
     ];
 
     public static $listStatuses = [
-        self::LIST_STATUS_NORMAL => '上架',
-        self::LIST_STATUS_DISABLED => '不上架',
+        self::LIST_STATUS_NORMAL => '已上架',
+        self::LIST_STATUS_DISABLED => '未上架',
     ];
 }

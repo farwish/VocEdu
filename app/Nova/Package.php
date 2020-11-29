@@ -5,6 +5,7 @@ namespace App\Nova;
 use App\Enums\PackageEnum;
 use App\Models\Package as PackageModel;
 use Benjacho\BelongsToManyField\BelongsToManyField;
+use Epartment\NovaDependencyContainer\NovaDependencyContainer;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\DateTime;
@@ -104,17 +105,11 @@ class Package extends Resource
             RadioButton::make('有效期(模式)', 'expire_mode')
                 ->onlyOnForms()
                 ->rules('required')
-                ->options([
-                    PackageEnum::EXPIRE_MODE_FIXED   => [ PackageEnum::$expireModes[PackageEnum::EXPIRE_MODE_FIXED]   => '' ],
-                    PackageEnum::EXPIRE_MODE_DYNAMIC => [ PackageEnum::$expireModes[PackageEnum::EXPIRE_MODE_DYNAMIC] => '' ],
-                ])
+                ->options(PackageEnum::$expireModes)
                 ->default(PackageEnum::EXPIRE_MODE_FIXED)     // optional
                 ->stack()               // optional (required to show hints)
                 ->marginBetween()       // optional
                 ->skipTransformation()  // optional
-                ->toggle([              // optional
-                    PackageEnum::EXPIRE_MODE_DYNAMIC => ['duration']     // will hide period field when value is equal to the key
-                ])
             ,
             // 用于展示
             Select::make('有效期(模式)', 'expire_mode')
@@ -123,35 +118,40 @@ class Package extends Resource
                 ->displayUsingLabels()
             ,
 
-            Number::make('有效时间(年)', 'duration')
-                ->rules('required', 'min:1', 'max:10')
-                ->step(1)
+            // NovaDependencyContainer 替代 RadioButton 的 toggle，不会渲染出 required 而不能提交。
+            NovaDependencyContainer::make([
+                Number::make('有效时间(年)', 'duration')
+                    ->rules('required', 'min:1', 'max:10')
+                    ->step(1)
+                ,
+            ])->dependsOn('expire_mode', PackageEnum::EXPIRE_MODE_FIXED)
             ,
 
             // 用于表单
             RadioButton::make('上架状态', 'list_status')
                 ->onlyOnForms()
                 ->rules('required')
-                ->options([
-                    PackageEnum::LIST_STATUS_NORMAL   => [ '已上架'   => '' ],
-                    PackageEnum::LIST_STATUS_DISABLED => [ '未上架' => '' ],
-                ])
+                ->options(PackageEnum::$listStatuses)
                 ->default(PackageEnum::LIST_STATUS_DISABLED)     // optional
                 ->stack()               // optional (required to show hints)
                 ->marginBetween()       // optional
                 ->skipTransformation()  // optional
                 ->toggle([              // optional
-                    PackageEnum::LIST_STATUS_NORMAL => ['list_datetime']     // will hide period field when value is equal to the key
+                    PackageEnum::LIST_STATUS_NORMAL => ['list_datetime'],      // will hide period field when value is equal to the key
+                    PackageEnum::LIST_STATUS_DISABLED => [] // will hide period field when value is equal to the key
                 ])
             ,
             // 用于展示
-            Select::make('是否上架', 'list_status')
+            Select::make('上架状态', 'list_status')
                 ->exceptOnForms()
                 ->options(PackageEnum::$listStatuses)
                 ->displayUsingLabels()
             ,
 
             DateTime::make('自动上架时间', 'list_datetime')
+            ,
+
+            DateTime::make('自动下架时间', 'list_off_datetime')
             ,
 
             // Tabs:

@@ -60,7 +60,7 @@ class PackageRepository extends BaseRepository
                 }
 
                 $tabs = $item->tabs()->get()->pluck('name');
-                $item['serviceContent'] = $tabs ? $tabs->join(',') : '';
+                $item['serviceContent'] = $tabs ? $tabs->toArray() : [];
 
                 unset($item['expire_mode'], $item['duration']);
             });

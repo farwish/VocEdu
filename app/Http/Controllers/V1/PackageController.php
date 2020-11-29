@@ -42,8 +42,10 @@ class PackageController extends Controller
      *                          @OA\Property(property="explain", type="string", description="套餐说明"),
      *                          @OA\Property(property="price", type="integer", description="售价(元)"),
      *                          @OA\Property(property="oriPrice", type="integer", description="原价(元)"),
-     *                          @OA\Property(property="expireDate", type="integer", description="套餐购买后有效期"),
-     *                          @OA\Property(property="serviceContent", type="string", description="标签,逗号隔开"),
+     *                          @OA\Property(property="expireDate", type="string", description="套餐购买后有效期"),
+     *                          @OA\Property(property="serviceContent", type="array", description="标签名组成的数组",
+     *                              @OA\Items(type="string")
+     *                          ),
      *                      ),
      *                  ),
      *                  @OA\Property(property="message", type="string", default="success"),

@@ -137,7 +137,7 @@ class Package extends Resource
                 ->marginBetween()       // optional
                 ->skipTransformation()  // optional
                 ->toggle([              // optional
-                    PackageEnum::LIST_STATUS_NORMAL => ['list_datetime'],      // will hide period field when value is equal to the key
+                    PackageEnum::LIST_STATUS_NORMAL => ['list_on_datetime'],      // will hide period field when value is equal to the key
                     PackageEnum::LIST_STATUS_DISABLED => [] // will hide period field when value is equal to the key
                 ])
             ,
@@ -148,7 +148,7 @@ class Package extends Resource
                 ->displayUsingLabels()
             ,
 
-            DateTime::make('自动上架时间', 'list_datetime')
+            DateTime::make('自动上架时间', 'list_on_datetime')
             ,
 
             DateTime::make('自动下架时间', 'list_off_datetime')

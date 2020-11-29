@@ -24,7 +24,7 @@ class CreatePackagesTable extends Migration
             $table->unsignedInteger('duration')->nullable();
 
             $table->unsignedTinyInteger('list_status')->nullable(false)->default(1);
-            $table->timestamp('list_datetime')->nullable();
+            $table->timestamp('list_on_datetime')->nullable();
             $table->timestamp('list_off_datetime')->nullable();
 
             $table->unsignedBigInteger('category_id')->nullable(false)->index();

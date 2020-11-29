@@ -10,7 +10,7 @@ class Package extends Model
     use HasFactory;
 
     protected $casts = [
-        'list_datetime' => 'datetime',
+        'list_on_datetime' => 'datetime',
         'list_off_datetime' => 'datetime',
     ];
 

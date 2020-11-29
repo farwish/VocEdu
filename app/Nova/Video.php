@@ -49,12 +49,22 @@ class Video extends Resource
         return [
             ID::make(__('ID'), 'id')->sortable(),
 
-            DynamicSelect::make('科目分类', 'category_id')
-                ->options($this->categoryTree())
-                ->rules('required')
-                ->onlyOnForms()
-            ,
+            // DynamicSelect::make('科目分类', 'category_id')
+            //     ->options($this->categoryTree())
+            //     ->rules('required')
+            //     ->onlyOnForms()
+            // ,
 
+            // Only relation can be used by BelongsToManyField::dependOn
+            BelongsTo::make('科目分类', 'category', Category::class)
+                ->onlyOnForms()
+                ->searchable()
+                ->displayUsing(function ($model) {
+                    $tree = $this->categoryTree();
+                    return $model ? $tree[$model->getAttribute('id')] : $tree;
+                })
+            ,
+            // On index and detail page
             BelongsTo::make('科目分类', 'category', Category::class)
                 ->exceptOnForms()
             ,

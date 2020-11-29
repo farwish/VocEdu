@@ -104,7 +104,7 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
                 'remember_menu_state' => false, // default
                 'navigation' => [
                     TopLevelResource::make([
-                        'label' => '内容管理',
+                        'label' => '类目管理',
                         'expanded' => null,
                         'badge' => null,
                         'icon' => null,
@@ -117,13 +117,9 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
                                 'target' => '_blank',
                                 'url' => 'http://121.41.123.125:8889/vocmob'
                             ]),
-                            NovaResource::make(Article::class),
-                            NovaResource::make(Video::class),
                             NovaResource::make(Category::class),
                             NovaResource::make(Chapter::class),
-                            NovaResource::make(Pattern::class),
-                            NovaResource::make(Tab::class),
-                        ],
+                        ]
                     ]),
                     TopLevelResource::make([
                         'label' => '考试管理',
@@ -138,6 +134,19 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
                             NovaResource::make(Paper::class),
                             NovaResource::make(Question::class),
                         ]
+                    ]),
+                    TopLevelResource::make([
+                        'label' => '内容管理',
+                        'expanded' => null,
+                        'badge' => null,
+                        'icon' => null,
+                        'linkTo' => null, // accepts an instance of `NovaResource` or a Nova `Resource::class`
+                        'resources' => [
+                            NovaResource::make(Tab::class),
+                            NovaResource::make(Article::class),
+                            NovaResource::make(Video::class),
+                            NovaResource::make(Pattern::class),
+                        ],
                     ]),
                     TopLevelResource::make([
                         'label' => '账户管理',

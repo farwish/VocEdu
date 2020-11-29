@@ -25,6 +25,21 @@ class Category extends Model
         return $this->hasMany(Exam::class);
     }
 
+    public function packages()
+    {
+        return $this->hasMany(Package::class);
+    }
+
+    public function questions()
+    {
+        return $this->hasMany(Question::class);
+    }
+
+    public function suites()
+    {
+        return $this->hasMany(Suite::class);
+    }
+
     public function papers()
     {
         return $this->hasMany(Paper::class);
@@ -35,14 +50,9 @@ class Category extends Model
         return $this->hasMany(Article::class);
     }
 
-    public function packages()
+    public function videos()
     {
-        return $this->hasMany(Package::class);
-    }
-
-    public function questions()
-    {
-        return $this->hasMany(Question::class);
+        return $this->hasMany(Video::class);
     }
 
     public function tabs()

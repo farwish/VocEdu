@@ -47,7 +47,7 @@ class PackageListOn extends Command
             ->where('list_status', PackageEnum::LIST_STATUS_DISABLED)
             ->whereNotNull('list_on_datetime')
             ->where('list_on_datetime', '<', now()->toDateTimeString())
-            ->where('list_on_datetime', '>', now()->subMinutes(5)->toDateTimeString())
+            ->where('list_on_datetime', '>', now()->subMinutes(3)->toDateTimeString())
             ->get();
         ;
 

@@ -47,7 +47,7 @@ class PackageListOff extends Command
             ->where('list_status', PackageEnum::LIST_STATUS_NORMAL)
             ->whereNotNull('list_off_datetime')
             ->where('list_off_datetime', '<', now()->toDateTimeString())
-            ->where('list_off_datetime', '>', now()->subMinutes(5)->toDateTimeString())
+            ->where('list_off_datetime', '>', now()->subMinutes(3)->toDateTimeString())
             ->get();
         ;
 

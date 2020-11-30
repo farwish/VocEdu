@@ -14,7 +14,7 @@ class PackageListOff extends Command
      *
      * @var string
      */
-    protected $signature = 'voc-package:list-off';
+    protected $signature = 'voc-package:list-off-check';
 
     /**
      * The console command description.

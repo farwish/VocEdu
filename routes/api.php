@@ -3,6 +3,7 @@
 use App\Http\Controllers\V1\AuthController as V1AuthController;
 use App\Http\Controllers\V1\CategoryController as V1CategoryController;
 use App\Http\Controllers\V1\ChapterController as V1ChapterController;
+use App\Http\Controllers\V1\CommandController as V1CommandController;
 use App\Http\Controllers\V1\HealthController as V1HealthController;
 use App\Http\Controllers\V1\AppMenuController as V1AppMenuController;
 use App\Http\Controllers\V1\PackageController as V1PackageController;
@@ -38,6 +39,12 @@ Route::group([
     ], function () {
         Route::get('status', [V1HealthController::class, 'status']);
     });
+
+    Route::prefix('command')
+        ->group(function ($router) {
+            Route::post('voc-package-list-on-check',  [V1CommandController::class, 'packageListOnCheck']);
+            Route::post('voc-package-list-off-check', [V1CommandController::class, 'packageListOffCheck']);
+        });
 
     Route::prefix('menu')
         ->middleware(['auth:api'])

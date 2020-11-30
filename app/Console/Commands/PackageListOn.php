@@ -14,7 +14,7 @@ class PackageListOn extends Command
      *
      * @var string
      */
-    protected $signature = 'voc-package:list-on';
+    protected $signature = 'voc-package:list-on-check';
 
     /**
      * The console command description.

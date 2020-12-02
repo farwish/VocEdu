@@ -75,11 +75,6 @@ class Category extends Model
         return $this->hasMany(PractiseNote::class);
     }
 
-    public function appMenus()
-    {
-        return $this->hasMany(AppMenu::class);
-    }
-
     // 开通科目题库的用户
     public function members()
     {

@@ -6,14 +6,11 @@ use App\Enums\AppMenuEnum;
 use App\Models\AppMenu as AppMenuModel;
 use Hubertnnn\LaravelNova\Fields\DynamicSelect\DynamicSelect;
 use Illuminate\Http\Request;
-use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\Boolean;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Number;
-use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
-use OwenMelbz\RadioField\RadioButton;
 
 class AppMenu extends Resource
 {
@@ -29,7 +26,7 @@ class AppMenu extends Resource
      *
      * @var string
      */
-    public static $title = 'id';
+    public static $title = 'title';
 
     /**
      * The columns that should be searched.
@@ -37,7 +34,7 @@ class AppMenu extends Resource
      * @var array
      */
     public static $search = [
-        'id',
+        'title',
     ];
 
     /**
@@ -51,14 +48,17 @@ class AppMenu extends Resource
         return [
             ID::make(__('ID'), 'id')->sortable(),
 
-            DynamicSelect::make('父菜单', 'parent_id')
-                ->help('不选的时候代表根菜单。')
+            DynamicSelect::make('上级菜单', 'parent_id')
                 ->options($this->appMenuTree())
-                ->onlyOnForms()
+                ->hideFromIndex()
+                ->readonly()
             ,
-
-            Text::make('标题', 'title')
-                ->rules('required')
+            Text::make('名称', 'title')
+                ->rules('required', 'max:255')
+                ->displayUsing(function($name, $resource){
+                    return str_repeat('|— ', $resource->depth) . $name;
+                })
+                ->asHtml()
             ,
 
             Text::make('副标题', 'sub_title')
@@ -66,16 +66,13 @@ class AppMenu extends Resource
             ,
 
             Text::make('图标名称', 'icon')
+                ->hideFromIndex()
                 ->rules('required')
                 ->help('根据 uView 的 u-icon 图标名')
             ,
 
             Text::make('颜色', 'color')
-            ,
-
-            Select::make('子页面类型', 'next_format')
-                ->options(AppMenuEnum::$nextFormats)
-                ->displayUsingLabels()
+                ->hideFromIndex()
             ,
 
             Boolean::make('是否展示', 'status')
@@ -84,12 +81,7 @@ class AppMenu extends Resource
                 ->help('禁用后不展示给用户')
             ,
 
-            Number::make('排序值', 'sort')
-                ->rules('required', 'min:0')
-                ->step(1)
-            ,
-
-            Text::make('菜单标记', 'slag')
+            Text::make('菜单标记', 'slug')
                 ->readonly()
             ,
         ];
@@ -142,5 +134,20 @@ class AppMenu extends Resource
     public static function label()
     {
         return 'APP菜单';
+    }
+
+    public static function authorizedToCreate(Request $request)
+    {
+        return false;
+    }
+
+    public function authorizedToDelete(Request $request)
+    {
+        return false;
+    }
+
+    public static function indexQuery(NovaRequest $request, $query)
+    {
+        return $query->withDepth()->defaultOrder();
     }
 }

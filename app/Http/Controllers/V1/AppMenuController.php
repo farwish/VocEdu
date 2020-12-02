@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\V1;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\V1\AppMenuRequest;
 use App\Repositories\AppMenuRepository;
 use Illuminate\Http\Request;
 
@@ -23,11 +22,6 @@ class AppMenuController extends Controller
      *          name="Authorization",
      *          description="`Bearer <access_token>`若需调试，统一在顶部 Authorize 中设置",
      *          in="header"
-     *      ),
-     *      @OA\Parameter(
-     *          name="cid",
-     *          description="科目id",
-     *          in="query",
      *      ),
      *      @OA\Response(
      *          response=200,
@@ -63,16 +57,14 @@ class AppMenuController extends Controller
      *      ),
      * )
      *
-     * @param AppMenuRequest $request
+     * @param Request $request
      * @param AppMenuRepository $repository
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function index(AppMenuRequest $request, AppMenuRepository $repository)
+    public function index(Request $request, AppMenuRepository $repository)
     {
-        $categoryId = $request->validated()['cid'] ?? null;
-
-        $list = $repository->list($categoryId);
+        $list = $repository->list();
 
         return $this->success($list);
     }

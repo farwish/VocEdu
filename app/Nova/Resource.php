@@ -139,12 +139,12 @@ abstract class Resource extends NovaResource
         return $chapterValues;
     }
 
-    public function appMenuTree(?int $categoryId = null)
+    public function appMenuTree()
     {
-        $menuValues = [];
+        $cateValues = [];
 
-        $traverse = function ($menus, $prefix = '—') use (&$traverse, &$menuValues) {
-            /** @var AppMenuModel $menu */
+        $traverse = function ($menus, $prefix = '—') use (&$traverse, &$cateValues) {
+            /** @var CategoryModel $category */
             foreach ($menus as $menu) {
                 if (! $menu->getAttribute('parent_id')) {
                     // Root category do not add prefix
@@ -152,20 +152,16 @@ abstract class Resource extends NovaResource
                 } else {
                     $rootPrefix = '|' . $prefix;
                 }
-                $menuValues[$menu->getAttribute('id')] = $rootPrefix . ' ' . $menu->name;
+                $cateValues[$menu->getAttribute('id')] = $rootPrefix . ' ' . $menu->title;
 
                 $sunPrefix = $prefix . $rootPrefix;
                 $traverse($menu->children, $sunPrefix);
             }
         };
 
-        if ($categoryId) {
-            $nodes = AppMenuModel::query()->where('category_id', $categoryId)->get()->toTree();
-        } else {
-            $nodes = AppMenuModel::query()->get()->toTree();
-        }
+        $nodes = AppMenuModel::get()->toTree();
         $traverse($nodes);
 
-        return $menuValues;
+        return $cateValues;
     }
 }

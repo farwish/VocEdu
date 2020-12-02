@@ -11,8 +11,4 @@ class AppMenu extends Model
     use HasFactory;
     use NodeTrait;
 
-    public function category()
-    {
-        return $this->belongsTo(Category::class);
-    }
 }

@@ -16,18 +16,13 @@ class CreateAppMenusTable extends Migration
         Schema::create('app_menus', function (Blueprint $table) {
             $table->id();
 
-            $table->string('title')->nullable(false);
+            $table->string('title')->nullable(false)->unique();
             $table->string('sub_title')->nullable(false);
             $table->string('icon')->nullable(false);
             $table->string('color')->nullable();
-            $table->string('next_format')->nullable(false);
             $table->string('slug')->nullable(false);
             $table->unsignedTinyInteger('status')->nullable(false)->default(0);
-            $table->unsignedSmallInteger('sort')->nullable(false)->default(0);
-
-            $table->unsignedBigInteger('category_id')->nullable();
-
-            $table->unique(['category_id', 'title']);
+            $table->unsignedTinyInteger('sub_lock')->nullable(false)->default(0);
 
             $table->nestedSet();
             $table->timestamps();

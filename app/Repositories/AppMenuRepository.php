@@ -18,38 +18,16 @@ class AppMenuRepository extends BaseRepository
     /**
      * App Menu list
      *
-     * @param int $categoryId
-     *
      * @return array
      */
-    public function list(?int $categoryId = null)
+    public function list()
     {
-        $qb = $this->newQuery()
-            ->select(['id', 'title', 'sub_title as subTitle', 'icon', 'color', 'next_format as nextFormat', 'slug', 'category_id as categoryId'])
+        return $this->newQuery()
+            ->select(['id', 'title', 'sub_title as subTitle', 'icon', 'color', 'sub_lock as subLock', 'slug', 'parent_id'])
             ->where('status', AppMenuEnum::STATUS_NORMAL)
-        ;
-
-        $arr = $qb
-            ->where('category_id', $categoryId)
-            ->orWhereNull('category_id')
-            ->orderBy('sort', 'DESC')
             ->get()
-            ->toArray();
+            ->toTree()
+            ->toArray()
         ;
-
-        $globalMenus = $categoryMenus = [];
-        if ($arr) {
-            foreach ($arr as &$item) {
-                if (! $item['categoryId']) {
-                    unset($item['categoryId']);
-                    $globalMenus[] = $item;
-                } else {
-                    unset($item['categoryId']);
-                    $categoryMenus[] = $item;
-                }
-            }
-        }
-
-        return $categoryMenus ? $categoryMenus : $globalMenus;
     }
 }

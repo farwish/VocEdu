@@ -8,9 +8,10 @@ use Hubertnnn\LaravelNova\Fields\DynamicSelect\DynamicSelect;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\Boolean;
 use Laravel\Nova\Fields\ID;
-use Laravel\Nova\Fields\Number;
+use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
+use OwenMelbz\RadioField\RadioButton;
 
 class AppMenu extends Resource
 {
@@ -73,6 +74,22 @@ class AppMenu extends Resource
 
             Text::make('颜色', 'color')
                 ->hideFromIndex()
+            ,
+
+            RadioButton::make('是否开放菜单下内容', 'sub_lock')
+                ->onlyOnForms()
+                ->rules('required')
+                ->options(AppMenuEnum::$subLocks)
+                ->default(AppMenuEnum::SUB_LOCK_NORMAL)     // optional
+                ->stack()               // optional (required to show hints)
+                ->marginBetween()       // optional
+                ->skipTransformation()  // optional
+            ,
+            // 用于展示
+            Select::make('是否开放菜单下内容', 'sub_lock')
+                ->exceptOnForms()
+                ->options(AppMenuEnum::$subLocks)
+                ->displayUsingLabels()
             ,
 
             Boolean::make('是否展示', 'status')

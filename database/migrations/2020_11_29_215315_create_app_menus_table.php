@@ -21,7 +21,7 @@ class CreateAppMenusTable extends Migration
             $table->string('icon')->nullable(false);
             $table->string('color')->nullable();
             $table->string('next_format')->nullable(false);
-            $table->string('slag')->nullable(false);
+            $table->string('slug')->nullable(false);
             $table->unsignedTinyInteger('status')->nullable(false)->default(0);
             $table->unsignedSmallInteger('sort')->nullable(false)->default(0);
 
@@ -29,6 +29,7 @@ class CreateAppMenusTable extends Migration
 
             $table->unique(['category_id', 'title']);
 
+            $table->nestedSet();
             $table->timestamps();
         });
     }

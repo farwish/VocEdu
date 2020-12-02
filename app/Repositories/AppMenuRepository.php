@@ -22,10 +22,10 @@ class AppMenuRepository extends BaseRepository
      *
      * @return array
      */
-    public function list(int $categoryId)
+    public function list(?int $categoryId = null)
     {
         $qb = $this->newQuery()
-            ->select(['id', 'title', 'sub_title as subTitle', 'icon', 'color', 'next_format as nextFormat', 'slag', 'category_id as categoryId'])
+            ->select(['id', 'title', 'sub_title as subTitle', 'icon', 'color', 'next_format as nextFormat', 'slug', 'category_id as categoryId'])
             ->where('status', AppMenuEnum::STATUS_NORMAL)
         ;
 

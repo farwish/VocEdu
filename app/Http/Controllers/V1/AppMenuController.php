@@ -43,7 +43,7 @@ class AppMenuController extends Controller
      *                          @OA\Property(property="icon", type="string", description="图标"),
      *                          @OA\Property(property="color", type="string", description="颜色"),
      *                          @OA\Property(property="nextFormat", type="string", description="下页格式"),
-     *                          @OA\Property(property="slag", type="string", description="特殊标记"),
+     *                          @OA\Property(property="slug", type="string", description="特殊标记"),
      *                      ),
      *                  ),
      *                  @OA\Property(property="message", type="string", default="success"),
@@ -70,7 +70,7 @@ class AppMenuController extends Controller
      */
     public function index(AppMenuRequest $request, AppMenuRepository $repository)
     {
-        $categoryId = $request->validated()['cid'];
+        $categoryId = $request->validated()['cid'] ?? null;
 
         $list = $repository->list($categoryId);
 

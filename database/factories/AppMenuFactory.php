@@ -35,7 +35,7 @@ class AppMenuFactory extends Factory
                 'icon' => 'grid',
                 'color' => '',
                 'next_format' => 'list',
-                'slag' => 'exam-guide',
+                'slug' => 'exam-guide',
                 'sort' => 2,
             ],
             [
@@ -44,7 +44,7 @@ class AppMenuFactory extends Factory
                 'icon' => 'file-text',
                 'color' => '',
                 'next_format' => 'list',
-                'slag' => 'study-report',
+                'slug' => 'study-report',
                 'sort' => 3,
             ],
             [
@@ -53,7 +53,7 @@ class AppMenuFactory extends Factory
                 'icon' => 'order',
                 'color' => '',
                 'next_format' => 'list',
-                'slag' => 'review-insight',
+                'slug' => 'review-insight',
                 'sort' => 4,
             ],
             [
@@ -62,7 +62,7 @@ class AppMenuFactory extends Factory
                 'icon' => 'man-add-fill',
                 'color' => '',
                 'next_format' => 'list',
-                'slag' => 'simulate-exam',
+                'slug' => 'simulate-exam',
                 'sort' => 5,
             ],
             [
@@ -71,7 +71,7 @@ class AppMenuFactory extends Factory
                 'icon' => 'list-dot',
                 'color' => '',
                 'next_format' => 'list',
-                'slag' => 'chapter-practise',
+                'slug' => 'chapter-practise',
                 'sort' => 6,
             ],
         ];

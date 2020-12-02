@@ -24,7 +24,7 @@ class AppMenuRequest extends FormRequest
     public function rules()
     {
         return [
-            'cid' => 'required|int'
+            'cid' => ''
         ];
     }
 }

@@ -4,6 +4,7 @@ namespace App\Nova;
 
 use App\Enums\AppMenuEnum;
 use App\Models\AppMenu as AppMenuModel;
+use Hubertnnn\LaravelNova\Fields\DynamicSelect\DynamicSelect;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\Boolean;
@@ -50,19 +51,10 @@ class AppMenu extends Resource
         return [
             ID::make(__('ID'), 'id')->sortable(),
 
-            // Only relation can be used by BelongsToManyField::dependOn
-            BelongsTo::make('科目分类', 'category', Category::class)
+            DynamicSelect::make('父菜单', 'parent_id')
+                ->help('不选的时候代表根菜单。')
+                ->options($this->appMenuTree())
                 ->onlyOnForms()
-                ->searchable()
-                ->displayUsing(function ($model) {
-                    $tree = $this->categoryTree();
-                    return $model ? $tree[$model->getAttribute('id')] : $tree;
-                })
-                ->help('不选分类时，会作为其它没有相关数据的科目的默认菜单')
-            ,
-            // On index and detail page
-            BelongsTo::make('科目分类', 'category', Category::class)
-                ->exceptOnForms()
             ,
 
             Text::make('标题', 'title')

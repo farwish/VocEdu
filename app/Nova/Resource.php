@@ -5,6 +5,7 @@ namespace App\Nova;
 use Titasgailius\SearchRelations\SearchesRelations;
 use App\Models\Chapter as ChapterModel;
 use App\Models\Category as CategoryModel;
+use App\Models\AppMenu as AppMenuModel;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Resource as NovaResource;
 
@@ -136,5 +137,35 @@ abstract class Resource extends NovaResource
         $traverse($nodes);
 
         return $chapterValues;
+    }
+
+    public function appMenuTree(?int $categoryId = null)
+    {
+        $menuValues = [];
+
+        $traverse = function ($menus, $prefix = '—') use (&$traverse, &$menuValues) {
+            /** @var AppMenuModel $menu */
+            foreach ($menus as $menu) {
+                if (! $menu->getAttribute('parent_id')) {
+                    // Root category do not add prefix
+                    $rootPrefix = '';
+                } else {
+                    $rootPrefix = '|' . $prefix;
+                }
+                $menuValues[$menu->getAttribute('id')] = $rootPrefix . ' ' . $menu->name;
+
+                $sunPrefix = $prefix . $rootPrefix;
+                $traverse($menu->children, $sunPrefix);
+            }
+        };
+
+        if ($categoryId) {
+            $nodes = AppMenuModel::query()->where('category_id', $categoryId)->get()->toTree();
+        } else {
+            $nodes = AppMenuModel::query()->get()->toTree();
+        }
+        $traverse($nodes);
+
+        return $menuValues;
     }
 }

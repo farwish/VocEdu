@@ -102,7 +102,6 @@ class Chapter extends Resource
                     Number::make('免费题量', 'free_question_num')
                         ->min(0)
                         ->step(1)
-                        ->rules('required')
                         ->help('只对最后一级生效')
                     ,
 

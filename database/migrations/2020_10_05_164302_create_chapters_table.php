@@ -19,7 +19,7 @@ class CreateChaptersTable extends Migration
             $table->string('name')->nullable(false);
             $table->unsignedTinyInteger('status')->nullable(false)->default(0);
             $table->unsignedTinyInteger('sub_lock')->nullable(false)->default(0);
-            $table->unsignedInteger('free_question_num')->nullable(false)->default(0);
+            $table->unsignedInteger('free_question_num')->nullable()->default(0);
             $table->unsignedBigInteger('category_id')->nullable(false)->index();
 
             $table->nestedSet();

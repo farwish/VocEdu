@@ -61,8 +61,9 @@ class QuestionRepository extends BaseRepository
             ->orderBy('id', 'ASC')
         ;
 
-        if (! $categoryMember) {
-            $qb->limit(4);
+        $freeQuestionNum = $chapter->getAttribute('free_question_num');
+        if (! $categoryMember && isset($freeQuestionNum)) {
+            $qb->limit($freeQuestionNum);
         }
 
         $questionList = $qb->get()->toArray();

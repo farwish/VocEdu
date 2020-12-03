@@ -36,10 +36,12 @@ class PackageRepository extends BaseRepository
 
         /** @var Category $currentCategory */
         $currentCategory = app(CategoryRepository::class)->newQuery()->find($categoryId);
-        $currentCategoryExamTime = $currentCategory->getAttribute('exam_time');
+        $currentCategoryExamTime = $currentCategory ? $currentCategory->getAttribute('exam_time') : null;
+
+        $parentCategoryId = $currentCategory ? $currentCategory->getAttribute('parent_id') : null;
 
         /** @var Category $parentCategory */
-        $parentCategory = app(CategoryRepository::class)->newQuery()->find($currentCategory->getAttribute('parent_id'));
+        $parentCategory = app(CategoryRepository::class)->newQuery()->find($parentCategoryId);
         $parentCategoryExamTime = $parentCategory->getAttribute('exam_time');
 
         if ($packageList->isNotEmpty()) {

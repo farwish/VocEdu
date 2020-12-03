@@ -42,7 +42,7 @@ class PackageRepository extends BaseRepository
 
         /** @var Category $parentCategory */
         $parentCategory = app(CategoryRepository::class)->newQuery()->find($parentCategoryId);
-        $parentCategoryExamTime = $parentCategory->getAttribute('exam_time');
+        $parentCategoryExamTime = $parentCategory ? $parentCategory->getAttribute('exam_time') : null;
 
         if ($packageList->isNotEmpty()) {
             $packageList->each(function ($item, $key) use ($currentCategory, $currentCategoryExamTime, $parentCategory, $parentCategoryExamTime) {

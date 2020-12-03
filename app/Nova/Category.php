@@ -92,7 +92,6 @@ class Category extends Resource
                     HasMany::make('标签', 'tabs', Tab::class),
                     HasMany::make('文章', 'articles', Article::class),
                     HasMany::make('视频', 'videos', Video::class),
-                    HasMany::make('APP菜单', 'appMenus', AppMenu::class),
                 ],
             ]))
                 ->defaultSearch(true)

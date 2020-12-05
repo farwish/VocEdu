@@ -104,6 +104,7 @@ Route::group([
         ->group(function ($router) {
             Route::get('index', [V1QuestionController::class, 'index']);
             Route::get('detail', [V1QuestionController::class, 'detail']);
+            Route::get('detail-list', [V1QuestionController::class, 'detailList']);
             Route::get('note', [V1QuestionController::class, 'noteInfo']);
             Route::post('note', [V1QuestionController::class, 'noteSave']);
         });

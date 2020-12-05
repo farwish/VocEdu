@@ -15,6 +15,7 @@ yarn-error.log
 
 # deployed frontend spa
 public/spa
+public/h5
 
 # swagger api-docs/ that store json file
 storage/api-docs

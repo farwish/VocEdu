@@ -140,4 +140,65 @@ class QuestionRepository extends BaseRepository
             'recordReplyAnswer' => $recordReplyAnswer,
         ];
     }
+
+    public function detailList(Member $member, array $qids)
+    {
+        /** @var Question $question */
+        $questions = $this->newQuery()
+	    ->whereIn('id', $qids)
+            ->get()
+        ;
+
+	if ($questions->isEmpty()) {
+            return [];
+        }
+
+	$ret = [];
+	foreach ($questions as $question) {
+		$questionId = $question->getAttribute('id');
+		$question->setAttribute('difficulty', QuestionEnum::$difficulty[ $question->getAttribute('difficulty') ]);
+
+		if (! $question->getAttribute('analysis')) {
+		    $question->setAttribute('analysis', '本题没有解析');
+		}
+
+		$pattern = $question->pattern()->first();
+		$classify = $pattern->getAttribute('classify');
+		if (PatternEnum::OBJECTIVE_CLASSIFY_JUDGE == $classify) {
+		    $question->setAttribute('option_answer', QuestionEnum::$judgeAnswer);
+		}
+
+		$question->setAttribute('patternClassify', $classify);
+		$question->setAttribute('patternType', $pattern->getAttribute('type'));
+
+		$categoryId = $question->category()->first()->getAttribute('id');
+		$practiseRecord = app(PractiseRecordRepository::class)->specificRecordInfo($member, $categoryId, $questionId);
+		$recordReplyAnswer = ($practiseRecord && !is_null($practiseRecord->getAttribute('reply_answer')))
+			? $practiseRecord->getAttribute('reply_answer')
+			: '';
+
+		unset($question['created_at'], $question['updated_at'], $question['pattern_id']);
+
+		$questionDetailArr = $question->toArray();
+		unset($question);
+
+		$questionDetailArr['optionAnswer'] = $questionDetailArr['option_answer'];
+		$questionDetailArr['rightAnswer'] = $questionDetailArr['right_answer'];
+		$questionDetailArr['categoryId'] = $questionDetailArr['category_id'];
+		$questionDetailArr['chapterId'] = $questionDetailArr['chapter_id'];
+		unset(
+		    $questionDetailArr['option_answer'],
+		    $questionDetailArr['right_answer'],
+		    $questionDetailArr['category_id'],
+		    $questionDetailArr['chapter_id'],
+		);
+
+		$ret[] = [
+		    'questionDetail' => $questionDetailArr,
+		    'recordReplyAnswer' => $recordReplyAnswer,
+		];
+	}
+
+	return $ret;
+    }
 }

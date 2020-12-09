@@ -86,7 +86,6 @@ Route::group([
         ->middleware(['auth:api'])
         ->group(function ($router) {
             Route::get('index', [V1PackageController::class, 'list']);
-            Route::post('index', [V1PackageController::class, 'list']);
         });
 
     Route::prefix('practise')

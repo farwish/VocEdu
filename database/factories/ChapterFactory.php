@@ -48,6 +48,7 @@ class ChapterFactory extends Factory
                                     [
                                         'category_id' => $categoryId,
                                         'name' => '知识点1',
+                                        'free_question_num' => 4,
                                     ],
                                     [
                                         'category_id' => $categoryId,
@@ -93,6 +94,7 @@ class ChapterFactory extends Factory
                                     [
                                         'category_id' => $categoryIdTwo,
                                         'name' => '知识点1',
+                                        'free_question_num' => 4,
                                     ],
                                     [
                                         'category_id' => $categoryIdTwo,

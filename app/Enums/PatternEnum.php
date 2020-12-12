@@ -21,10 +21,10 @@ class PatternEnum
 
     // 客观题-选项分类
     public static $objectiveClassify = [
-        self::OBJECTIVE_CLASSIFY_RADIO => '单选',
-        self::OBJECTIVE_CLASSIFY_MULTI => '多选',
+        self::OBJECTIVE_CLASSIFY_RADIO => '单选题',
+        self::OBJECTIVE_CLASSIFY_MULTI => '多选题',
         // self::OBJECTIVE_CLASSIFY_DRIFT => '不定向选',
-        self::OBJECTIVE_CLASSIFY_JUDGE => '判断',
+        self::OBJECTIVE_CLASSIFY_JUDGE => '判断题',
         self::OBJECTIVE_CLASSIFY_CONST => '定值填空题',
     ];
 }

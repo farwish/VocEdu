@@ -110,8 +110,11 @@ class QuestionRepository extends BaseRepository
             $question->setAttribute('option_answer', QuestionEnum::$judgeAnswer);
         }
 
-        $question->setAttribute('patternClassify', $classify);
         $question->setAttribute('patternType', $pattern->getAttribute('type'));
+        $question->setAttribute('patternClassify', $classify);
+
+        $patternClassifyName = PatternEnum::$objectiveClassify[$classify] ?? PatternEnum::$patternType[$pattern->getAttribute('type')];
+        $question->setAttribute('patternClassifyName', $patternClassifyName);
 
         $categoryId = $question->category()->first()->getAttribute('id');
         $practiseRecord = app(PractiseRecordRepository::class)->specificRecordInfo($member, $categoryId, $questionId);

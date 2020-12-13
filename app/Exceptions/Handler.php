@@ -8,6 +8,7 @@ use Illuminate\Auth\AuthenticationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Database\QueryException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Http\Exceptions\ThrottleRequestsException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
@@ -95,6 +96,11 @@ class Handler extends ExceptionHandler
             // FirstOrFail raised
             if ($e instanceof ModelNotFoundException) {
                 return $this->failure('资源未找到', 404);
+            }
+
+            // Too Many Attempts, file to see $e->getFile()
+            if ($e instanceof ThrottleRequestsException) {
+                return $this->failure('操作过于频繁', 429);
             }
 
             // Finally, if the exception is unknown, local env can just throw it out.

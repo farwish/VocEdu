@@ -76,6 +76,12 @@ class AppMenu extends Resource
                 ->hideFromIndex()
             ,
 
+            Boolean::make('是否展示', 'status')
+                ->trueValue(AppMenuEnum::STATUS_NORMAL)
+                ->falseValue(AppMenuEnum::STATUS_DISABLED)
+                ->help('禁用后不展示给用户')
+            ,
+
             RadioButton::make('是否开放菜单下内容', 'sub_lock')
                 ->onlyOnForms()
                 ->rules('required')
@@ -90,12 +96,6 @@ class AppMenu extends Resource
                 ->exceptOnForms()
                 ->options(AppMenuEnum::$subLocks)
                 ->displayUsingLabels()
-            ,
-
-            Boolean::make('是否展示', 'status')
-                ->trueValue(AppMenuEnum::STATUS_NORMAL)
-                ->falseValue(AppMenuEnum::STATUS_DISABLED)
-                ->help('禁用后不展示给用户')
             ,
 
             Text::make('菜单标记', 'slug')

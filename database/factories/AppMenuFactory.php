@@ -35,6 +35,7 @@ class AppMenuFactory extends Factory
                 'icon' => 'list-dot',
                 'color' => '',
                 'slug' => 'chapter-practise',
+                'status' => 0,
             ],
             [
                 'title' => '温故知新',
@@ -42,6 +43,7 @@ class AppMenuFactory extends Factory
                 'icon' => 'order',
                 'color' => '',
                 'slug' => 'review-insight',
+                'status' => 1,
                 'children' => [
                     [
                         'title' => '我的错题',
@@ -49,6 +51,7 @@ class AppMenuFactory extends Factory
                         'icon' => 'order',
                         'color' => '',
                         'slug' => 'wrong-question',
+                        'status' => 1,
                     ],
                     [
                         'title' => '我的收藏',
@@ -56,6 +59,7 @@ class AppMenuFactory extends Factory
                         'icon' => 'order',
                         'color' => '',
                         'slug' => 'collected-question',
+                        'status' => 1,
                     ],
                     [
                         'title' => '我的笔记',
@@ -63,6 +67,7 @@ class AppMenuFactory extends Factory
                         'icon' => 'order',
                         'color' => '',
                         'slug' => 'noted-question',
+                        'status' => 1,
                     ],
                     [
                         'title' => '易错试题',
@@ -70,6 +75,7 @@ class AppMenuFactory extends Factory
                         'icon' => 'order',
                         'color' => '',
                         'slug' => 'easy-wrong-question',
+                        'status' => 1,
                     ],
                     [
                         'title' => '热点试题',
@@ -77,6 +83,7 @@ class AppMenuFactory extends Factory
                         'icon' => 'order',
                         'color' => '',
                         'slug' => 'hot-question',
+                        'status' => 1,
                     ],
                     // [
                     //     'title' => '查找试题',
@@ -84,6 +91,7 @@ class AppMenuFactory extends Factory
                     //     'icon' => 'order',
                     //     'color' => '',
                     //     'slug' => 'search-question',
+                    //     'status' => 1,
                     // ],
                 ],
             ],
@@ -93,6 +101,7 @@ class AppMenuFactory extends Factory
                 'icon' => 'man-add-fill',
                 'color' => '',
                 'slug' => 'exam-simulate',
+                'status' => 1,
                 'children' => [
                     [
                         'title' => '模拟试题',
@@ -100,6 +109,7 @@ class AppMenuFactory extends Factory
                         'icon' => 'man-add-fill',
                         'color' => '',
                         'slug' => 'paper-simulate',
+                        'status' => 1,
                     ],
                     [
                         'title' => '随机模考',
@@ -107,6 +117,7 @@ class AppMenuFactory extends Factory
                         'icon' => 'man-add-fill',
                         'color' => '',
                         'slug' => 'random-simulate',
+                        'status' => 1,
                     ],
                     // [
                     //     'title' => '考试记录',
@@ -114,6 +125,7 @@ class AppMenuFactory extends Factory
                     //     'icon' => 'man-add-fill',
                     //     'color' => '',
                     //     'slug' => 'exam-record',
+                    //     'status' => 1,
                     // ],
                 ],
             ],
@@ -123,6 +135,7 @@ class AppMenuFactory extends Factory
                 'icon' => 'grid',
                 'color' => '',
                 'slug' => 'exam-guide',
+                'status' => 1,
             ],
             [
                 'title' => '学习报告',
@@ -130,6 +143,8 @@ class AppMenuFactory extends Factory
                 'icon' => 'file-text',
                 'color' => '',
                 'slug' => 'study-report',
+                'status' => 0,
+                'sub_lock' => 1,
             ],
         ];
     }

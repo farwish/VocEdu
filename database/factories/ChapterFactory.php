@@ -65,6 +65,7 @@ class ChapterFactory extends Factory
                     [
                         'category_id' => $categoryId,
                         'name' => '单元2',
+                        'sub_lock' => 1,
                         'children' => [
                             [
                                 'category_id' => $categoryId,

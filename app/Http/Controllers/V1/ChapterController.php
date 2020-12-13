@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\V1;
 
 use App\Http\Requests\ChapterInfo;
+use App\Repositories\CategoryRepository;
 use App\Repositories\ChapterRepository;
 use App\Http\Controllers\Controller;
 
@@ -66,16 +67,31 @@ class ChapterController extends Controller
      *
      * @param ChapterInfo $request
      * @param ChapterRepository $chapterRepository
+     * @param CategoryRepository $categoryRepository
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function index(ChapterInfo $request, ChapterRepository $chapterRepository)
+    public function index(ChapterInfo $request,
+                          ChapterRepository $chapterRepository,
+                          CategoryRepository $categoryRepository)
     {
         $validated = $request->validated();
         $cid = $validated['cid'];         // chapter category_id
         $pid = $validated['pid'] ?? null; // chapter parent_id
 
-        return $this->success($chapterRepository->list($cid, $pid));
+        $chapterList = $chapterRepository->list($cid, $pid);
+
+        // check subLock OR reset
+        $member = $request->user('api');
+        $category = $categoryRepository->newQuery()->find($cid);
+        if ($category && $categoryRepository->categoryMember($category, $member)) {
+            foreach ($chapterList as &$item) {
+                $item['subLock'] = 0;
+            }
+            unset($item);
+        }
+
+        return $this->success($chapterList);
     }
 
     public function tree(ChapterInfo $request, ChapterRepository $chapterRepository)

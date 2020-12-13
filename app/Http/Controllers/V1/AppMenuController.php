@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\V1;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\AppMenuRequest;
 use App\Repositories\AppMenuRepository;
+use App\Repositories\CategoryRepository;
 use Illuminate\Http\Request;
 
 class AppMenuController extends Controller
@@ -57,14 +59,30 @@ class AppMenuController extends Controller
      *      ),
      * )
      *
-     * @param Request $request
-     * @param AppMenuRepository $repository
+     * @param AppMenuRequest $request
+     * @param AppMenuRepository $menuRepository
+     * @param CategoryRepository $categoryRepository
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function index(Request $request, AppMenuRepository $repository)
+    public function index(AppMenuRequest $request,
+                          AppMenuRepository $menuRepository,
+                          CategoryRepository $categoryRepository)
     {
-        $list = $repository->list();
+        $validated = $request->validated();
+
+        $list = $menuRepository->list();
+
+        // check subLock OR reset
+        $member = $request->user('api');
+        $cid = $validated['cid'];
+        $category = $categoryRepository->newQuery()->find($cid);
+        if ($category && $categoryRepository->categoryMember($category, $member)) {
+            foreach ($list as &$item) {
+                $item['subLock'] = 0;
+            }
+            unset($item);
+        }
 
         return $this->success($list);
     }

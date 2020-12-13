@@ -100,7 +100,7 @@ class Handler extends ExceptionHandler
 
             // Too Many Attempts, file to see $e->getFile()
             if ($e instanceof ThrottleRequestsException) {
-                return $this->failure('操作过于频繁', 429);
+                return $this->failure('操作过于频繁, 稍后再试', 429);
             }
 
             // Finally, if the exception is unknown, local env can just throw it out.

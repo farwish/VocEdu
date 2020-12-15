@@ -3,7 +3,7 @@ version: '3'
 services:
   nginx:
     image: nginx:${IMG_NGINX_VERSION}
-    container_name: nginx-con-galaxy
+    container_name: nginx-con-voc
     volumes:
       - ./:${CONTAINER_WEB_AP}
       - ${NGINX_DATA_DIR}:/var/log/nginx/
@@ -27,7 +27,7 @@ services:
 #      dockerfile: ./docker/php/Dockerfile-php
 #      args:
 #        IMG_PHP_VERSION: ${IMG_PHP_VERSION}
-    container_name: php-con-galaxy
+    container_name: php-con-voc
     volumes:
       - ./:${CONTAINER_WEB_AP}
       - ./docker/php/php.ini:/usr/local/etc/php/php.ini

@@ -2,9 +2,11 @@
 
 namespace App\Repositories;
 
+use App\Enums\PackageEnum;
 use App\Models\Category;
 use App\Basics\BaseRepository;
 use App\Models\Member;
+use App\Models\Package;
 use Illuminate\Database\DatabaseManager;
 
 class CategoryRepository extends BaseRepository
@@ -92,26 +94,57 @@ class CategoryRepository extends BaseRepository
      * Open category
      *
      * @param int $cid
+     * @param int $kid package_id
      * @param Member $member
      *
      * @return bool
      */
-    public function saveCategoryMember(int $cid, Member $member)
+    public function saveCategoryMember(int $cid, int $kid, Member $member)
     {
-        $memberHesCategory = $member->categories()
+        $memberHasCategory = $member->categories()
             ->withPivot('expired_at')
             ->wherePivot('category_id', '=', $cid)
             ->first();
 
-        if ($memberHesCategory) {
+        if ($memberHasCategory) {
             return false;
             // update many to many relation fields
             // $oldOne->setAttribute('expired_at', now()->addDays(366));
             // return $oldOne->save();
         } else {
-            $member->categories()->attach($cid, [
-                'expired_at' => now()->addDays(366),
-            ]);
+            /** @var Category $currentCategory */
+            $currentCategory = app(CategoryRepository::class)->newQuery()->find($cid);
+
+            $currentCategoryExamTime = $currentCategory ? $currentCategory->getAttribute('exam_time') : null;
+
+            $parentCategoryId = $currentCategory ? $currentCategory->getAttribute('parent_id') : null;
+
+            /** @var Category $parentCategory */
+            $parentCategory = app(CategoryRepository::class)->newQuery()->find($parentCategoryId);
+            $parentCategoryExamTime = $parentCategory ? $parentCategory->getAttribute('exam_time') : null;
+
+            /** @var Package $package */
+            $package = app(PackageRepository::class)->newQuery()->find($kid);
+            $item = $package ? $package->toArray() : 'a';
+
+            if ($item) {
+                $expiredAt = '';
+
+                if ($item['expire_mode'] == PackageEnum::EXPIRE_MODE_FIXED) {
+                    $expiredAt = now()->addYears(intval($item['duration']))->toDateTimeString();
+                } else {
+                    if ($currentCategory && $currentCategoryExamTime) {
+                        $expiredAt = $currentCategoryExamTime->format('Y-m-d H:i:s');
+                    } else if ($parentCategory && $parentCategoryExamTime) {
+                        $expiredAt = $parentCategoryExamTime->format('Y-m-d H:i:s');
+                    }
+                }
+
+                $member->categories()->attach($cid, [
+                    'expired_at' => $expiredAt,
+                ]);
+            }
+
             return true;
         }
     }

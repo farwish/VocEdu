@@ -249,8 +249,9 @@ class CategoryController extends Controller
 
         $member = $request->user('api');
         $cid = $validated['cid'];
+        $kid = $validated['kid'];
 
-        $bool = $categoryRepository->saveCategoryMember($cid, $member);
+        $bool = $categoryRepository->saveCategoryMember($cid, $kid, $member);
 
         return $bool ? $this->success() : $this->failure();
     }

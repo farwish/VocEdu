@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class CategoryOpen extends FormRequest
+class PackageOpen extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,16 +24,7 @@ class CategoryOpen extends FormRequest
     public function rules()
     {
         return [
-            'cid' => 'required',
-            'kid' => 'required',
-        ];
-    }
-
-    public function messages()
-    {
-        return [
-            'cid.required' => '缺少参数cid',
-            'kid.required' => '缺少参数kid',
+            'kid' => 'required|int'
         ];
     }
 }

@@ -45,10 +45,10 @@ class DbDataTransNkToXunRui extends Command
         $capsule = new Capsule;
         $capsule->addConnection([
             'driver'    => 'mysql',
-            'host'      => '127.0.0.1:33055',
-            'database'  => 'question_a',
-            'username'  => 'root',
-            'password'  => '123456',
+            'host'      => '127.0.0.1:3306',
+            'database'  => 'niukebaodian_cc',
+            'username'  => 'niukebaodian_cc',
+            'password'  => '6yJ6LbJ2rMAiNwjC',
             'charset'   => 'utf8',
             'collation' => 'utf8_unicode_ci',
             'prefix'    => '',

@@ -12,7 +12,7 @@ class DbDataTransNkToXunRui extends Command
      *
      * @var string
      */
-    protected $signature = 'voc:external-data-nk-to-xr';
+    protected $signature = 'voc:external-data-nk-to-xr {needNumber}';
 
     /**
      * The console command description.
@@ -40,6 +40,7 @@ class DbDataTransNkToXunRui extends Command
      */
     public function handle()
     {
+        // 数据库配置：
         $capsule = new Capsule;
         $capsule->addConnection([
             'driver'    => 'mysql',
@@ -51,13 +52,26 @@ class DbDataTransNkToXunRui extends Command
             'collation' => 'utf8_unicode_ci',
             'prefix'    => '',
         ]);
-
         $capsule->setAsGlobal();
 
-        Capsule::table('x2_questions_0')->orderBy('questionid')->chunk(100, function ($questions) {
+        // 源数据 表名：
+        $srcTableName = 'x2_questions_0';
+
+        // 目标数据 表名：
+        $dstTableName = 'dr_1_kaoshi_question';
+
+        if (! $needNumber = $this->argument('needNumber')) {
+            $this->info("Number invalid\n");
+            return -1;
+        }
+        $counter = 0;
+
+        Capsule::table($srcTableName)->orderBy('questionid')->chunk(100, function ($questions) use ($dstTableName, $needNumber, &$counter) {
             $batchDstValue = [];
 
             foreach ($questions as $question) {
+
+                $catId = self::getCatId($question->questionsubject);
 
                 $tid = self::getTid($question->questiontype, $question->questionanswer);
 
@@ -77,7 +91,7 @@ class DbDataTransNkToXunRui extends Command
 
                 $dstValue = [
                     'cids' => '',
-                    'catid' => 0,
+                    'catid' => $catId,
                     'tid' => $tid,
                     'title' => $question->question,
                     'value' => $value,
@@ -86,16 +100,36 @@ class DbDataTransNkToXunRui extends Command
                     'inputtime' => $question->questiontime ?: time(),
                 ];
 
-                $batchDstValue[] = $dstValue;
-                // Capsule::table('dr_1_kaoshi_question')->insert($dstValue);
+                if ($counter < $needNumber) {
+                    $counter++;
+                    $batchDstValue[] = $dstValue;
+                }
             }
 
-            Capsule::table('dr_1_kaoshi_question')->insert($batchDstValue);
+            Capsule::table($dstTableName)->insert($batchDstValue);
+
+            // stop further chunks from being processed by returning false from the closure:
+            if ($counter >= $needNumber) {
+                return false;
+            }
         });
 
         $this->info("Done\n");
 
         return 0;
+    }
+
+    public function getCatId(?int $questionSubject)
+    {
+        $map = [
+            // 改成如下格式：
+            // 源id => 目标id
+            // 19 => 123,
+            // 18 => 111,
+            $questionSubject => $questionSubject,
+        ];
+
+        return $map[$questionSubject] ?? 0;
     }
 
     public function getTid($questionType, $questionAnswer)

@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Database\Capsule\Manager as Capsule;
+use Illuminate\Support\Facades\DB;
 
 class DbDataTransNkToXunRui extends Command
 {
@@ -64,55 +65,69 @@ class DbDataTransNkToXunRui extends Command
             $this->info("Number invalid\n");
             return -1;
         }
-        $counter = 0;
 
-        Capsule::table($srcTableName)->orderBy('questionid')->chunk(100, function ($questions) use ($dstTableName, $needNumber, &$counter) {
-            $batchDstValue = [];
+        $arr = Capsule::table($srcTableName)
+            ->select(DB::raw('distinct(questionsubject) as questionsubject'))
+            ->where('questionsubject', '!=', 0)
+            ->get()
+            ->toArray();
+        if (! $arr) {
+            $this->info("No data");
+            return -1;
+        }
 
-            foreach ($questions as $question) {
+        foreach ($arr as $item) {
+            $questionSubject = $item->questionsubject;
 
-                $catId = self::getCatId($question->questionsubject);
+            $counter = 0;
+            Capsule::table($srcTableName)->where('questionsubject', $questionSubject)->orderBy('questionid')->chunk(100, function ($questions) use ($dstTableName, $needNumber, &$counter) {
+                $batchDstValue = [];
 
-                $tid = self::getTid($question->questiontype, $question->questionanswer);
+                foreach ($questions as $question) {
 
-                $value = [];
-                if ($question->questionselectnumber > 0) {
-                    $options = explode('<hr />', $question->questionselect);
-                    if ($options) {
-                        foreach ($options as $idx => $option) {
-                            $value[$idx + 1] = $option;
+                    $catId = self::getCatId($question->questionsubject);
+
+                    $tid = self::getTid($question->questiontype, $question->questionanswer);
+
+                    $value = [];
+                    if ($question->questionselectnumber > 0) {
+                        $options = explode('<hr />', $question->questionselect);
+                        if ($options) {
+                            foreach ($options as $idx => $option) {
+                                $value[$idx + 1] = $option;
+                            }
+                            $value = json_encode($value, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
                         }
-                        $value = json_encode($value, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
+                    }
+                    $value = $value ?: '';
+
+                    $answer = self::getAnswerTrans($question->questionanswer);
+
+                    $dstValue = [
+                        'cids' => '',
+                        'catid' => $catId,
+                        'tid' => $tid,
+                        'title' => $question->question,
+                        'value' => $value,
+                        'tips' => $question->questionintro,
+                        'answer' => $answer,
+                        'inputtime' => $question->questiontime ?: time(),
+                    ];
+
+                    if ($counter < $needNumber) {
+                        $counter++;
+                        $batchDstValue[] = $dstValue;
                     }
                 }
-                $value = $value ?: '';
 
-                $answer = self::getAnswerTrans($question->questionanswer);
+                Capsule::table($dstTableName)->insert($batchDstValue);
 
-                $dstValue = [
-                    'cids' => '',
-                    'catid' => $catId,
-                    'tid' => $tid,
-                    'title' => $question->question,
-                    'value' => $value,
-                    'tips' => $question->questionintro,
-                    'answer' => $answer,
-                    'inputtime' => $question->questiontime ?: time(),
-                ];
-
-                if ($counter < $needNumber) {
-                    $counter++;
-                    $batchDstValue[] = $dstValue;
+                // stop further chunks from being processed by returning false from the closure:
+                if ($counter >= $needNumber) {
+                    return false;
                 }
-            }
-
-            Capsule::table($dstTableName)->insert($batchDstValue);
-
-            // stop further chunks from being processed by returning false from the closure:
-            if ($counter >= $needNumber) {
-                return false;
-            }
-        });
+            });
+        }
 
         $this->info("Done\n");
 

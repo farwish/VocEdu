@@ -6,8 +6,11 @@ use App\Nova\AppMenu;
 use App\Nova\Article;
 use App\Nova\Category;
 use App\Nova\Chapter;
-use App\Nova\Exam;
+use App\Nova\Dashboards\UserInsights;
 use App\Nova\Member;
+use App\Nova\Metrics\NewUsers;
+use App\Nova\Metrics\UsersPerDay;
+use App\Nova\Metrics\UsersPerPlan;
 use App\Nova\Package;
 use App\Nova\Paper;
 use App\Nova\Pattern;
@@ -79,6 +82,9 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
     {
         return [
             // new Help,
+            new NewUsers(),
+            new UsersPerDay(),
+            new UsersPerPlan(),
         ];
     }
 
@@ -89,7 +95,8 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
      */
     protected function dashboards()
     {
-        return [];
+        return [
+        ];
     }
 
     /**

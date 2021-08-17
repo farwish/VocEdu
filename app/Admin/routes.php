@@ -13,4 +13,15 @@ Route::group([
 
     $router->get('/', 'HomeController@index')->name('home');
 
+    $router->resource('categories', 'CategoryController');
+    $router->resource('chapters', 'ChapterController');
+    $router->resource('packages', 'PackageController');
+    $router->resource('suites', 'SuiteController');
+    $router->resource('papers', 'PaperController');
+    $router->resource('questions', 'QuestionController');
+    $router->resource('tabs', 'TabController');
+    $router->resource('articles', 'ArticleController');
+    $router->resource('videos', 'VideoController');
+    $router->resource('patterns', 'PatternController');
+    $router->resource('app-menus', 'AppMenuController');
 });

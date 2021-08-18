@@ -2,6 +2,8 @@
 
 namespace App\Admin\Controllers;
 
+use App\Admin\Traits\CategoryTrait;
+use App\Admin\Traits\ChapterTrait;
 use App\Models\Chapter;
 use Encore\Admin\Controllers\AdminController;
 use Encore\Admin\Form;
@@ -10,6 +12,9 @@ use Encore\Admin\Show;
 
 class ChapterController extends AdminController
 {
+    use CategoryTrait;
+    use ChapterTrait;
+
     /**
      * Title for current resource.
      *
@@ -75,6 +80,8 @@ class ChapterController extends AdminController
     {
         $form = new Form(new Chapter());
 
+        $form->select('category.id')->options($this->categoryTree());
+        $form->select('parent_id')->options($this->chapterTree(null));
         $form->text('name', __('Name'));
         $form->switch('status', __('Status'));
         $form->switch('sub_lock', __('Sub lock'));
@@ -82,7 +89,8 @@ class ChapterController extends AdminController
         $form->number('category_id', __('Category id'));
         $form->number('_lft', __(' lft'));
         $form->number('_rgt', __(' rgt'));
-        $form->number('parent_id', __('Parent id'));
+        // $form->number('parent_id', __('Parent id'));
+        // $form->number('category_id', __('Category id'));
 
         return $form;
     }

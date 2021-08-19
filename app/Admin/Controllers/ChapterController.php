@@ -79,10 +79,10 @@ class ChapterController extends AdminController
         $show = new Show(Chapter::findOrFail($id));
 
         $show->field('id', __('Id'));
+        $show->field('name', __('Name'));
         $show->field('category_id', '所属科目分类')->as(function ($categoryId) {
             return $this->category()->first()->name;
         });
-        $show->field('name', __('Name'));
         $show->field('status', '本章节不禁用');
         $show->field('sub_lock', '子章节不锁定');
         $show->field('free_question_num', '免费题量');
@@ -109,9 +109,9 @@ class ChapterController extends AdminController
 
         $form = new Form(new Chapter());
 
-        $form->select('category.id', '所属科目分类')->options($this->categoryTree());
         $form->select('parent_id', '上级章节')->options($this->chapterTree(null));
         $form->text('name', __('Name'))->rules('required');
+        $form->select('category.id', '所属科目分类')->options($this->categoryTree())->rules('required');
         $form->switch('status', '本章节不禁用')->states($states)->help('禁用后不展示给用户');
         $form->switch('sub_lock', '子章节不锁定')->states($states)->help('锁定后表示需要购买套餐后才能进入子章节');
         $form->number('free_question_num', '免费题量')->help('只对最后一级生效');

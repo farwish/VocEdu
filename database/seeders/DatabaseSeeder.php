@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use Encore\Admin\Auth\Database\AdminTablesSeeder;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -16,7 +17,8 @@ class DatabaseSeeder extends Seeder
         // \App\Models\User::factory(10)->create();
 
         $this->call([
-            UserSeeder::class,
+            // UserSeeder::class,     // Laravel Nova used.
+            AdminTablesSeeder::class, // Laravel-admin used.
 
             PatternSeeder::class,
 

@@ -19,7 +19,7 @@ class AppMenuController extends AdminController
      *
      * @var string
      */
-    protected $title = 'AppMenu';
+    protected $title = 'App菜单';
 
     /**
      * Make a grid builder.

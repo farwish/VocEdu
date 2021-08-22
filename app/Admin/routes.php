@@ -26,6 +26,8 @@ Route::group([
     $router->resource('patterns', 'PatternController');
     $router->resource('app-menus', 'AppMenuController');
 
+    $router->resource('members', 'MemberController');
+
     $router->get('/api/papers', '\App\Admin\Controllers\Api\PaperController@papers');
     $router->get('/api/questions', '\App\Admin\Controllers\Api\QuestionController@questions');
     $router->get('/api/chapters', '\App\Admin\Controllers\Api\ChapterController@chapters');

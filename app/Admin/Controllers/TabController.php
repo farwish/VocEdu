@@ -18,7 +18,7 @@ class TabController extends AdminController
      *
      * @var string
      */
-    protected $title = 'Tab';
+    protected $title = '标签';
 
     /**
      * Make a grid builder.

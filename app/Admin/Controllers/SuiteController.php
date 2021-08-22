@@ -19,7 +19,7 @@ class SuiteController extends AdminController
      *
      * @var string
      */
-    protected $title = 'Suite';
+    protected $title = '试卷组';
 
     /**
      * Make a grid builder.

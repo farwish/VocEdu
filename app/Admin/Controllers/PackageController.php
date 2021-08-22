@@ -19,7 +19,7 @@ class PackageController extends AdminController
      *
      * @var string
      */
-    protected $title = 'Package';
+    protected $title = '套餐';
 
     /**
      * Make a grid builder.

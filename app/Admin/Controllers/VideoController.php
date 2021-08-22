@@ -18,7 +18,7 @@ class VideoController extends AdminController
      *
      * @var string
      */
-    protected $title = 'Video';
+    protected $title = '视频';
 
     /**
      * Make a grid builder.

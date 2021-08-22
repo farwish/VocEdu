@@ -19,7 +19,7 @@ class PaperController extends AdminController
      *
      * @var string
      */
-    protected $title = 'Paper';
+    protected $title = '试卷';
 
     /**
      * Make a grid builder.

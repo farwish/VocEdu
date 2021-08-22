@@ -7,13 +7,11 @@ use App\Admin\Traits\ChapterTrait;
 use App\Enums\PatternEnum;
 use App\Enums\QuestionEnum;
 use App\Models\Pattern;
-use App\Models\Pattern as PatternModel;
 use App\Models\Question;
 use Encore\Admin\Controllers\AdminController;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
 use Encore\Admin\Show;
-use Illuminate\Support\Collection;
 
 class QuestionController extends AdminController
 {
@@ -25,7 +23,7 @@ class QuestionController extends AdminController
      *
      * @var string
      */
-    protected $title = 'Question';
+    protected $title = '题目';
 
     /**
      * Make a grid builder.

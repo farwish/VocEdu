@@ -21,7 +21,7 @@ class ChapterController extends AdminController
      *
      * @var string
      */
-    protected $title = 'Chapter';
+    protected $title = '章节';
 
     /**
      * Make a grid builder.

@@ -51,6 +51,7 @@ class ChapterController extends AdminController
 
         $grid->column('status', '章节是否禁用')->editable('select', ChapterEnum::$statuses)
             ->help('禁用后不展示给用户');
+
         $grid->column('sub_lock', '子章节是否锁定')->editable('select', ChapterEnum::$subLocks)
             ->help('锁定后表示需要购买套餐后才能进入子章节');
 
@@ -82,17 +83,24 @@ class ChapterController extends AdminController
         $show = new Show(Chapter::findOrFail($id));
 
         $show->field('id', __('Id'));
+
         $show->field('parent_id', '上级章节')->as(function ($parentId) {
             $c = Chapter::find($parentId);
             return $c ? $c->name : '';
         });
+
         $show->field('name', __('Name'));
+
         $show->field('category_id', __('Category id'))->as(function ($categoryId) {
             return $this->category()->first()->name;
         });
+
         $show->field('status', '章节是否禁用')->using(ChapterEnum::$statuses);
+
         $show->field('sub_lock', '子章节是否锁定')->using(ChapterEnum::$subLocks);
+
         $show->field('free_question_num', '免费题量');
+
         // $show->field('_lft', __(' lft'));
         // $show->field('_rgt', __(' rgt'));
         // $show->field('parent_id', __('Parent id'));

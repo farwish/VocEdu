@@ -36,5 +36,18 @@
     "Difficulty": "难度",
     "Option answer": "选择项",
     "Right answer": "正确答案",
-    "Analysis": "解析"
+    "Analysis": "解析",
+
+    "Type": "类型",
+    "Classify": "题型",
+
+    "Body": "内容",
+
+    "Url": "链接",
+
+    "Sub title": "副标题",
+    "Icon": "图标名",
+    "Color": "颜色",
+    "Slug": "菜单标记",
+    "Sub lock": "是否开放菜单下内容"
 }

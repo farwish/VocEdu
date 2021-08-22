@@ -2,6 +2,7 @@
 
 namespace App\Admin\Controllers;
 
+use App\Admin\Traits\CategoryTrait;
 use App\Models\Video;
 use Encore\Admin\Controllers\AdminController;
 use Encore\Admin\Form;
@@ -10,6 +11,8 @@ use Encore\Admin\Show;
 
 class VideoController extends AdminController
 {
+    use CategoryTrait;
+
     /**
      * Title for current resource.
      *
@@ -26,12 +29,24 @@ class VideoController extends AdminController
     {
         $grid = new Grid(new Video());
 
+        $grid->quickSearch('name');
+
+        $categoryHref = sprintf('/%s/categories/', config('admin.route.prefix'));
+
         $grid->column('id', __('Id'));
+
         $grid->column('name', __('Name'));
-        $grid->column('url', __('Url'));
-        $grid->column('category_id', __('Category id'));
-        $grid->column('created_at', __('Created at'));
-        $grid->column('updated_at', __('Updated at'));
+
+        $grid->column('url', __('Url'))->link();
+
+        $grid->column('category_id', __('Category id'))->display(function () {
+            return $this->category()->first()->name;
+        })->link(function () use ($categoryHref) {
+            return $categoryHref . $this->category_id;
+        });
+
+        // $grid->column('created_at', __('Created at'));
+        // $grid->column('updated_at', __('Updated at'));
 
         return $grid;
     }
@@ -47,9 +62,15 @@ class VideoController extends AdminController
         $show = new Show(Video::findOrFail($id));
 
         $show->field('id', __('Id'));
+
         $show->field('name', __('Name'));
+
         $show->field('url', __('Url'));
-        $show->field('category_id', __('Category id'));
+
+        $show->field('category_id', __('Category id'))->as(function ($categoryId) {
+            return $this->category()->first()->name;
+        });
+
         $show->field('created_at', __('Created at'));
         $show->field('updated_at', __('Updated at'));
 
@@ -65,9 +86,13 @@ class VideoController extends AdminController
     {
         $form = new Form(new Video());
 
-        $form->text('name', __('Name'));
-        $form->url('url', __('Url'));
-        $form->number('category_id', __('Category id'));
+        $form->text('name', __('Name'))->required();
+
+        $form->url('url', __('Url'))->required();
+
+        $form->select('category_id', __('Category id'))
+            ->options($this->categoryTree())->rules('required')
+        ;
 
         return $form;
     }

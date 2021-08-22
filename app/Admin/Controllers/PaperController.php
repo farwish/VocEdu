@@ -105,7 +105,7 @@ class PaperController extends AdminController
 
         $form->text('name', __('Name'));
 
-        $form->select('category_id', '所属科目')
+        $form->select('category_id', __('Category id'))
             ->options($this->categoryTree())->rules('required')
             ->load('questions', '/admin/api/questions')
         ;

@@ -6,7 +6,7 @@ use App\Models\Chapter as ChapterModel;
 
 trait ChapterTrait
 {
-    public function chapterTree(?int $categoryId)
+    public static function chapterTree(?int $categoryId)
     {
         $chapterValues = [];
 

@@ -112,7 +112,7 @@ class ChapterController extends AdminController
         $form = new Form(new Chapter());
 
         $form->select('parent_id', '上级章节')
-            ->options($this->chapterTree(null))
+            ->options(self::chapterTree(null))
         ;
 
         $form->text('name', __('Name'))->rules('required');

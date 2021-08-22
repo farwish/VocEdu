@@ -78,12 +78,12 @@ class SuiteController extends AdminController
             return $this->category()->first()->name;
         });
 
-        $show->papers('试卷', function ($papers) {
-            $papers->name()->limit(20);
-        });
-
         $show->field('created_at', __('Created at'));
         $show->field('updated_at', __('Updated at'));
+
+        $show->papers('试卷', function ($papers) {
+            $papers->name();
+        });
 
         return $show;
     }
@@ -100,15 +100,16 @@ class SuiteController extends AdminController
         $form->text('name', __('Name'));
 
         $form->select('category_id', __('Category id'))
-            ->options($this->categoryTree())->rules('required')
-            // 切换时动态加载试卷
+            ->options($this->categoryTree())
+            ->required()
+            // 切换时动态加载
             ->load('papers', '/admin/api/papers')
         ;
 
         $form->multipleSelect('papers', __('Papers'))->options(function ($paperIds) {
             $paperId = $this->id;
 
-            // 新增时，不展示试卷，必须要先选择科目
+            // 新增时不展示，必须要先选择科目
             if (!$paperId) {
                 return [];
             }

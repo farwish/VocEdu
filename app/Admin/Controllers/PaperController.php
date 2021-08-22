@@ -4,6 +4,7 @@ namespace App\Admin\Controllers;
 
 use App\Admin\Traits\CategoryTrait;
 use App\Models\Paper;
+use App\Models\Question;
 use Encore\Admin\Controllers\AdminController;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
@@ -49,6 +50,10 @@ class PaperController extends AdminController
 
         $grid->column('minutes', __('Minutes'));
 
+        $grid->column('questions', '题量')->display(function ($questions) {
+            return count($questions);
+        });
+
         // $grid->column('created_at', __('Created at'));
         // $grid->column('updated_at', __('Updated at'));
 
@@ -82,6 +87,10 @@ class PaperController extends AdminController
         $show->field('created_at', __('Created at'));
         $show->field('updated_at', __('Updated at'));
 
+        $show->questions(__('Questions'), function ($questions) {
+            return $questions->title();
+        });
+
         return $show;
     }
 
@@ -96,13 +105,29 @@ class PaperController extends AdminController
 
         $form->text('name', __('Name'));
 
-        $form->select('category_id', '所属科目')->options($this->categoryTree())->rules('required');
+        $form->select('category_id', '所属科目')
+            ->options($this->categoryTree())->rules('required')
+            ->load('questions', '/admin/api/questions')
+        ;
 
         $form->number('total_score', __('Total score'));
 
         $form->number('pass_score', __('Pass score'));
 
         $form->number('minutes', __('Minutes'));
+
+        $form->multipleSelect('questions', __('Questions'))->options(function ($questionIds) {
+            $questionId = $this->id;
+
+            // 新增时不展示，必须要先选择科目
+            if (!$questionId) {
+                return [];
+            }
+
+            $question = Question::query()->find($questionId);
+
+            return Question::query()->where('category_id', $question->getAttribute('category_id'))->pluck('title', 'id');
+        });
 
         return $form;
     }

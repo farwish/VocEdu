@@ -2,6 +2,8 @@
     "Home": "首页",
 
     "Category id": "所属科目",
+    "Chapter id": "所属章节",
+    "Pattern id": "题型",
 
     "Created at":"创建时间",
     "Updated at":"更新时间",
@@ -27,5 +29,12 @@
 
     "Total score": "总分",
     "Pass score": "及格分",
-    "Minutes": "时间"
+    "Minutes": "时间",
+
+    "Title": "标题",
+    "Description": "描述",
+    "Difficulty": "难度",
+    "Option answer": "选择项",
+    "Right answer": "正确答案",
+    "Analysis": "解析"
 }

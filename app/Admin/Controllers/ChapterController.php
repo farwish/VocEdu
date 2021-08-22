@@ -34,6 +34,8 @@ class ChapterController extends AdminController
 
         $grid->quickSearch('name');
 
+        $categoryHref = sprintf('/%s/categories/', config('admin.route.prefix'));
+
         $grid->column('id', __('Id'));
 
         $grid->column('name', __('Name'))->display(function ($name) {
@@ -41,8 +43,10 @@ class ChapterController extends AdminController
             return str_repeat('|— ', $result->depth) . $result->name;
         });
 
-        $grid->column('category_id', '所属科目分类')->display(function ($categoryId) {
+        $grid->column('category_id', __('Category id'))->display(function () {
             return $this->category()->first()->name;
+        })->link(function () use ($categoryHref) {
+            return $categoryHref . $this->category_id;
         });
 
         $grid->column('status', '章节是否禁用')->editable('select', ChapterEnum::$statuses)
@@ -83,7 +87,7 @@ class ChapterController extends AdminController
             return $c ? $c->name : '';
         });
         $show->field('name', __('Name'));
-        $show->field('category_id', '所属科目分类')->as(function ($categoryId) {
+        $show->field('category_id', __('Category id'))->as(function ($categoryId) {
             return $this->category()->first()->name;
         });
         $show->field('status', '章节是否禁用')->using(ChapterEnum::$statuses);
@@ -113,7 +117,7 @@ class ChapterController extends AdminController
 
         $form->text('name', __('Name'))->rules('required');
 
-        $form->select('category.id', '所属科目分类')->options($this->categoryTree())->rules('required');
+        $form->select('category_id', __('Category id'))->options($this->categoryTree())->rules('required');
 
         $form->radio('status', '章节是否禁用')->options(ChapterEnum::$statuses)
             ->default(ChapterEnum::STATUS_NORMAL)

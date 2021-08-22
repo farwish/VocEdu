@@ -2,6 +2,7 @@
 
 namespace App\Admin\Controllers;
 
+use App\Admin\Traits\CategoryTrait;
 use App\Models\Paper;
 use Encore\Admin\Controllers\AdminController;
 use Encore\Admin\Form;
@@ -10,6 +11,8 @@ use Encore\Admin\Show;
 
 class PaperController extends AdminController
 {
+    use CategoryTrait;
+
     /**
      * Title for current resource.
      *
@@ -26,14 +29,28 @@ class PaperController extends AdminController
     {
         $grid = new Grid(new Paper());
 
+        $grid->quickSearch('name');
+
+        $categoryHref = sprintf('/%s/categories/', config('admin.route.prefix'));
+
         $grid->column('id', __('Id'));
+
         $grid->column('name', __('Name'));
+
+        $grid->column('category_id', '所属科目')->display(function () {
+            return $this->category()->first()->name;
+        })->link(function () use ($categoryHref) {
+            return $categoryHref . $this->category_id;
+        });
+
         $grid->column('total_score', __('Total score'));
+
         $grid->column('pass_score', __('Pass score'));
+
         $grid->column('minutes', __('Minutes'));
-        $grid->column('category_id', __('Category id'));
-        $grid->column('created_at', __('Created at'));
-        $grid->column('updated_at', __('Updated at'));
+
+        // $grid->column('created_at', __('Created at'));
+        // $grid->column('updated_at', __('Updated at'));
 
         return $grid;
     }
@@ -49,11 +66,19 @@ class PaperController extends AdminController
         $show = new Show(Paper::findOrFail($id));
 
         $show->field('id', __('Id'));
+
         $show->field('name', __('Name'));
+
+        $show->field('category_id', '所属科目')->as(function ($categoryId) {
+            return $this->category()->first()->name;
+        });
+
         $show->field('total_score', __('Total score'));
+
         $show->field('pass_score', __('Pass score'));
+
         $show->field('minutes', __('Minutes'));
-        $show->field('category_id', __('Category id'));
+
         $show->field('created_at', __('Created at'));
         $show->field('updated_at', __('Updated at'));
 
@@ -70,10 +95,14 @@ class PaperController extends AdminController
         $form = new Form(new Paper());
 
         $form->text('name', __('Name'));
+
+        $form->select('category_id', '所属科目')->options($this->categoryTree())->rules('required');
+
         $form->number('total_score', __('Total score'));
+
         $form->number('pass_score', __('Pass score'));
+
         $form->number('minutes', __('Minutes'));
-        $form->number('category_id', __('Category id'));
 
         return $form;
     }

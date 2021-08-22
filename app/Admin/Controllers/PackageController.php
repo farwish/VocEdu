@@ -35,13 +35,16 @@ class PackageController extends AdminController
         $categoryHref = sprintf('/%s/categories/', config('admin.route.prefix'));
 
         $grid->column('id', __('Id'));
-        $grid->column('category_id', '所属科目')->display(function () {
+
+        $grid->column('name', __('Name'))->editable();
+        $grid->column('explain', __('Explain'))->editable('textarea');
+
+        $grid->column('category_id', __('Category id'))->display(function () {
             return $this->category()->first()->name;
         })->link(function () use ($categoryHref) {
             return $categoryHref . $this->category_id;
         });
-        $grid->column('name', __('Name'))->editable();
-        $grid->column('explain', __('Explain'))->editable('textarea');
+
         $grid->column('price', __('Price'))->editable();
         $grid->column('ori_price', __('Ori price'))->editable();
         $grid->column('expire_mode', __('Expire mode'))->editable('select', PackageEnum::$expireModes);
@@ -67,7 +70,7 @@ class PackageController extends AdminController
         $show = new Show(Package::findOrFail($id));
 
         $show->field('id', __('Id'));
-        $show->field('category_id', '所属科目')->using($this->categoryTree());
+        $show->field('category_id', __('Category id'))->using($this->categoryTree());
         $show->field('name', __('Name'));
         $show->field('explain', __('Explain'));
         $show->field('price', __('Price'));
@@ -93,7 +96,7 @@ class PackageController extends AdminController
     {
         $form = new Form(new Package());
 
-        $form->select('category.id', '所属科目')
+        $form->select('category_id', __('Category id'))
             ->options($this->categoryTree())
             ->required();
 

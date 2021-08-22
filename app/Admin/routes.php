@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\PaperController;
 use Illuminate\Routing\Router;
 
 Admin::routes();
@@ -24,4 +25,6 @@ Route::group([
     $router->resource('videos', 'VideoController');
     $router->resource('patterns', 'PatternController');
     $router->resource('app-menus', 'AppMenuController');
+
+    $router->get('/api/papers', '\App\Admin\Controllers\Api\PaperController@papers');
 });

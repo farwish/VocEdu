@@ -1,6 +1,8 @@
 {
     "Home": "首页",
 
+    "Category id": "所属科目",
+
     "Created at":"创建时间",
     "Updated at":"更新时间",
     "Name":"名称",
@@ -21,5 +23,9 @@
     "List status": "上架状态",
     "List on datetime": "自动上架时间",
     "List off datetime": "自动下架时间",
-    "Sort": "排序"
+    "Sort": "排序",
+
+    "Total score": "总分",
+    "Pass score": "及格分",
+    "Minutes": "时间"
 }

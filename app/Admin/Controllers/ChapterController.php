@@ -4,6 +4,7 @@ namespace App\Admin\Controllers;
 
 use App\Admin\Traits\CategoryTrait;
 use App\Admin\Traits\ChapterTrait;
+use App\Enums\ChapterEnum;
 use App\Models\Chapter;
 use Encore\Admin\Controllers\AdminController;
 use Encore\Admin\Form;
@@ -44,14 +45,12 @@ class ChapterController extends AdminController
             return $this->category()->first()->name;
         });
 
-        $grid->column('status', '本章节不禁用')->display(function ($status) {
-            return $status === 0 ? "<span class='label label-info'>√</span>" : "<span class='label label-warning'>×</span>";
-        });
-        $grid->column('sub_lock', '子章节不锁定')->display(function ($subLock) {
-            return $subLock === 0 ? "<span class='label label-info'>√</span>" : "<span class='label label-warning'>×</span>";
-        });
+        $grid->column('status', '章节是否禁用')->editable('select', ChapterEnum::$statuses)
+            ->help('禁用后不展示给用户');
+        $grid->column('sub_lock', '子章节是否锁定')->editable('select', ChapterEnum::$subLocks)
+            ->help('锁定后表示需要购买套餐后才能进入子章节');
 
-        $grid->column('free_question_num', '免费题量');
+        $grid->column('free_question_num', '免费题量')->editable();
 
         $grid->column('questions', '总题量')->display(function ($questions) {
             return count($questions);
@@ -79,12 +78,16 @@ class ChapterController extends AdminController
         $show = new Show(Chapter::findOrFail($id));
 
         $show->field('id', __('Id'));
+        $show->field('parent_id', '上级章节')->as(function ($parentId) {
+            $c = Chapter::find($parentId);
+            return $c ? $c->name : '';
+        });
         $show->field('name', __('Name'));
         $show->field('category_id', '所属科目分类')->as(function ($categoryId) {
             return $this->category()->first()->name;
         });
-        $show->field('status', '本章节不禁用');
-        $show->field('sub_lock', '子章节不锁定');
+        $show->field('status', '章节是否禁用')->using(ChapterEnum::$statuses);
+        $show->field('sub_lock', '子章节是否锁定')->using(ChapterEnum::$subLocks);
         $show->field('free_question_num', '免费题量');
         // $show->field('_lft', __(' lft'));
         // $show->field('_rgt', __(' rgt'));
@@ -102,23 +105,28 @@ class ChapterController extends AdminController
      */
     protected function form()
     {
-        $states = [
-            'on'  => ['value' => 0, 'text' => '打开', 'color' => 'success'],
-            'off' => ['value' => 1, 'text' => '关闭', 'color' => 'danger'],
-        ];
-
         $form = new Form(new Chapter());
 
-        $form->select('parent_id', '上级章节')->options($this->chapterTree(null));
+        $form->select('parent_id', '上级章节')
+            ->options($this->chapterTree(null))
+        ;
+
         $form->text('name', __('Name'))->rules('required');
+
         $form->select('category.id', '所属科目分类')->options($this->categoryTree())->rules('required');
-        $form->switch('status', '本章节不禁用')->states($states)->help('禁用后不展示给用户');
-        $form->switch('sub_lock', '子章节不锁定')->states($states)->help('锁定后表示需要购买套餐后才能进入子章节');
+
+        $form->radio('status', '章节是否禁用')->options(ChapterEnum::$statuses)
+            ->default(ChapterEnum::STATUS_NORMAL)
+            ->help('禁用后不展示给用户');
+
+        $form->radio('sub_lock', '子章节是否锁定')->options(ChapterEnum::$subLocks)
+            ->default(ChapterEnum::SUB_LOCK_NORMAL)
+            ->help('锁定后表示需要购买套餐后才能进入子章节');
+
         $form->number('free_question_num', '免费题量')->help('只对最后一级生效');
+
         // $form->number('_lft', __(' lft'));
         // $form->number('_rgt', __(' rgt'));
-        // $form->number('parent_id', __('Parent id'));
-        // $form->number('category_id', __('Category id'));
 
         return $form;
     }

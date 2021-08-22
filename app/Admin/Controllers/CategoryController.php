@@ -7,9 +7,7 @@ use App\Models\Category;
 use Encore\Admin\Controllers\AdminController;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
-use Encore\Admin\Layout\Content;
 use Encore\Admin\Show;
-use Illuminate\Support\Carbon;
 
 class CategoryController extends AdminController
 {
@@ -42,29 +40,29 @@ class CategoryController extends AdminController
             return str_repeat('|— ', $result->depth) . $result->name;
         });
 
-        $grid->column('exam_time', '考试时间')->display(function ($examTime) {
-            return $examTime ?: '—';
+        $grid->column('exam_time', __('Exam time'))->display(function ($examTime) {
+            return (new \DateTime($examTime))->format('Y-m-d H:i:s') ?: '—';
         });
 
-        $grid->column('chapters', '章节')->display(function ($chapters) {
+        $grid->column('chapters', __('Chapters'))->display(function ($chapters) {
             return count($chapters);
         });
-        $grid->column('packages', '套餐')->display(function ($packages) {
+        $grid->column('packages', __('Packages'))->display(function ($packages) {
             return count($packages);
         });
-        $grid->column('suites', '试卷组')->display(function ($suites) {
+        $grid->column('suites', __('Suites'))->display(function ($suites) {
             return count($suites);
         });
-        $grid->column('papers', '试卷')->display(function ($papers) {
+        $grid->column('papers', __('Papers'))->display(function ($papers) {
             return count($papers);
         });
-        $grid->column('questions', '题目')->display(function ($questions) {
+        $grid->column('questions', __('Questions'))->display(function ($questions) {
             return count($questions);
         });
-        $grid->column('articles', '文章')->display(function ($articles) {
+        $grid->column('articles', __('Articles'))->display(function ($articles) {
             return count($articles);
         });
-        $grid->column('videos', '视频')->display(function ($videos) {
+        $grid->column('videos', __('Videos'))->display(function ($videos) {
             return count($videos);
         });
 
@@ -91,14 +89,21 @@ class CategoryController extends AdminController
         $show = new Show(Category::findOrFail($id));
 
         $show->field('id', __('Id'));
+
         $show->field('parent_id', '上级分类')->as(function ($parentId) {
-            return Category::find($parentId)->name;
+            $c = Category::find($parentId);
+            return $c ? $c->name : '';
         });
+
         $show->field('name', __('Name'));
-        $show->field('exam_time', '考试时间');
+
+        $show->field('exam_time', __('Exam time'));
+
         // $show->field('_lft', __(' lft'));
         // $show->field('_rgt', __(' rgt'));
+
         $show->field('created_at', __('Created at'));
+
         $show->field('updated_at', __('Updated at'));
 
         return $show;
@@ -113,11 +118,15 @@ class CategoryController extends AdminController
     {
         $form = new Form(new Category());
 
-        $form->select('parent_id', '上级分类')->options($this->categoryTree());
-        $form->text('name', '名称')->rules(['required']);
-        $form->datetime('exam_time', '考试时间')
+        $form->select('parent_id', '上级分类')
+            ->options($this->categoryTree());
+
+        $form->text('name', __('Name'))->rules(['required']);
+
+        $form->datetime('exam_time', __('Exam time'))
             ->help('可对考试分类进行设置考试时间')
             ->default(date('Y-m-d H:i:s'));
+
         // $form->number('_lft', __(' lft'));
         // $form->number('_rgt', __(' rgt'));
         // $form->number('parent_id', __('Parent id'));

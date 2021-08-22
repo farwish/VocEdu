@@ -16,7 +16,7 @@ class ChapterEnum
     ];
 
     public static $subLocks = [
-        self::SUB_LOCK_NORMAL => '正常展示',
+        self::SUB_LOCK_NORMAL => '正常',
         self::SUB_LOCK_BUYING => '购买后展示',
     ];
 }

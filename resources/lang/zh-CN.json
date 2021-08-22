@@ -1,0 +1,25 @@
+{
+    "Home": "首页",
+
+    "Created at":"创建时间",
+    "Updated at":"更新时间",
+    "Name":"名称",
+    "Exam time": "考试时间",
+    "Chapters": "章节",
+    "Packages": "套餐",
+    "Suites": "试卷组",
+    "Papers": "试卷",
+    "Questions": "问题",
+    "Articles": "文章",
+    "Videos": "视频",
+
+    "Explain": "套餐说明",
+    "Price": "售价(元)",
+    "Ori price": "原价(元)",
+    "Expire mode": "有效期模式",
+    "Duration": "有效时间(年)",
+    "List status": "上架状态",
+    "List on datetime": "自动上架时间",
+    "List off datetime": "自动下架时间",
+    "Sort": "排序"
+}
